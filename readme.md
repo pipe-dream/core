@@ -10,6 +10,7 @@ git clone git@github.com:pipe-dream/core.git
 ```
 
 ### 2. Setup a host app and Laravel implementation:
+Create a fresh laravel project to act as host app and add our implementation as a package:
 ```
 laravel new pd-host
 cd pd-host
