@@ -1,0 +1,10 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "This package supplies most of the frontend necessary for a Pipe Dream Language implementation",
+  "main": "index.js",
+  "repository": "git@github.com:pipe-dream/core.git",
+  "author": "Anders Jurisoo <jurisoo@hotmail.com>",
+  "license": "MIT",
+  "private": false
+}
