@@ -30,6 +30,6 @@ Now our Laravel implementation can import the core as simple as this:
 import Core from 'core'
 ```
 
-Finally, you probably want to open up the two projects in two separate editors, and have `yarn watch` running in each project.
+Finally, you probably want to open up the two projects in two separate editors as well as terminal tabs, and have `yarn watch` running in each project.
 
 Changes to core and the Laravel package repo should now instantly reflect when visiting `pd-host.test/pipe-dream`
