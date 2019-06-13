@@ -1,32 +1,49 @@
 # pipe-dream/core
 This package supplies most of the frontend necessary for a Pipe Dream Language implementation
 
-### Development guide
+## Development guide
 Assuming you are working on a language implementation and the core at the same time, you may follow this guide.
 
-Install the core
-```
+### 1. Install the core
+```bash
 git clone git@github.com:pipe-dream/core.git
 ```
 
-Setup a Laravel(beta) implementation inside a fresh host application:
-```
+### 2. Setup a Laravel (beta) implementation inside a fresh host application:
+```bash
 laravel new pd-host
 cd pd-host
 mkdir -p packages/PipeDream
 cd packages/PipeDream
 git clone git@github.com:pipe-dream/laravel-beta.git Laravel
 ```
-
-Next, we want to use the `core` inside our Laravel implementation repo. To do that we use yarn to setup a symlink:
+Add namespace to `pd-host/composer.json`:
+```json
+"autoload": {
+    "psr-4": {
+        "App\\": "app/",
+        "PipeDream\\Laravel\\": "packages/PipeDream/Laravel/src"
+    },
 ```
+And in the providers array of `pd-host/config/app.php`:
+```php
+/*
+* Package Service Providers...
+*/
+PipeDream\Laravel\PipeDreamServiceProvider::class,
+```
+
+### Bindings
+Next, we want to use the `core` inside our Laravel implementation repo. To do that we use yarn to setup a symlink:
+```bash
 cd /path/to/core
 yarn link
 cd /path/to/pd-host/packages/PipeDream/Laravel
 yarn link core
 ```
+
 Now our Laravel implementation can import the core as simple as this:
-```
+```js
 import Core from 'core'
 ```
 
