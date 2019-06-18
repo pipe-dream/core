@@ -12,7 +12,9 @@ export default class FileFactory {
     }
 
     static pipes() {
-        return pipes.keys().filter(key => !key.includes('BasePipe')).map(key => pipes(key).default)
+        return []
+
+        //return pipes.keys().filter(key => !key.includes('BasePipe')).map(key => pipes(key).default)
 
         // return [
         //     pipes("./UserPipe.js").default,

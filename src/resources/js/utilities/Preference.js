@@ -1,6 +1,5 @@
 import Config from '../Config'
 const mergeJSON = require('deepmerge')
-import store from '../store'
 
 export default class Preference {
     static has(path) {
