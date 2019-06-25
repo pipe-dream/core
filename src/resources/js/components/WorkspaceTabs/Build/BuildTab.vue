@@ -23,7 +23,6 @@
 </template>
 
 <script>
-    import Config from '../../../Config.js'
 
     export default {
         data() {
@@ -53,8 +52,8 @@
                             reviewFiles: this.$store.state.reviewFiles.filter(file => {
                                 return this.$store.state.selectedFiles[file.path]
                             }),
-                            isSandboxed: Config.isSandboxed,
-                            reverseHistory: Config.reverseHistory
+                            isSandboxed: this.$store.state.isSandboxed,
+                            reverseHistory: this.$store.state.reverseHistory
                         })
                     });
                     

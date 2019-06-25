@@ -1,4 +1,3 @@
-import Config from '../Config'
 import Parser from '../objectModel/SketchParser'
 import ObjectModelCollection from '../objectModel/ObjectModelCollection'
 import ObjectModelEntityFactory from '../objectModel/ObjectModelEntityFactory'
@@ -28,21 +27,6 @@ export default {
             )
         )            
     },          
-    
-    compileFiles(context, schema) {
-        // Make deep copy of schema to detach any previous bindings
-        schema = JSON.parse(JSON.stringify(schema))
-
-        let files = Config.FileFactory.from(
-            ObjectModelCollection.fromSchema(schema)                   
-        ).withPipes(
-            context.state.availablePipes.filter(pipe => {
-                return context.state.selectedPipes.includes(pipe.name)
-            })
-        ).calculateFiles()
-
-        context.commit('setReviewFiles', files)
-    },
     
     compileSchema(context, sketch) {
         let schema = ObjectModelCollection.fromEntities(

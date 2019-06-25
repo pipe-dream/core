@@ -1,4 +1,3 @@
-import Config from '../Config'
 const mergeJSON = require('deepmerge')
 
 export default class Preference {

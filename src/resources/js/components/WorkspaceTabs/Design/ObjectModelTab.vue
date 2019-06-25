@@ -36,9 +36,6 @@
 </template>
 
 <script>
-
-    import Config from '../../../Config'
-
     export default {
         data() {
             return {
@@ -80,19 +77,19 @@
         methods: {
             addUserSystem() {
                 this.$store.dispatch('setSketch', 
-                    this.sketch + Config.FileFactory.userSystemSketch()
+                    this.sketch + this.$store.state.fileFactory.userSystemSketch()
                 )
             },
 
             replaceWithSampleApp() {
                 this.$store.dispatch('setSketch', 
-                    Config.FileFactory.sampleApp()
+                    this.$store.state.fileFactory.sampleApp()
                 )
             },
             
             replaceWithHelpApp() {
                 this.$store.dispatch('setSketch', 
-                    Config.FileFactory.helpApp()
+                    this.$store.state.fileFactory.helpApp()
                 )
             },            
         }

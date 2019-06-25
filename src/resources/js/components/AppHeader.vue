@@ -18,13 +18,5 @@
 </template>
 
 <script>
-    import Config from '../Config'
-
-    export default {
-        data() {
-            return {
-                appName: Config.appName
-            }
-        }
-    }
+    export default {}
 </script>
