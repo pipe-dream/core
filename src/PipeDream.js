@@ -10,10 +10,9 @@ class PipeDream {
         return {
             state: {
                 ...defaultStore.state,
-                ...{
-                    availablePipes: this.fileFactory.pipes(),
-                    selectedPipes: this.fileFactory.pipes().map(pipe => pipe.name),
-                }
+                availablePipes: this.fileFactory.pipes(),
+                selectedPipes: this.fileFactory.pipes().map(pipe => pipe.name),
+
             },
             mutations: defaultStore.mutations,
             actions: defaultStore.actions,
