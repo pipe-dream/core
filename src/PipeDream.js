@@ -1,4 +1,5 @@
 import defaultStore from './resources/js/defaultStore/index.js'
+import AppHeader from './resources/js/components/AppHeader'
 
 class PipeDream {
     constructor(options) {
