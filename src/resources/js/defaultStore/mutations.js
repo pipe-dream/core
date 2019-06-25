@@ -26,10 +26,6 @@ export default {
         state.reviewFiles = state.reviewFiles.map(original => {
             return original.path == file.path ? file : original
         })
-    },
-    
-    setTemplates(state, templates) {
-        state.templates = templates
     },        
 
     setTemplate(state, file) {

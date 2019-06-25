@@ -52,12 +52,6 @@ export default {
         ).serializeSchema()
 
         context.dispatch('setSchema', schema)
-    },
-
-    setTemplates(context) {
-        fetch('/pipe-dream/api/templates').then(result => result.json()).then(templates => 
-            context.commit('setTemplates', templates)
-        )            
     },        
 
     setTemplate(context, file) {
