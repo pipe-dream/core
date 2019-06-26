@@ -1,4 +1,4 @@
-import defaultStore from './resources/js/defaultStore/index.js'
+import defaultStore from './defaultStore/index.js'
 
 export default class PipeDream {
     constructor(options) {
