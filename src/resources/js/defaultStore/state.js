@@ -22,7 +22,7 @@ export default function(options) {
 
         availablePipes: options.fileFactory.pipes(),
         selectedPipes: options.fileFactory.pipes().map(pipe => pipe.name),
-        FileFactory: options.fileFactory,
+        fileFactory: options.fileFactory,
         templates: options.fileFactory.templates(),
         reverseHistory: true,
         preferences: options.fileFactory.defaultPreferences(),
