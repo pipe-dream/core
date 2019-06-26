@@ -1,21 +1,31 @@
-export default {
-    // Keep track of active tabs in each section
-    navigation: {
-        workspace: "Design",
-        design: "Object model",
-        template: "",
-        review: "",
-    },
+export default function(options) {
+    return {
+        // Keep track of active tabs in each section
+        navigation: {
+            workspace: "Design",
+            design: "Object model",
+            template: "",
+            review: "",
+        },
 
-    selectedFiles: {},
+        selectedFiles: {},
 
-    sketch: "",
+        sketch: "",
 
-    reviewFiles: [],
+        reviewFiles: [],
 
-    builtFiles: [],        
+        builtFiles: [],        
 
-    templates: {},
+        templates: {},
 
-    schema: {},
+        schema: {},
+
+        availablePipes: options.fileFactory.pipes(),
+        selectedPipes: options.fileFactory.pipes().map(pipe => pipe.name),
+        FileFactory: options.fileFactory,
+        templates: options.fileFactory.templates(),
+        reverseHistory: true,
+        preferences: options.fileFactory.defaultPreferences(),
+        ... __ENV__,
+    }
 }
