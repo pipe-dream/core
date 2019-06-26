@@ -1,11 +1,7 @@
 import PipeDream from './PipeDream'
-//import AppHeaderz from './resources/js/components/AppHeader'
-//import AppWorkspaze from './resources/js/components/AppWorkspace'
 
 export const PipeDreamVueTools = {
     install: function(Vue, options) {
-        //Vue.component('app-headerz', AppHeaderz);
-        //Vue.component('app-workspaze', AppWorkspaze);
         /* Register all vue components */
         const files = require.context('./resources/js', true, /\.vue$/i);
         files.keys().map(key => Vue.component(
@@ -14,5 +10,10 @@ export const PipeDreamVueTools = {
         );        
     }
 }
+
+// How can we enable this syntax: export Module from './file.js' ?
+// Until then use local name (_)
+import _Template from './resources/js/utilities/Template.js'
+export const Template = _Template
 
 export default PipeDream
