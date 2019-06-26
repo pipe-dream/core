@@ -34,6 +34,7 @@
 
         computed: {
             templates() {
+
                 return Object.keys(this.$store.state.templates).map(key => {
                     return {
                         name: key,

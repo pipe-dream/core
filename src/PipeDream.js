@@ -13,6 +13,7 @@ export default class PipeDream {
                 availablePipes: this.fileFactory.pipes(),
                 selectedPipes: this.fileFactory.pipes().map(pipe => pipe.name),
                 FileFactory: this.fileFactory,
+                templates: this.fileFactory.templates(),
                 reverseHistory: true,
                 preferences: this.fileFactory.defaultPreferences(),
                 ... __ENV__,
