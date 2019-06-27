@@ -1,4 +1,4 @@
-import Parser from '../objectModel/SketchParser'
+import SketchParser from '../objectModel/SketchParser'
 import ObjectModelCollection from '../objectModel/ObjectModelCollection'
 import ObjectModelEntityFactory from '../objectModel/ObjectModelEntityFactory'
 const mergeJSON = require('deepmerge')
@@ -32,7 +32,7 @@ export default function(options) {
         compileSchema(context, sketch) {
             let schema = ObjectModelCollection.fromEntities(
                 ObjectModelEntityFactory.fromSegments(
-                    Parser.parse(sketch).segment()
+                    SketchParser.parse(sketch).segment()
                 )
             ).serializeSchema()
 
