@@ -20,12 +20,36 @@ export default function(options) {
 
         schema: {},
 
-        availablePipes: options.fileFactory.pipes(),
-        selectedPipes: options.fileFactory.pipes().map(pipe => pipe.name),
-        fileFactory: options.fileFactory,
-        templates: options.fileFactory.templates(),
+        availablePipes: options.fileFactories.reduce((all, fileFactory) => {
+            return [
+                ...all,
+                ...fileFactory.pipes()
+            ]
+        }, []),
+
+        selectedPipes: options.fileFactories.reduce((all, fileFactory) => {
+            return [
+                ...all,
+                ...fileFactory.pipes().map(pipe => pipe.name)
+            ]
+        }, []),        
+
+
+        fileFactories: options.fileFactories,
+        // TODO: namepace and group the templates per factory
+        templates: options.fileFactories.reduce((all, fileFactory) => {
+            return {
+                ...all,
+                ...fileFactory.templates()
+            }
+        }, {}),
         reverseHistory: true,
-        preferences: options.fileFactory.defaultPreferences(),
+        preferences: options.fileFactories.reduce((all, fileFactory) => {
+            return {
+                ...all,
+                ...fileFactory.defaultPreferences()
+            }
+        }, {}),        
         ... __ENV__,
     }
 }

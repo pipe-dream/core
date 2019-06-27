@@ -65,16 +65,21 @@ export default function(options) {
         compileFiles: function(context, schema) {
             // Make deep copy of schema to detach any previous bindings
             schema = JSON.parse(JSON.stringify(schema))
-    
-            let files = options.fileFactory.from(
-                ObjectModelCollection.fromSchema(schema)                   
-            ).withPipes(
-                context.state.availablePipes.filter(pipe => {
-                    return context.state.selectedPipes.includes(pipe.name)
-                })
-            ).calculateFiles()
-    
-            context.commit('setReviewFiles', files)
-        },                       
+            
+            let allFiles = options.fileFactories.reduce((allFiles, fileFactory) => {
+                let files = fileFactory.from(
+                    ObjectModelCollection.fromSchema(schema)                   
+                ).withPipes(
+                    context.state.availablePipes.filter(pipe => {
+                        return context.state.selectedPipes.includes(pipe.name)
+                    })
+                ).calculateFiles()
+
+
+                return [ ...allFiles, ...files]
+            }, [])
+
+            context.commit('setReviewFiles', allFiles)
+        },        
     }
 }
