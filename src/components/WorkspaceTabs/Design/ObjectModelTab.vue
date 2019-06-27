@@ -77,19 +77,19 @@
         methods: {
             addUserSystem() {
                 this.$store.dispatch('setSketch', 
-                    this.sketch + this.$store.state.fileFactory.userSystemSketch()
+                    this.sketch + this.$store.state.masterFileFactory.userSystemSketch()
                 )
             },
 
             replaceWithSampleApp() {
                 this.$store.dispatch('setSketch', 
-                    this.$store.state.fileFactory.sampleApp()
+                    this.$store.state.masterFileFactory.sampleApp()
                 )
             },
             
             replaceWithHelpApp() {
                 this.$store.dispatch('setSketch', 
-                    this.$store.state.fileFactory.helpApp()
+                    this.$store.state.masterFileFactory.helpApp()
                 )
             },            
         }

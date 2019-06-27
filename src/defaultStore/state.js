@@ -16,8 +16,6 @@ export default function(options) {
 
         builtFiles: [],        
 
-        templates: {},
-
         schema: {},
 
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
@@ -36,10 +34,11 @@ export default function(options) {
 
 
         fileFactories: options.fileFactories,
+        masterFileFactory: options.fileFactories[0],
         // TODO: namepace and group the templates per factory
         templates: options.fileFactories.reduce((all, fileFactory) => {
             return {
-                ...all,
+                ...all,                
                 ...fileFactory.templates()
             }
         }, {}),
