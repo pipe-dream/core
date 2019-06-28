@@ -1,7 +1,7 @@
 const ARGS_START_MARKER = ">"
 const ARGS_DELIMITER = ","
 
-export default class SketchRow {
+export default class SegmentRow {
     constructor(raw) {
         let parts = raw.split(ARGS_START_MARKER)
 

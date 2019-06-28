@@ -1,10 +1,10 @@
-import F from '../utilities/Formatter'
+import SegmentRow from './SegmentRow'
 
 export default class Segment {
     constructor(chunk) {
-        let parts = chunk.split('\n')
-        this.name = parts[0]
-        this.attributes = parts.slice(1)
+        let segmentRows = chunk.split('\n').map(row => new SegmentRow(row))
+        this.name = segmentRows[0].name
+        this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
     }
 
     static fromText(chunk) {

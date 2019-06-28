@@ -1,5 +1,3 @@
-//import dataTypeGithubDump from '../../../../../data/dataTypeGithubDump.js'
-
 /* local helper class assisting getDataType() function */
 class DataTypeResolver {
     constructor(name) {

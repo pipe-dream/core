@@ -3,5 +3,4 @@ export default class Stack {
         this.fileFactories = fileFactories
         this.masterFileFactory = masterFileFactory ? masterFileFactory : fileFactories[0]
     }
-
 }

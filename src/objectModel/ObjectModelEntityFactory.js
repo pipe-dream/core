@@ -4,7 +4,6 @@ import TableEntity from './entities/TableEntity'
 import PivotTableEntity from './entities/PivotTableEntity'
 const EntityTypes = { UserEntity, ModelEntity, TableEntity, PivotTableEntity};
 
-
 import F from '../utilities/Formatter'
 
 export default class ObjectModelEntityFactory {
