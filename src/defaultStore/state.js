@@ -3,7 +3,7 @@ export default function(options) {
         // Keep track of active tabs in each section
         navigation: {
             workspace: "Design",
-            design: "Object model",
+            design: "object model",
             template: "",
             review: "",
         },
