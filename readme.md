@@ -34,7 +34,7 @@ And in the providers array of `pd-host/config/app.php` add:
 PipeDream\Laravel\PipeDreamServiceProvider::class,
 ```
 
-### Bindings
+### 3. Bindings
 Next, we want to use the `core` inside our Laravel implementation repo. To do that we use yarn to setup a symlink:
 ```
 cd /path/to/core
@@ -51,5 +51,12 @@ import Core from 'core'
 Finally, you probably want to open up the two projects in two separate editors as well as terminal tabs, and have `yarn watch` running in each project.
 
 Changes to core and the Laravel package repo should now instantly reflect when visiting `pd-host.test/pipe-dream`
+
+### Running unit test
+
+To run unit test, execute:
+```
+npm run test
+```
 
 Happy coding!
