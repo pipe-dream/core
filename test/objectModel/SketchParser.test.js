@@ -26,7 +26,7 @@ describe("SketchParser", () => {
         ).toBe(1);
 
         /* even if dirty */
-        let dirty_single_model = [
+        let DIRTY_SINGLE_MODEL = [
             sketch.MIXED_WHITESPACE_AND_COMMENTS,
             sketch.SINGLE_MODEL,
             sketch.MIXED_WHITESPACE_AND_COMMENTS
@@ -34,7 +34,7 @@ describe("SketchParser", () => {
 
         expect(
             SketchParser.parse(
-                dirty_single_model
+                DIRTY_SINGLE_MODEL
             ).segment().length
         ).toBe(1);        
     });
