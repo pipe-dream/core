@@ -19,6 +19,7 @@
     "cross-env": "^5.1",
     "deepmerge": "^3.2.0",
     "jest": "^24.8.0",
+    "jest-raw-loader": "^1.0.1",
     "laravel-mix": "^4.0.14",
     "laravel-mix-purgecss": "^4.1",
     "laravel-mix-tailwind": "^0.1.0",
@@ -45,7 +46,8 @@
     ],
     "transform": {
       ".*\\.(js)$": "babel-jest",
-      ".*\\.(vue)$": "vue-jest"
+      ".*\\.(vue)$": "vue-jest",
+      ".*\\.(string)$": "jest-raw-loader"
     }
   }
 }
