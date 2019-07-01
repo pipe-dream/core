@@ -1,4 +1,9 @@
 export default function(options) {
+
+    if (typeof window.__ENV__ === 'undefined') {
+        window.__ENV__ = 'dummy';
+    }
+
     return {
         // Keep track of active tabs in each section
         navigation: {
@@ -48,7 +53,7 @@ export default function(options) {
                 ...all,
                 ...fileFactory.defaultPreferences()
             }
-        }, {}),        
+        }, {}),
         ... __ENV__,
     }
 }

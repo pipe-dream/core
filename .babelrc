@@ -1,0 +1,17 @@
+{
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "transform-es2015-modules-commonjs"
+        ],
+        ["module-resolver", {
+          "root": ["./src"],
+          "alias": {
+            "test": "./test"
+          }
+        }]
+      ]
+    }
+  }
+}
