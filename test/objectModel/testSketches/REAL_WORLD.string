@@ -1,0 +1,33 @@
+/*
+*  This sketch implements part of the Real World app:
+*  https://github.com/gothinkster/realworld
+*/
+
+User
+username
+email
+password
+bio
+image
+remember_token
+
+password_resets
+email
+token
+
+Article
+user_id
+slug
+title
+description
+body
+
+Comment
+user_id
+article_id
+body            
+
+Tag
+name
+
+article_tag
