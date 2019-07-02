@@ -20,4 +20,10 @@ describe("Segment", () => {
             new Segment(segment.MODEL_WITHOUT_ATTRIBUTES).attributes.length
         ).toBe(0)
     });
+
+    test('a segment with two rows has one attribute', () => {
+        expect(
+            new Segment(segment.MODEL_WITH_ONE_ATTRIBUTE).attributes.length
+        ).toBe(1)
+    });    
 });
