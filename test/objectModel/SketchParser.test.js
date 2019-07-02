@@ -4,7 +4,7 @@ import sketch from './testSketches/sketchStringLoader'
 /* NOT NICE FIX - these constants are bootstrapped in the repos that use core
 * thus not available here :/ */
 window.___SINGLE_LINE_BREAK___ = "\n"
-window.___DOUBLE_LINE_BREAK___ = ___SINGLE_LINE_BREAK___*2
+window.___DOUBLE_LINE_BREAK___ = ___SINGLE_LINE_BREAK___.repeat(2)
 
 describe("SketchParser", () => {
     test('an empty sketch should yield zero segments', () => {
@@ -30,7 +30,7 @@ describe("SketchParser", () => {
             sketch.MIXED_WHITESPACE_AND_COMMENTS,
             sketch.SINGLE_MODEL,
             sketch.MIXED_WHITESPACE_AND_COMMENTS
-        ].join()
+        ].join("join")
 
         expect(
             SketchParser.parse(
@@ -38,4 +38,39 @@ describe("SketchParser", () => {
             ).segment().length
         ).toBe(1);        
     });
+
+    test('it cleans up dirt between segments', () => {
+        let DIRTY_MODEL_PAIR = [
+            sketch.SINGLE_MODEL,
+            sketch.MIXED_WHITESPACE_AND_COMMENTS,
+            sketch.SINGLE_MODEL
+        ].join("")
+
+        expect(
+            SketchParser.parse(
+                DIRTY_MODEL_PAIR
+            ).segment().length
+        ).toBe(2);        
+    });    
+
+    test('the real world app should yield 6 segments', () => {
+        expect(
+            SketchParser.parse(
+                sketch.REAL_WORLD
+            ).segment().length
+        ).toBe(6);
+        
+        /* even if dirty */
+        let DIRTY_REAL_WORLD = [
+            sketch.MIXED_WHITESPACE_AND_COMMENTS,
+            sketch.REAL_WORLD,
+            sketch.MIXED_WHITESPACE_AND_COMMENTS
+        ].join("")
+
+        expect(
+            SketchParser.parse(
+                DIRTY_REAL_WORLD
+            ).segment().length
+        ).toBe(6);      
+    })
 });
