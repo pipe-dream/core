@@ -1,0 +1,2 @@
+Car : App\Models\Veichles
+max_speed : unsigned, integer
