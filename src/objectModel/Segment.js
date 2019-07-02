@@ -2,6 +2,7 @@ import SegmentRow from './SegmentRow'
 
 export default class Segment {
     constructor(chunk) {
+        if(chunk === "") throw TypeError()
         let segmentRows = chunk.split('\n').map(row => new SegmentRow(row))
         this.name = segmentRows[0].name
         this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
