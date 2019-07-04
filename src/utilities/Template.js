@@ -2,6 +2,10 @@ export default class Template {
     constructor(text) {
         this.originalText = text
         this.text = text
+
+        // Experiment dynamic "import"
+        let SayHi = window.store.getters.modules.SayHi
+        SayHi()        
     }
 
     static for(templateName) {

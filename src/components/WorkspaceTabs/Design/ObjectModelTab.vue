@@ -36,10 +36,6 @@
 </template>
 
 <script>
-    // Experiment dynamic "import"
-    let SayHi = this.$store.getters.modules.SayHi
-    SayHi()
-
     export default {
         data() {
             return {
