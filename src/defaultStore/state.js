@@ -22,7 +22,7 @@ export default function(options) {
         builtFiles: [],        
 
         schema: {},
-
+        // TODO: namepace and group the pipes per factory
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
                 ...all,
