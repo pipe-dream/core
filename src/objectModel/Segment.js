@@ -1,4 +1,4 @@
-import SegmentRow from './SegmentRow'
+import SegmentRow from './Property'
 
 export default class Segment {
     constructor(chunk) {
@@ -19,5 +19,5 @@ export default class Segment {
 
     hasUserModel() {
         return this.name == "User"
-    }    
+    }
 }

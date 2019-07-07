@@ -47,7 +47,7 @@ context.keys().forEach((filename)=>{
   // take filename only
     let fileKey = /^.*\\(.*)$/.exec(filename)[1];
   // remove .string
-  fileKey = fileKey.replace(".string", "")
+  fileKey = fileKey.replace(".string", "");
   // attach to dictionary
   strings[fileKey] = context(filename);
 });
