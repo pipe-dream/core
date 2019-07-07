@@ -1,10 +1,10 @@
 // This should probably be an interface using TypeScript??
 export default class SketchButton {
-    name() {
+    static name() {
         return "click me!"
     }
 
-    click() {
+    static click() {
         return alert("I was clicked!")
     }
 }

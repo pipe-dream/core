@@ -11,7 +11,12 @@
                     :placeholder="placeholder"
                 ></code-editor>
                 <div class="mt-1">
-                    <button @click="replaceWithSampleApp()" :class="buttonStyle">sample app</button>
+                    <button
+                        v-for="button in $store.state.masterFileFactory.buttons()"
+                        v-bind:key="button.name()"
+                        @click="button.click()"
+                        :class="buttonStyle"> {{ button.name() }}
+                    </button>
                 </div>             
 
             </div>
