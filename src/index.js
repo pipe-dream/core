@@ -1,5 +1,7 @@
 import PipeDream from './PipeDream'
 
+export default PipeDream
+
 export const PipeDreamVueTools = {
     install: function(Vue, options) {
         /* Register all vue components */
@@ -16,4 +18,5 @@ export const PipeDreamVueTools = {
 import _Template from './utilities/Template.js'
 export const Template = _Template
 
-export default PipeDream
+import _SketchButton from './utilities/SketchButton.js'
+export const SketchButton = _SketchButton

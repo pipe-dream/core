@@ -72,6 +72,8 @@ describe("Segment", () => {
             expect(segment.model.properties[1].name).toBe('color')
             // @ts-ignore
             expect(segment.model.properties[1].value).toBe('string')
+
+            console.log("Testing for Master branch protection")
         })
 
     })
