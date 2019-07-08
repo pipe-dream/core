@@ -18,7 +18,6 @@ export class Segment {
     public table?: Table;
 
     constructor(segmentData: string) {
-        console.log(segmentData)
         if (!segmentData) throw new SegmentError("Missing segment data", segmentData)
         this.raw = segmentData
         this.lines = Utilities.splitAndClean(segmentData, /\n/).slice()

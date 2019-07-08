@@ -22,7 +22,6 @@ describe("Segment", () => {
     describe("Schema deseialization", () => {
         it("can deserialize a basic Schema", () => {
             let schema: Schema = new Schema(testData.basicSchema)
-            console.log(schema)
             expect(schema.cleaned.length).toBeLessThan(schema.raw.length)
             expect(schema.segments.length).toBe(5)
             expect(schema.getModels().length).toBe(3)
@@ -53,14 +52,15 @@ describe("Segment", () => {
 
         test("A model with no properties are serialized successfully", () => {
             let segment: Segment = new Segment(testData.modelWithNoProperties)
-
-            expect(segment.lines.length).toBe(0)
+            console.log(segment)
+            expect(segment.lines.length).toBe(1)
             expect(segment.title).toBe("Car")
-            expect(segment.type).toBe("Model")
+            expect(segment.type).toBeInstanceOf(Model)
         })
 
         it("can serialize a complex model", () => {
             let segment: Segment = new Segment(testData.complexModel)
+
             expect(segment.title).toBe("Car")
             expect(segment.type).toBeInstanceOf(Model)
             expect(segment.lines.length).toBe(10)
@@ -69,9 +69,9 @@ describe("Segment", () => {
             // @ts-ignore
             expect(segment.model.properties.length).toBe(9)
             // @ts-ignore
-            console.log(segment.model.properties[1].name).toBe('color')
+            expect(segment.model.properties[1].name).toBe('color')
             // @ts-ignore
-            console.log(segment.model.properties[1].value).toBe('string')
+            expect(segment.model.properties[1].value).toBe('string')
         })
 
     })
