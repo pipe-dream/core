@@ -4,13 +4,13 @@ import ObjectModelCollection from '../objectModel/ObjectModelCollection'
 import ObjectModelEntity from '../objectModel/ObjectModelEntity'
 import ObjectModelEntityFactory from '../objectModel/ObjectModelEntityFactory'
 import Segment from '../objectModel/Segment'
-import SegmentRow from '../objectModel/SegmentRow'
+import SegmentRow from '../objectModel/Property'
 import SketchParser from '../objectModel/SketchParser'
 
 const mergeJSON = require('deepmerge')
 
 function customizeModules(overriddenModules) {
-    let defaultModules = {            
+    let defaultModules = {
         Attribute,
         AttributeFactory,
         ObjectModelCollection,
@@ -32,7 +32,7 @@ export default function(options) {
         masterFileFactory: state => state.masterFileFactory,
 
         /* experimental */
-        modules: state => {               
+        modules: state => {
             return customizeModules(
                 state.masterFileFactory.overriddenModules ?
                 state.masterFileFactory.overriddenModules() :
