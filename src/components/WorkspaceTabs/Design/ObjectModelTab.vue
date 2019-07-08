@@ -11,9 +11,12 @@
                     :placeholder="placeholder"
                 ></code-editor>
                 <div class="mt-1">
-                    <button @click="addUserSystem()" :class="buttonStyle">+ user system</button>
-                    <button @click="replaceWithSampleApp()" :class="buttonStyle">sample app</button>
-                    <button @click="replaceWithHelpApp()" :class="buttonStyle">help</button>
+                    <button
+                        v-for="button in $store.state.masterFileFactory.buttons()"
+                        v-bind:key="button.name()"
+                        @click="button.click()"
+                        :class="buttonStyle"> {{ button.name() }}
+                    </button>
                 </div>             
 
             </div>
@@ -75,21 +78,9 @@
         },
 
         methods: {
-            addUserSystem() {
-                this.$store.dispatch('setSketch', 
-                    this.sketch + this.$store.state.masterFileFactory.userSystemSketch()
-                )
-            },
-
             replaceWithSampleApp() {
                 this.$store.dispatch('setSketch', 
                     this.$store.state.masterFileFactory.sampleApp()
-                )
-            },
-            
-            replaceWithHelpApp() {
-                this.$store.dispatch('setSketch', 
-                    this.$store.state.masterFileFactory.helpApp()
                 )
             },            
         }
