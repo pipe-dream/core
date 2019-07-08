@@ -7,7 +7,7 @@ import {Segment} from "../../src/objectModel/Segment";
 const fs = require('fs')
 const path = require('path')
 const _dirname = path.resolve();
-const load = (file: string):string => fs.readFileSync(path.resolve("C:/laragon/www/pipe-dream-core/test/typescript/testSchema/"+file+".txt"),'utf8')
+const load = (file: string):string => fs.readFileSync(path.resolve("./test/typescript/testSchema/"+file+".txt"),'utf8')
 
 const testData = {
     baseModel: load("baseModel"),

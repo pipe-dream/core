@@ -4,7 +4,8 @@ import {Model} from "./Model";
 import {Segment} from "./Segment";
 import {Utilities} from "./Utilities";
 
-const segmentSplitter = "\n\n"
+const segmentSplitter = "\n{2,}"
+const segmentSplitterRegExp = new RegExp(segmentSplitter)
 
 export class Schema {
 
@@ -17,7 +18,7 @@ export class Schema {
         this.raw = data
         this.cleaned = Schema.cleanSketch(data)
 
-        this.segments = this.cleaned.split(/\n\n+/).map(segment => new Segment(segment))
+        this.segments = this.cleaned.split(segmentSplitterRegExp).map(segment => new Segment(segment))
     }
 
     public getModels(): Model[] {
@@ -47,7 +48,6 @@ export class Schema {
          * and ending point will be removed.
          */
         string = string.replace(/\/\*(\*(?!\/)|[^*])*\*\/?/, '')
-        console.log(string)
 
         /**
          * Finally, remove all triple+ newlines, and replace them with double newlines.

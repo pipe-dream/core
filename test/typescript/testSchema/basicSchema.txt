@@ -9,10 +9,10 @@ color
 user_id // foreign key
 
 // use snake_case model1_model2 to setup a ManyToMany relationship
-car_garage 
+car_garage
 
 // use button to add a default user system
-User 
+User
 name
 email
 email_verified_at
@@ -22,7 +22,7 @@ remember_token
 /* Just testing basic
 * block comments
 * These should be
-* remove from the
+* removed from the
 * segment.cleaned */
 
 // use snake_case to create a table
