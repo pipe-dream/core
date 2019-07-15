@@ -1,4 +1,4 @@
-import Segment from '../../src/objectModel/Segment'
+import Segment from 'objectModel/Segment'
 import segment from './testSegments/segmentStringLoader'
 
 /* NOT NICE FIX - these constants are bootstrapped in the repos that use core
