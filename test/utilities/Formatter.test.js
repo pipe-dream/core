@@ -1,4 +1,4 @@
-import F from 'utilities/formatter';
+import F from '../../src/utilities/formatter';
 
 describe("Formatter", () => {
 
