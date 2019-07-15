@@ -1,3 +1,6 @@
 node_modules
 yarn.lock
 .idea
+.coveralls.yml
+coverage
+readme.md
