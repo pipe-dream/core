@@ -1,0 +1,35 @@
+/**
+* The car model has 3 columns
+* + timestamps
+*/
+Car
+brand > string
+color > string
+user_id > uint // foreign key to users
+
+// use PascalCase for models
+Garage
+location > string::London // default location is London
+capacity > uint::20 /* Capacity has no length, so it defaults to 11 */
+
+// use snake_case model1_model2 to setup a ManyToMany relationship
+car_garage // This should bind Car and Garage models together
+
+// use button to add a default user system
+User
+name > string
+email > string
+email_verified_at // Should implicitly have timestamp datatype
+password > string
+remember_token > string, nullable // string (length 50), can be null
+
+/* Just testing basic
+* block comments
+* These should be
+* removed from the
+* segment.cleaned */
+
+// use snake_case to create a table
+password_resets
+email > string:250 // string (length 250)
+token > string:100 // string (length 100)

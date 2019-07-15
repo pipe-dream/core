@@ -1,0 +1,10 @@
+Car
+brand > string:50:Volvo
+color > string:25
+model > string
+user_id
+price > int
+miles_per_gallon > float:11:2
+image_path
+first_sold > date
+last_seen > timestamp:now
