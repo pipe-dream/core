@@ -45,7 +45,7 @@ var context = require.context('./', true, /\.(string)$/);
 var strings = {};
 context.keys().forEach((filename)=>{
   // take filename only
-  let fileKey = /[^/]*$/.exec(filename)[0]
+  let fileKey = /[^\\/]*$/.exec(filename)[0]
   // remove .string
   fileKey = fileKey.replace(".string", "")
   // attach to dictionary
