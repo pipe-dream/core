@@ -54,6 +54,7 @@ export default function(options) {
                 ...fileFactory.defaultPreferences()
             }
         }, {}),
+        ...options.customState,
         ... __ENV__,
     }
 }
