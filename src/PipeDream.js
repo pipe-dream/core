@@ -6,6 +6,7 @@ export default class PipeDream {
         if (this.options.api === undefined) {
             this.options.api = {};
             options.api.build = '/pipe-dream/api/build';
+            options.api.token = null;
         }
     }
 
