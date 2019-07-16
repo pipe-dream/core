@@ -1,7 +1,7 @@
 import pluralize from 'pluralize'
 let changeCase = require('change-case') // How to use import instead?
 
-export default class Formatter {
+export default class {
     static pluralize(word) {
         return pluralize(word)
     }
