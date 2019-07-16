@@ -80,6 +80,26 @@ export default function(options) {
             }, [])
 
             context.commit('setReviewFiles', allFiles)
-        },        
+        },
+
+        buildFiles: async function () {
+            const rawResponse = await fetch(options.api.build, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + options.api.token,
+                },
+                body: JSON.stringify({
+                    reviewFiles: this.state.reviewFiles.filter(file => {
+                        return this.state.selectedFiles[file.path];
+                    }),
+                    isSandboxed: this.state.isSandboxed,
+                    reverseHistory: this.state.reverseHistory,
+                })
+            });
+
+            return await rawResponse.json();
+        }
     }
 }

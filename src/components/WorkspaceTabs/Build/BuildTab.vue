@@ -42,25 +42,11 @@
 
                 (async () => {
                     this.isLoading = true
-                    const rawResponse = await fetch('/pipe-dream/api/build', {
-                        method: 'POST',
-                        headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            reviewFiles: this.$store.state.reviewFiles.filter(file => {
-                                return this.$store.state.selectedFiles[file.path]
-                            }),
-                            isSandboxed: this.$store.state.isSandboxed,
-                            reverseHistory: this.$store.state.reverseHistory
-                        })
-                    });
-                    
-                    const content = await rawResponse.json();
+
+                    let response = await this.$store.dispatch('buildFiles');
 
                     this.isLoading = false
-                    this.message = content.message
+                    this.message = response.message
                     this.results = this.$store.state.reviewFiles.filter(file => {
                         return this.$store.state.selectedFiles[file.path]
                     }).map(file => file.path)
@@ -72,7 +58,7 @@
             },
 
             buttonStyle() {
-                return 'bg-blue text-white border bg-white py-4 px-8 rounded'
+                return 'bg-blue-600 text-white border bg-white py-4 px-8 rounded'
             }
         },
 
