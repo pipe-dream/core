@@ -5,8 +5,8 @@ export default class BaseFileFactory {
         this.omc = objectModelCollection
     }
 
-    static get name() {
-        return "Dummy"
+    static get title() {
+        return "Not named yet!"
     }
 
     static templates() {

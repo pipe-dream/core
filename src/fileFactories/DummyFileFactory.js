@@ -6,7 +6,7 @@ export default class DummyFileFactory extends BaseFileFactory {
         this.pipes = []
     }
 
-    static get name() {
+    static get title() {
         return "Dummy"
     }
 }

@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col max-w-md mx-auto px-8 bg-white pt-4 text-sm mt-4">
         <div class="p-8 border mb-4"
-            v-for="fileFactory in fileFactories" v-bind:key="fileFactory.name"
+            v-for="fileFactory in fileFactories" v-bind:key="fileFactory.title"
         >
             <span>
-                <input type="checkbox" class="mr-2" checked>{{fileFactory.name}}
+                <input type="checkbox" class="mr-2" checked>{{fileFactory.title}}
             </span>
         </div>        
     </div>  
