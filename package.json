@@ -36,7 +36,8 @@
     "vuex": "^3.1.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
   "jest": {
     "moduleFileExtensions": [
