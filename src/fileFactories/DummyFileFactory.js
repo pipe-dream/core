@@ -2,6 +2,7 @@ import BaseFileFactory from './BaseFileFactory'
 
 export default class DummyFileFactory extends BaseFileFactory {
     constructor() {
+        super()
         this.pipes = []
     }
 
