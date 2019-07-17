@@ -20,3 +20,6 @@ export const Template = _Template
 
 import _SketchButton from './utilities/SketchButton.js'
 export const SketchButton = _SketchButton
+
+import _DummyFileFactory from './fileFactories/DummyFileFactory.js'
+export const DummyFileFactory = _DummyFileFactory
