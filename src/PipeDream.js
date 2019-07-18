@@ -9,9 +9,6 @@ export default class PipeDream {
             this.options.api.build = '/pipe-dream/api/build';
             this.options.api.token = null;
         }
-        if (this.options.customState === undefined) {
-            this.options.customState = {};
-        }
     }
 
     get defaultStore() {
