@@ -82,7 +82,7 @@ export default function(options) {
             context.commit('setReviewFiles', allFiles)
         },
 
-        buildFiles: async function () {
+        buildFiles: async function (context) {
             const rawResponse = await fetch(options.api.build, {
                 method: 'POST',
                 headers: {
@@ -91,11 +91,11 @@ export default function(options) {
                     'Authorization': 'Bearer ' + options.api.token,
                 },
                 body: JSON.stringify({
-                    reviewFiles: this.state.reviewFiles.filter(file => {
-                        return this.state.selectedFiles[file.path];
+                    reviewFiles: context.state.reviewFiles.filter(file => {
+                        return context.state.selectedFiles[file.path];
                     }),
-                    isSandboxed: this.state.isSandboxed,
-                    reverseHistory: this.state.reverseHistory,
+                    isSandboxed: context.state.isSandboxed,
+                    reverseHistory: context.state.reverseHistory,
                 })
             });
 
