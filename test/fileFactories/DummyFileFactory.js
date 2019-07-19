@@ -1,4 +1,4 @@
-import BaseFileFactory from './BaseFileFactory'
+import BaseFileFactory from '../../src/fileFactories/BaseFileFactory'
 
 export default class DummyFileFactory extends BaseFileFactory {
     constructor() {
