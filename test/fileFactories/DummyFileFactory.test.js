@@ -1,4 +1,4 @@
-import DummyFileFactory from '../../src/fileFactories/DummyFileFactory'
+import DummyFileFactory from './DummyFileFactory'
 import BaseFileFactory from '../../src/fileFactories/BaseFileFactory'
 
 describe("DummyFileFactory", () => {
