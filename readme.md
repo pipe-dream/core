@@ -1,5 +1,5 @@
 # pipe-dream/core
-This package supplies most of the frontend necessary for a Pipe Dream Language implementation
+Pipe Dream core functionality used by other repos
 
 ## Installation
 Please refer to the [development guide](https://github.com/pipe-dream/docs/blob/master/README.md#pipe-dreamdocs)
