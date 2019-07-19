@@ -1,13 +1,13 @@
-import BaseFileFactory from '../../src/fileFactories/BaseFileFactory'
+import BaseFileFactory from '../../src/fileFactories/BaseFileFactory';
 
 class DummyFileFactory extends BaseFileFactory {
     constructor() {
-        super()
-        this.pipes = []
+        super();
+        this.pipes = [];
     }
 
     static get title() {
-        return "Dummy"
+        return "Dummy";
     }
 }
 
@@ -16,12 +16,12 @@ describe("DummyFileFactory", () => {
     test('the dummy file factory extends base file factory', () => {
         expect(
             new DummyFileFactory()
-        ).toBeInstanceOf(BaseFileFactory)
+        ).toBeInstanceOf(BaseFileFactory);
     });
 
     test('the dummy file factory will have zero pipes', () => {
         expect(
             new DummyFileFactory().pipes.length
-        ).toBe(0)
-    });    
+        ).toBe(0);
+    });
 });
