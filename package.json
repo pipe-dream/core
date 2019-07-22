@@ -7,9 +7,7 @@
   "author": "Anders Jurisoo <jurisoo@hotmail.com>",
   "license": "MIT",
   "private": false,
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
     "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
@@ -53,6 +51,6 @@
     "vue-jest": "^3.0.4",
     "vue-template-compiler": "^2.6.4",
     "vue-textarea-autosize": "^1.0.4",
-    "vuex": "^3.1.0"    
+    "vuex": "^3.1.0"
   }
 }
