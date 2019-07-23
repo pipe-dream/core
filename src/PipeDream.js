@@ -11,6 +11,10 @@ export default class PipeDream {
         }
     }
 
+    static version() {
+        return require('../package.json').version
+    }
+
     get defaultStore() {
         return {
             state: defaultStore.state(this.options),

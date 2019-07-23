@@ -1,13 +1,31 @@
 {
   "name": "@pipe-dream/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipe Dream core functionality used by other repos",
   "main": "src/index.js",
   "repository": "github.com:pipe-dream/core",
   "author": "Anders Jurisoo <jurisoo@hotmail.com>",
   "license": "MIT",
   "private": false,
-  "devDependencies": {
+  "devDependencies": {},
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest",
+    "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(js)$": "babel-jest",
+      ".*\\.(vue)$": "vue-jest",
+      ".*\\.(string)$": "jest-raw-loader"
+    }
+  },
+  "dependencies": {
+    "coveralls": "^3.0.5",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^6.26.3",
     "babel-jest": "^24.8.0",
@@ -34,24 +52,5 @@
     "vue-template-compiler": "^2.6.4",
     "vue-textarea-autosize": "^1.0.4",
     "vuex": "^3.1.0"
-  },
-  "scripts": {
-    "test": "cross-env NODE_ENV=test jest",
-    "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "vue"
-    ],
-    "transform": {
-      ".*\\.(js)$": "babel-jest",
-      ".*\\.(vue)$": "vue-jest",
-      ".*\\.(string)$": "jest-raw-loader"
-    }
-  },
-  "dependencies": {
-    "coveralls": "^3.0.5"
   }
 }
