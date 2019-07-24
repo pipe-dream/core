@@ -67,14 +67,14 @@ export default function(options) {
             schema = JSON.parse(JSON.stringify(schema))
             
             let allFiles = options.fileFactories.reduce((allFiles, fileFactory) => {
+
                 let files = fileFactory.from(
                     ObjectModelCollection.fromSchema(schema)                   
                 ).withPipes(
-                    context.state.availablePipes.filter(pipe => {
+                    fileFactory.pipes().filter(pipe => {
                         return context.state.selectedPipes.includes(pipe.name)
                     })
-                ).calculateFiles()
-
+                ).calculateFiles()                
 
                 return [ ...allFiles, ...files]
             }, [])
