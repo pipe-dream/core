@@ -6,6 +6,7 @@
             <span>
                 <input type="checkbox" class="mr-2" checked>{{fileFactory.title}}
             </span>
+            <span class="ml-2 text-gray-700 bg-gray-200 rounded px-3 py-1 text-black text-xs">v{{fileFactory.version()}}</span>
         </div>        
     </div>  
 </template>

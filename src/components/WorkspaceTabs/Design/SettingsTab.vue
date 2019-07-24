@@ -5,10 +5,10 @@
             class="border p-4"
         >
             <h2>{{ fileFactory.name }}</h2>
-            <!-- PIPES -->
+            <!-- FILE FACTORY PIPES -->
             <div class="flex flex-col ml-4 mt-4">
                 <h3 class="mb-2">Pipes</h3>
-                <div v-for="pipe in availablePipes" v-bind:key="pipe.name" class="flex items-center">
+                <div v-for="pipe in fileFactory.pipes()" v-bind:key="pipe.name" class="flex items-center">
                     <input type="checkbox" :checked="isChecked(pipe.name)" @click="toggle(pipe.name)"> 
                     <p class="ml-2">{{pipe.name}}</p>
                 </div>
