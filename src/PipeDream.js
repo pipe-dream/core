@@ -1,13 +1,26 @@
-import defaultStore from './defaultStore/index.js';
+import defaultStore from './defaultStore/index.js'
+const mergeJSON = require('deepmerge')
 
 export default class PipeDream {
     constructor(options) {
-        this.options = options
+        this.options = mergeJSON(options, this.defaultOptions())
 
-        if (this.options.api === undefined) {
-            this.options.api = {};
-            this.options.api.build = '/pipe-dream/api/build';
-            this.options.api.token = null;
+        setInterval(
+            async function() {
+                let response = await window.store.dispatch('save')
+                console.log("Some response")
+            },
+            5000
+        );        
+    }
+
+    defaultOptions() {
+        return {
+            api: {
+                build: '/pipe-dream/api/build',
+                save: '/pipe-dream/api/save',
+                token: null,
+            }
         }
     }
 
@@ -24,3 +37,5 @@ export default class PipeDream {
         }
     }
 }
+
+

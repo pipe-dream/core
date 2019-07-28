@@ -67,14 +67,14 @@ export default function(options) {
             schema = JSON.parse(JSON.stringify(schema))
             
             let allFiles = options.fileFactories.reduce((allFiles, fileFactory) => {
-
                 let files = fileFactory.from(
                     ObjectModelCollection.fromSchema(schema)                   
                 ).withPipes(
-                    fileFactory.pipes().filter(pipe => {
+                    context.state.availablePipes.filter(pipe => {
                         return context.state.selectedPipes.includes(pipe.name)
                     })
-                ).calculateFiles()                
+                ).calculateFiles()
+
 
                 return [ ...allFiles, ...files]
             }, [])
@@ -100,6 +100,22 @@ export default function(options) {
             });
 
             return await rawResponse.json();
-        }
+        },
+
+        save: async function (context) {
+            const rawResponse = await fetch(options.api.save, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + options.api.token,
+                },
+                body: JSON.stringify({
+                    sketch: context.state.sketch
+                })
+            });
+
+            return await rawResponse.json();
+        },
     }
 }
