@@ -3,12 +3,12 @@ const mergeJSON = require('deepmerge')
 
 export default class PipeDream {
     constructor(options) {
-        this.options = mergeJSON(options, this.defaultOptions())
+        this.options = mergeJSON(this.defaultOptions(), options)
 
         setInterval(
             async function() {
                 let response = await window.store.dispatch('save')
-                console.log("Some response")
+                console.log(response)
             },
             5000
         );        
