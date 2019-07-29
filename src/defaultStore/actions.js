@@ -103,6 +103,11 @@ export default function(options) {
         },
 
         save: async function (context) {
+            
+            // // Added some useful stuff for later
+            // var hash = require('object-hash');
+            // JSONDiff(oldState, context.state)
+
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',
                 headers: {
