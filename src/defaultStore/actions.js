@@ -103,15 +103,19 @@ export default function(options) {
         },
 
         save: async function (context) {
-            const rawResponse = await fetch(options.api.save, {
-                method: 'POST',
+            const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
+                method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + options.api.token,
                 },
                 body: JSON.stringify({
-                    sketch: context.state.sketch
+                    // todo: send only changed keys that needs to be updated at server
+                    workbench_data: {
+                        ...{sketch: context.state.sketch}
+                    }
+                    
                 })
             });
 
