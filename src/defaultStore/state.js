@@ -8,13 +8,7 @@ function getDefault(key, defaultValue) {
     return { [key]: defaultValue }
 }
 
-
-
 export default function(options) {
-    // if (typeof window.__ENV__ === 'undefined') {
-    //     window.__ENV__ = {};
-        
-    // }
 
     return {
         // Keep track of active tabs in each section
