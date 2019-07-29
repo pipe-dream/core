@@ -5,13 +5,13 @@ export default class PipeDream {
     constructor(options) {
         this.options = mergeJSON(this.defaultOptions(), options)
 
-        setInterval(
-            async function() {
-                let response = await window.store.dispatch('save')
-                console.log(response)
-            },
-            5000
-        );        
+        // setInterval(
+        //     async function() {
+        //         let response = await window.store.dispatch('save')
+        //         console.log(response)
+        //     },
+        //     5000
+        // );        
     }
 
     defaultOptions() {

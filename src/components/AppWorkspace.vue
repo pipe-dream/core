@@ -17,9 +17,27 @@
             },
         },
 
+        data() {
+            return {
+                saveDebounce: null
+            }
+        },
+
         mounted() {
+            const debounce = (func, delay) => {
+                return function() {
+                    const context = this
+                    const args = arguments
+                    clearTimeout(this.saveDebounce)
+                    this.saveDebounce = setTimeout(() => func.apply(context, args), delay)
+                }.bind(this)
+            }
+
             this.$store.subscribe((mutation, state) => {
-                console.log("Here we will trigger a save with debouncing.");
+                // Assume each mutation produces a new state - no need for hash
+                debounce(() => {
+                    console.log("Here we will trigger a save with debouncing.");
+                }, 5000)()                
             })
         }
     }
