@@ -36,8 +36,9 @@
             this.$store.subscribe((mutation, state) => {
                 // Assume each mutation produces a new state - no need for hash
                 debounce(() => {
-                    console.log("Here we will trigger a save with debouncing.");
-                }, 5000)()                
+                    console.log("Saving...")
+                    this.$store.dispatch('save')
+                }, 3500)()                
             })
         }
     }
