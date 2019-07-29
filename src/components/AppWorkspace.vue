@@ -35,9 +35,9 @@
 
             this.$store.subscribe((mutation, state) => {
                 // Assume each mutation produces a new state - no need for hash
-                debounce(() => {
-                    console.log("Saving...")
-                    this.$store.dispatch('save')
+                debounce(async () => {
+                    let result = await this.$store.dispatch('save')
+                    console.log(result)
                 }, 3500)()                
             })
         }
