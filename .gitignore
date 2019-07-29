@@ -3,3 +3,4 @@ yarn.lock
 .idea
 .coveralls.yml
 coverage
+dist/*
