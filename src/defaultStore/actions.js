@@ -1,6 +1,7 @@
 import SketchParser from '../objectModel/SketchParser'
 import ObjectModelCollection from '../objectModel/ObjectModelCollection'
 import ObjectModelEntityFactory from '../objectModel/ObjectModelEntityFactory'
+import JSONDiff from '../utilities/JSONDiff'
 const mergeJSON = require('deepmerge')
 
 export default function(options) {
@@ -106,7 +107,18 @@ export default function(options) {
             
             // // Added some useful stuff for later
             // var hash = require('object-hash');
-            // JSONDiff(oldState, context.state)
+            let newState = {
+                ...context.state
+            }
+
+            delete newState.lastSave
+
+            let diff = JSONDiff(context.state.lastSave, newState)
+            console.log(
+                context.getters.lastSave,
+                diff,
+                newState
+            )
 
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',
@@ -123,6 +135,8 @@ export default function(options) {
                     
                 })
             });
+
+            context.commit('setLastSave', context.state)
 
             return await rawResponse.json();
         },
