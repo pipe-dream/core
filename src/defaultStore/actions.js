@@ -107,18 +107,8 @@ export default function(options) {
             
             // // Added some useful stuff for later
             // var hash = require('object-hash');
-            let newState = {
-                ...context.state
-            }
+            // JSONDiff(old, new)
 
-            delete newState.lastSave
-
-            let diff = JSONDiff(context.state.lastSave, newState)
-            console.log(
-                context.getters.lastSave,
-                diff,
-                newState
-            )
 
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',
@@ -135,8 +125,6 @@ export default function(options) {
                     
                 })
             });
-
-            context.commit('setLastSave', context.state)
 
             return await rawResponse.json();
         },
