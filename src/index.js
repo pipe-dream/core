@@ -1,5 +1,4 @@
 import PipeDream from './PipeDream'
-import './css/app.css';
 
 export default PipeDream
 

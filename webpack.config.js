@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/standalone.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'pipe-dream.js',
