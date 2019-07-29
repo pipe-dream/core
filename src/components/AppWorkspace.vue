@@ -15,6 +15,12 @@
             activeTabComponent() {
                 return this.activeTab.toLowerCase() + "-tab"
             },
+        },
+
+        mounted() {
+            this.$store.subscribe((mutation, state) => {
+                console.log("Here we will trigger a save with debouncing.");
+            })
         }
     }
 </script>
