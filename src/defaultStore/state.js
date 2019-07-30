@@ -1,5 +1,5 @@
 function getDefault(key, defaultValue) {    
-    if (typeof window.__ENV__.workbench_data[key] !== 'undefined') {
+    if (window.__ENV__.workbench_data !== null) {
         if(window.__ENV__.workbench_data[key] != null) {
             return { [key]: window.__ENV__.workbench_data[key] }
         }
@@ -60,6 +60,8 @@ export default function(options) {
                 ...fileFactory.defaultPreferences()
             }
         }, {}),
-        ... __ENV__,
+        ...window.__ENV__,
+        
+        ...options
     }
 }

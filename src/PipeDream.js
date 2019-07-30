@@ -12,6 +12,7 @@ export default class PipeDream {
                 build: '/pipe-dream/api/build',
                 save: '/pipe-dream/api/save',
                 token: null,
+                debounceTime: 3500
             }
         }
     }
