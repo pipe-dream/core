@@ -120,7 +120,7 @@ export default function(options) {
                 body: JSON.stringify({
                     // todo: send only changed keys that needs to be updated at server
                     workbench_data: {
-                        ...{sketch: context.state.sketch}
+                        ...context.state
                     }
                     
                 })
