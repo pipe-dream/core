@@ -69,7 +69,6 @@ function keyValuePairsFromSavedWorkbenchData(options) {
             "fileFactories",
             "preferences",
             "masterFileFactory",
-            "fileFactories",
             "selectedPipes",
             "availablePipes"
         ].includes(key)
