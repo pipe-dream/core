@@ -1,8 +1,14 @@
-export default function(options) {
-
-    if (typeof window.__ENV__ === 'undefined') {
-        window.__ENV__ = 'dummy';
+function getDefault(key, defaultValue) {    
+    if (window && window.__ENV__ && window.__ENV__.workbench_data !== null) {
+        if(window.__ENV__.workbench_data[key] != null) {
+            return { [key]: window.__ENV__.workbench_data[key] }
+        }
     }
+
+    return { [key]: defaultValue }
+}
+
+export default function(options) {
 
     return {
         // Keep track of active tabs in each section
@@ -15,7 +21,7 @@ export default function(options) {
 
         selectedFiles: {},
 
-        sketch: "",
+        ...getDefault("sketch", ""),
 
         reviewFiles: [],
 
@@ -54,6 +60,8 @@ export default function(options) {
                 ...fileFactory.defaultPreferences()
             }
         }, {}),
-        ... __ENV__,
+        ...window.__ENV__,
+        
+        ...options
     }
 }
