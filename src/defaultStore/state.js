@@ -1,5 +1,5 @@
 function getDefault(key, defaultValue) {    
-    if (window.__ENV__.workbench_data !== null) {
+    if (window && window.__ENV__ && window.__ENV__.workbench_data !== null) {
         if(window.__ENV__.workbench_data[key] != null) {
             return { [key]: window.__ENV__.workbench_data[key] }
         }
