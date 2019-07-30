@@ -1,6 +1,7 @@
 import SketchParser from '../objectModel/SketchParser'
 import ObjectModelCollection from '../objectModel/ObjectModelCollection'
 import ObjectModelEntityFactory from '../objectModel/ObjectModelEntityFactory'
+import JSONDiff from '../utilities/JSONDiff'
 const mergeJSON = require('deepmerge')
 
 export default function(options) {
@@ -67,14 +68,14 @@ export default function(options) {
             schema = JSON.parse(JSON.stringify(schema))
             
             let allFiles = options.fileFactories.reduce((allFiles, fileFactory) => {
-
                 let files = fileFactory.from(
                     ObjectModelCollection.fromSchema(schema)                   
                 ).withPipes(
-                    fileFactory.pipes().filter(pipe => {
+                    context.state.availablePipes.filter(pipe => {
                         return context.state.selectedPipes.includes(pipe.name)
                     })
-                ).calculateFiles()                
+                ).calculateFiles()
+
 
                 return [ ...allFiles, ...files]
             }, [])
@@ -100,6 +101,32 @@ export default function(options) {
             });
 
             return await rawResponse.json();
-        }
+        },
+
+        save: async function (context) {
+            
+            // // Added some useful stuff for later
+            // var hash = require('object-hash');
+            // JSONDiff(old, new)
+
+
+            const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + options.api.token,
+                },
+                body: JSON.stringify({
+                    // todo: send only changed keys that needs to be updated at server
+                    workbench_data: {
+                        ...{sketch: context.state.sketch}
+                    }
+                    
+                })
+            });
+
+            return await rawResponse.json();
+        },
     }
 }
