@@ -1,17 +1,6 @@
-function getDefault(key, defaultValue) {    
-    if (window && window.__ENV__ && window.__ENV__.workbench_data !== null) {
-        if(window.__ENV__.workbench_data[key] != null) {
-            return { [key]: window.__ENV__.workbench_data[key] }
-        }
-    }
-
-    return { [key]: defaultValue }
-}
-
-export default function(options) {
-
+function defaultKeyValuePairs(options) {
     return {
-        // Keep track of active tabs in each section
+        //Keep track of active tabs in each section
         navigation: {
             workspace: "Design",
             design: "stack",
@@ -21,13 +10,14 @@ export default function(options) {
 
         selectedFiles: {},
 
-        ...getDefault("sketch", ""),
+        sketch: "",
 
         reviewFiles: [],
 
         builtFiles: [],        
 
         schema: {},
+
         // TODO: namepace and group the pipes per factory
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
@@ -60,8 +50,37 @@ export default function(options) {
                 ...fileFactory.defaultPreferences()
             }
         }, {}),
-        ...window.__ENV__,
-        
+
         ...options
+    }
+}
+
+function keyValuePairsFromSavedWorkbenchData(options) {
+    if (options.workbench_data == null) return {};
+    let result = Object.keys(options.workbench_data).filter((key) => {
+        return (
+            typeof options.workbench_data !== 'undefined' &&
+            typeof options.workbench_data[key] !== 'undefined' &&
+            options.workbench_data[key] !== null
+        )
+    }).filter(key => {
+        // exclude complex things for now
+        return ![
+            "availablePipes",
+            "fileFactories",
+            "preferences",
+            "masterFileFactory",
+        ].includes(key)
+    }).reduce((toBeMerged, key) => {
+        return { [key]: options.workbench_data[key], ...toBeMerged }
+    }, {})
+    
+    return result
+}
+
+export default function(options) {
+    return {
+        ...defaultKeyValuePairs(options),
+        ...keyValuePairsFromSavedWorkbenchData(options)
     }
 }
