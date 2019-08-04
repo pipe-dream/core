@@ -66,11 +66,10 @@ function keyValuePairsFromSavedWorkbenchData(options) {
     }).filter(key => {
         // exclude complex things for now
         return ![
+            "availablePipes",
             "fileFactories",
             "preferences",
             "masterFileFactory",
-            "selectedPipes",
-            "availablePipes"
         ].includes(key)
     }).reduce((toBeMerged, key) => {
         return { [key]: options.workbench_data[key], ...toBeMerged }
