@@ -110,6 +110,10 @@ export default function(options) {
             // JSONDiff(old, new)
 
 
+            console.log("SAVING LIKE THIS", {
+                ...context.state
+            })
+
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',
                 headers: {
@@ -120,7 +124,7 @@ export default function(options) {
                 body: JSON.stringify({
                     // todo: send only changed keys that needs to be updated at server
                     workbench_data: {
-                        ...{sketch: context.state.sketch}
+                        ...context.state
                     }
                     
                 })
