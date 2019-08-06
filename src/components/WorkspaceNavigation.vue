@@ -14,7 +14,7 @@
         data: function() {
             return {
                 availableTabs: ["Design", "Review", "Build"],
-                activeTab: "Design",
+                activeTab: this.$store.state.navigation.workspace,
             }
         },
 

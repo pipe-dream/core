@@ -43,6 +43,10 @@
                 (async () => {
                     this.isLoading = true
 
+                    // Temporary extra save request to fix the case
+                    // where user change name and starts the build withing 5 sec.
+                    await this.$store.dispatch('save');
+
                     let response = await this.$store.dispatch('buildFiles');
 
                     this.isLoading = false

@@ -109,11 +109,6 @@ export default function(options) {
             // var hash = require('object-hash');
             // JSONDiff(old, new)
 
-
-            console.log("SAVING LIKE THIS", {
-                ...context.state
-            })
-
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',
                 headers: {
