@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col max-w-lg items-center mx-auto bg-white text-sm mt-4 p-4">
         <hint-box message="What's your your stack? Select a primary tech and add additional file factories as needed."></hint-box>
-        <div class="flex flex-col items-center mx-auto px-8 bg-white text-sm mt-4 bg-gray-100 p-4">
+        <div class="shadow-lg flex flex-col items-center mx-auto px-8 bg-white text-sm mt-4 bg-gray-100 p-4">
             <stack-item
                 color="bg-red-500"
                 heading="primary file factory"
