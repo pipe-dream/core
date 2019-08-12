@@ -35,7 +35,7 @@
 
         methods: {
             hasSomethingToBuild() {
-                return Boolean(this.$store.state.reviewFiles.length)
+                return Boolean(Object.keys(this.$store.state.selectedFiles).length)
             },
 
             build() {
