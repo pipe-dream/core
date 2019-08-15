@@ -95,7 +95,7 @@ export default function(options) {
                     reviewFiles: context.state.reviewFiles.filter(file => {
                         return context.state.selectedFiles[file.path];
                     }),
-                    isSandboxed: context.state.isSandboxed,
+                    isSandboxed: "sure", //context.state.isSandboxed,
                     reverseHistory: context.state.reverseHistory,
                 })
             });

@@ -1,48 +1,40 @@
 import F from '../utilities/Formatter'
-import Attribute from './Attribute'
 import ObjectModelEntityFactory from './ObjectModelEntityFactory'
 import collect from 'collect.js'
+import _ from 'lodash'
+
 
 export default class ObjectModelCollection {
-    constructor() {
-        //this.attachRelationships()
-        //this.attachPivotAttributes()
+    constructor(entities = []) {
+        this.entities = entities;
+        this.regexes = {
+            manyToMany : () => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$")
+        }
     }
 
     static fromEntities(entities) {
-        let omc = new this
-        omc.entities = entities
-        return omc
+        return new this(entities)
     }
-    
+
     static fromSchema(schema) {
-        let omc = new this
-        omc.entities = ObjectModelEntityFactory.fromSchema(schema)
-        return omc
-    }    
+        return new this(ObjectModelEntityFactory.fromSchema(schema))
+    }
+
+    static getModelRegexString(models){
+        return models.map(item => F.snakeCase(item.name).toLowerCase()).join("|")
+    }
 
     isManyToMany(candidate) {
-        var models = this.modelsIncludingUser().map((item) => {
-            return F.snakeCase(item.name).toLowerCase();
-        }).join("|");
-        var manyToManyRegExp = new RegExp("^(" + models + ")_(" + models + ")$");        
-        var matches = manyToManyRegExp.exec(candidate.name);
-        
-        if(matches) {
-            return [matches[1], matches[2]];
-        }
-
-        return !!matches
+        return this.regexes.manyToMany().test(candidate.name);
     }
-    
-    manyToManyAssociatedModels(manyToManyEntity) {
-        var models = this.modelsIncludingUser().map((item) => {
-            return F.snakeCase(item.name).toLowerCase();
-        }).toArray().join("|");
-        var manyToManyRegExp = new RegExp("^(" + models + ")_(" + models + ")$");        
-        var matches = manyToManyRegExp.exec(manyToManyEntity.name);
-        return [matches[1], matches[2]];
-    }    
+
+    getManyToMany(candidate){
+        if(!this.isManyToMany(candidate))
+            return []
+
+        let models = this.regexes.manyToMany().exec(candidate.name);
+        return [models[1], models[2]]
+    }
 
     hasUserModel() {
         return this.userModels().length > 0
@@ -57,20 +49,20 @@ export default class ObjectModelCollection {
     }
 
     userModels() {
-        return this.entities.filter(entitiy => entitiy.isUserEntity())
+        return this.entities.filter(entity => entity.isUserEntity())
     }
 
     models() {
-        return this.entities.filter(entitiy => entitiy.isModelEntity())
+        return this.entities.filter(entity => entity.isModelEntity())
     }
 
     tablesOnly() {
-        return this.entities.filter(entity => entity.name == entity.name.toLowerCase())
+        return this.entities.filter(entity => entity.name === entity.name.toLowerCase())
     }
-    
+
     manyToManys() {
-        return this.tablesOnly().filter(entitiy => this.isManyToMany(entitiy))
-    }    
+        return this.tablesOnly().filter(entity => this.isManyToMany(entity))
+    }
 
     modelsIncludingUser() {
         return this.models().concat(this.userModels())
@@ -87,7 +79,7 @@ export default class ObjectModelCollection {
     filter(callback) {
         return this.entities.filter(callback)
     }
-    
+
     find(callback) {
         return this.entities.find(callback)
     }
@@ -96,35 +88,45 @@ export default class ObjectModelCollection {
         return this.entities
     }
 
-    inOptimalMigrationOrder() {
-        let result =  collect(this.entities).sortBy((entity) => {
-            if(this.isManyToMany(entity)) {
-                // ensure many to many is placed last
-                return 100 + entity.relationships.belongsTo.length
-            }
-            return entity.relationships.belongsTo.length
-        }).toArray()
-
-        return result
+    static hasRelationships(entity) {
+        return entity.relationships.belongsTo.length || entity.relationships.belongsToMany.length || entity.relationships.hasOne.length || entity.relationships.hasMany.length
     }
-   
-    attachPivotAttributes() {
-        this.manyToManys().each(entity => {
-            this.manyToManyAssociatedModels(entity).forEach(modelName => {
-                entity.attributes.push(
-                    new Attribute(
-                        {
-                            name: F.snakeCase(modelName) + "_id",
-                            parent: entity,
-                            dataType: "unsignedBigInteger",
-                            fillable: false,
-                            hidden: false,
-                            nullable: false,
-                        }
-                    )                
-                )
+
+    static hasRelationshipBeenMigrated(entity, migratedList) {
+        if (!entity)
+            return
+        let relationships = entity.relationships.belongsTo
+        return _.every(relationships, relationship => _.some(migratedList, ml => ml.name === relationship.name))
+    }
+
+    inOptimalMigrationOrder() {
+        let entitiesLeft = collect(this.entities).toArray()
+
+        // remove all with basic relationships
+        let sortedEntities = _.reject(entitiesLeft, entity => ObjectModelCollection.hasRelationships(entity) || this.isManyToMany(entity))
+
+        // Put ManyToMany into a separate array, we'll take care of them later
+        let manyToMany = _.filter(entitiesLeft, entity => this.isManyToMany(entity))
+
+        entitiesLeft = _.difference(entitiesLeft, sortedEntities)
+
+        // Iterate everything 100 times, to prevent overflows
+        // If 2 different tables has a "belongTo" relationship with each other, they will never complete
+        for (let i = 0; i < 100; i++) {
+            _.forEachRight(entitiesLeft, entity => {
+                if(this.isManyToMany(entity))
+                    return
+                if (ObjectModelCollection.hasRelationshipBeenMigrated(entity, sortedEntities)) {
+                    sortedEntities.push(entity)
+                    _.remove(entitiesLeft, el => el.name === entity.name)
+                }
             })
-        })
+            if (entitiesLeft.length < 1) {
+                break
+            }
+        }
+
+        return sortedEntities.concat(manyToMany)
     }
 
     serializeSchema() {
