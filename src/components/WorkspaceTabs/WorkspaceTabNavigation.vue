@@ -13,10 +13,16 @@
     export default {
         props: ['availableTabs', 'namespace'],
 
-        data: function() {
-            return {
-                activeTab: this.$store.state.navigation[this.namespace] ?
-                    this.$store.state.navigation[this.namespace] : this.availableTabs[0],
+        computed: {
+            activeTab: {
+                get: function() {
+                    return this.$store.state.navigation[this.namespace] ?
+                        this.$store.state.navigation[this.namespace] : this.availableTabs[0]
+                },
+
+                set: function(value) {
+                    // only set by dispatches
+                },                
             }
         },
 
