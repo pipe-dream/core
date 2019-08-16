@@ -12,7 +12,7 @@ export default {
         styles() {
             return {
                 warning: "bg-yellow-dark text-white",
-                info: "bg-white-light text-gray-dark border-blue",
+                info: "bg-white-light text-gray-600 border-blue",
                 success: "bg-green-light text-white",
             }
         },

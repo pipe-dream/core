@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col max-w-3xl mx-auto px-8 bg-white pt-4">
+    <div class="flex flex-col max-w-6xl mx-auto px-8 bg-white pt-4">
         <HintBox :message="hintMessage"></HintBox>
         <div class="flex w-full">
             <div class="flex-1 mr-2">           
-                <div class="flex h-8 bg-blue text-white border text-center justify-center items-center text-sm">sketch</div>
+                <div class="flex h-8 bg-blue-600 text-white border text-center justify-center items-center text-sm">sketch</div>
                 <code-editor
-                    class="w-full bg-grey-lightest rounded p-2 text-sm border" 
+                    class="w-full bg-gray-100 rounded p-2 text-sm border" 
                     v-model="sketch"
                     lang="json"
                     :placeholder="placeholder"
@@ -21,9 +21,9 @@
 
             </div>
             <div class="flex-1 ml-2">
-                <div class="flex h-8 bg-grey-lighter border text-center justify-center items-center text-sm">schema</div>
+                <div class="flex h-8 bg-gray-100 border text-center justify-center items-center text-sm">schema</div>
                 <code-editor
-                    class="w-full bg-grey-lightest rounded p-2 text-sm border" 
+                    class="w-full bg-gray-100 rounded p-2 text-sm border" 
                     v-model="schema"
                     lang="json"
                     :showGutter="true"
@@ -43,7 +43,7 @@
         data() {
             return {
                 hintMessage: "Start by listing your models in the sketch window (left). You may adjust the attribute properties in the schema window (right)",
-                buttonStyle: "ml-2 text-xs border p-1 rounded shadow bg-white text-black px-2",
+                buttonStyle: "ml-2 text-xs border p-1 rounded shadow bg-white text-gray-900  px-2",
                 // How to make a multiline placeholder?
                 placeholder: "Start typing here. Click the buttons below to get some help on the syntax. "
             }

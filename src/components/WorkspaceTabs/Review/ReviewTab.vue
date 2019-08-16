@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col mx-auto max-w-3xl px-8 bg-white pt-4 items-center">
+    <div class="flex flex-col mx-auto max-w-6xl px-8 bg-white pt-4 items-center">
         <HintBox v-if="reviewFiles.length"
             message="Here you can do any finishing touches or ignore files. Be aware - further changes in the Design tab will overwrite your edits.">
         </HintBox>
@@ -93,7 +93,7 @@
             },
 
             listingStyleFor(file) {
-                let common = 'px-2 py-2 flex hover:bg-grey-lighter '
+                let common = 'px-2 py-2 flex hover:bg-gray-700 '
                 let passive = 'bg-white'
                 let active = 'bg-blue-600 text-white hover:bg-blue-400'
                 return this.isActiveFile(file) ? common + active : common + passive
