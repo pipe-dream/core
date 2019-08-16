@@ -1,5 +1,5 @@
 <template>
-    <ul class="list-reset flex border-b px-24 mb-0">
+    <ul class="flex border-b px-24 mb-0">
         <li :class="styleButtonContainer(tab)" v-for="tab in availableTabs" :key="tab">
             <div 
                 :class="styleButton(tab)"
@@ -35,8 +35,8 @@
 
             styleButton(tab) {
                 let common = "bg-white inline-block text-sm "
-                let activeStyle = "border-l border-t border-r rounded-t py-2 px-4 text-blue-dark"
-                let passiveStyle = "py-2 px-4 text-grey-darker hover:text-blue-darkest"                
+                let activeStyle = "border-l border-t border-r rounded-t py-2 px-4 text-blue-600"
+                let passiveStyle = "py-2 px-4 text-gray-700 hover:text-blue-800"                
             
                 return this.activeTab == tab ? common + activeStyle : common + passiveStyle
             },

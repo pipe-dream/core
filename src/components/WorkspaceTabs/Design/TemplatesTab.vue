@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col max-w-3xl mx-auto px-8 bg-white pt-4">
+    <div class="flex flex-col max-w-6xl mx-auto px-8 bg-white pt-4">
         <HintBox :message="hintMessage"></HintBox>
         <div class="flex w-full">
             <div class="flex flex-1 text-sm">
@@ -82,7 +82,7 @@
             },
 
             listingStyleFor(file) {
-                let common = 'px-2 py-2 flex hover:bg-grey-lighter '
+                let common = 'px-2 py-2 flex hover:bg-gray-700 '
                 let passive = 'bg-white'
                 let active = 'bg-blue-600 text-white hover:bg-blue-400'
                 return this.isActiveFile(file) ? common + active : common + passive

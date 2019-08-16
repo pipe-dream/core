@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto my-4 p-4 bg-white text-blue text-xs border rounded border-blue shadow">
+    <div class="mx-auto my-4 p-4 bg-white text-blue-600 text-xs border rounded border-blue-600 shadow">
         {{ message }}
     </div>
 </template>

@@ -71,6 +71,6 @@ describe('WorkspaceNavigation component', () => {
             .toBe('py-4 w-full text-center flex-1 inline-block font-semibold cursor-pointer bg-white border-l border-t border-r py-2 px-4 text-blue');
 
         expect(vm.styleButton('Review'))
-            .toBe('py-4 w-full text-center flex-1 inline-block font-semibold cursor-pointer py-2 px-4 hover:text-blue-darker bg-grey-lightest text-grey-darkest');
+            .toBe('py-4 w-full text-center flex-1 inline-block font-semibold cursor-pointer py-2 px-4 hover:text-blue-800 bg-gray-100 text-gray-800');
     });
 });
