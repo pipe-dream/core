@@ -17,7 +17,8 @@
             <!-- FILE FACTORY SETTINGS -->
             <div class="flex flex-col ml-4 mt-4" v-for="setting in fileFactory.settings()" v-bind:key="setting.title">
                     <h3 class="mb-2">{{setting.title}}</h3>
-                    <input type="text" name="fname" class="border" :value="setting.default"> 
+                    <input type="text" name="fname" class="pipedream-input" :value="setting.default" placeholder="yea">
+                     
             </div>
 
         </div>
