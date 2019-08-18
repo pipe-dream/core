@@ -1,7 +1,5 @@
 <template>
     <div class="flex flex-col max-w-lg mx-auto px-8 bg-white pt-4 h-full">        
-        <img v-if="!this.results.length" src="/vendor/pipe-dream/laravel/img/build.gif">
-
         <div class="flex flex-col mt-8 text-center" v-if="this.results.length">
             <div v-if="!isLoading" class="mx-auto my-4 font-semibold p-4 bg-white text-blue-600 text-xs border rounded border-blue-600 shadow">
                 Success! The following files were injected
