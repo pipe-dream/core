@@ -23,3 +23,6 @@ export const SketchButton = _SketchButton
 
 import _BaseFileFactory from './fileFactories/BaseFileFactory.js'
 export const BaseFileFactory = _BaseFileFactory
+
+import { Greeter as _Greeter } from './utilities/Greeter.ts'
+// export const Greeter = _Greeter
