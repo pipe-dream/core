@@ -1,10 +1,16 @@
-// This should probably be an interface using TypeScript??
-export default class SketchButton {
-    static name() {
-        return "click me!"
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var SketchButton = /** @class */ (function () {
+    function SketchButton() {
     }
-
-    static click() {
-        return alert("I was clicked!")
-    }
-}
+    SketchButton.prototype.click = function () {
+        return function () {
+        };
+    };
+    SketchButton.prototype.name = function () {
+        return "";
+    };
+    return SketchButton;
+}());
+exports.default = SketchButton;
+//# sourceMappingURL=SketchButton.js.map

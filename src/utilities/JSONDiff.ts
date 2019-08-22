@@ -1,24 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function JSONDiff(a, b) {
+function JSONDiff(a, b){
     var diff = (isArray(a) ? [] : {});
     recursiveDiff(a, b, diff);
     return diff;
 }
-function recursiveDiff(a, b, node) {
+
+function recursiveDiff(a, b, node){
     var checked = [];
-    for (var prop in a) {
-        if (typeof b[prop] == 'undefined') {
+
+    for(var prop in a){
+        if(typeof b[prop] == 'undefined'){
             addNode(prop, '[[removed]]', node);
         }
-        else if (JSON.stringify(a[prop]) != JSON.stringify(b[prop])) {
+        else if(JSON.stringify(a[prop]) != JSON.stringify(b[prop])){
             // if value
-            if (typeof b[prop] != 'object' || b[prop] == null) {
+            if(typeof b[prop] != 'object' || b[prop] == null){
                 addNode(prop, b[prop], node);
             }
             else {
                 // if array
-                if (isArray(b[prop])) {
+                if(isArray(b[prop])){
                     addNode(prop, [], node);
                     recursiveDiff(a[prop], b[prop], node[prop]);
                 }
@@ -31,11 +31,13 @@ function recursiveDiff(a, b, node) {
         }
     }
 }
-function addNode(prop, value, parent) {
+
+function addNode(prop, value, parent){
     parent[prop] = value;
 }
-function isArray(obj) {
+
+function isArray(obj){
     return (Object.prototype.toString.call(obj) === '[object Array]');
 }
-exports.default = JSONDiff;
-//# sourceMappingURL=JSONDiff.js.map
+
+export default JSONDiff
