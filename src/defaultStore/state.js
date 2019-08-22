@@ -31,7 +31,16 @@ function defaultKeyValuePairs(options) {
                 ...all,
                 ...fileFactory.pipes().map(pipe => pipe.name)
             ]
-        }, []),        
+        }, []),
+        
+        settings: options.fileFactories.reduce((all, fileFactory) => {
+            return {
+                ...all,
+                ...{
+                    [fileFactory.title]: fileFactory.settings()
+                }
+            }
+        }, {}),          
 
 
         fileFactories: options.fileFactories,
@@ -70,6 +79,7 @@ function keyValuePairsFromSavedWorkbenchData(options) {
             "fileFactories",
             "preferences",
             "masterFileFactory",
+            "settings"
         ].includes(key)
     }).reduce((toBeMerged, key) => {
         return { [key]: options.workbench_data[key], ...toBeMerged }
