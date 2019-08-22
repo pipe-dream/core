@@ -1,9 +1,9 @@
 import {Attribute} from './Attribute'
 import Preference from '../utilities/Preference'
-import F from '../utilities/Formatter'
+import {Formatter} from '../utilities/Formatter'
 import getDataType from './attributePropertyResolvers/getDataType'
 
-export default class AttributeFactory {
+export class AttributeFactory {
 
     public name: string;
     public parent: any;

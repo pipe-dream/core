@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var PipeDream_1 = require("./PipeDream");
-exports.default = PipeDream_1.default;
 exports.PipeDreamVueTools = {
     install: function (Vue, options) {
         /* Register all vue components */
@@ -10,12 +8,13 @@ exports.PipeDreamVueTools = {
         files.keys().map(function (key) { return Vue.component(key.split('/').pop().split('.')[0], files(key).default); });
     }
 };
-// How can we enable this syntax: export Module from './file.js' ?
-// Until then use local name (_)
-var Template_js_1 = require("./utilities/Template.js");
-exports.Template = Template_js_1.default;
-var SketchButton_js_1 = require("./utilities/SketchButton.js");
-exports.SketchButton = SketchButton_js_1.default;
-var BaseFileFactory_js_1 = require("./fileFactories/BaseFileFactory.js");
-exports.BaseFileFactory = BaseFileFactory_js_1.default;
+console.log(exports.PipeDreamVueTools);
+var PipeDream_1 = require("./PipeDream");
+exports.PipeDream = PipeDream_1.PipeDream;
+var Template_1 = require("./utilities/Template");
+exports.Template = Template_1.Template;
+var SketchButton_1 = require("./utilities/SketchButton");
+exports.SketchButton = SketchButton_1.SketchButton;
+var BaseFileFactory_1 = require("./fileFactories/BaseFileFactory");
+exports.BaseFileFactory = BaseFileFactory_1.BaseFileFactory;
 //# sourceMappingURL=index.js.map

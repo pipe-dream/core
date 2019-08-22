@@ -1,7 +1,7 @@
 // This should probably be an interface using TypeScript??
 import {ISketchButton} from "./ISketchButton";
 
-export default class SketchButton implements ISketchButton{
+export class SketchButton implements ISketchButton{
     click(): () => void {
         return function () {
         };

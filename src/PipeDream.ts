@@ -1,12 +1,14 @@
 import defaultStore from './defaultStore/index.js'
 const mergeJSON = require('deepmerge')
 
-export default class PipeDream {
+export class PipeDream {
+    public options: any;
+
     constructor(options) {
-        this.options = mergeJSON(this.defaultOptions(), options)
+        this.options = mergeJSON(PipeDream.defaultOptions(), options)
     }
 
-    defaultOptions() {
+    static defaultOptions() {
         return {
             api: {
                 build: '/pipe-dream/api/build',
@@ -21,7 +23,7 @@ export default class PipeDream {
         return require('../package.json').version
     }
 
-    get defaultStore() {
+    public get defaultStore() {
         return {
             state: defaultStore.state(this.options),
             mutations: defaultStore.mutations(this.options),

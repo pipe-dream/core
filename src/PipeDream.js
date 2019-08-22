@@ -4,9 +4,9 @@ var index_js_1 = require("./defaultStore/index.js");
 var mergeJSON = require('deepmerge');
 var PipeDream = /** @class */ (function () {
     function PipeDream(options) {
-        this.options = mergeJSON(this.defaultOptions(), options);
+        this.options = mergeJSON(PipeDream.defaultOptions(), options);
     }
-    PipeDream.prototype.defaultOptions = function () {
+    PipeDream.defaultOptions = function () {
         return {
             api: {
                 build: '/pipe-dream/api/build',
@@ -33,5 +33,5 @@ var PipeDream = /** @class */ (function () {
     });
     return PipeDream;
 }());
-exports.default = PipeDream;
+exports.PipeDream = PipeDream;
 //# sourceMappingURL=PipeDream.js.map

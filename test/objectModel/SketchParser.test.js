@@ -1,4 +1,4 @@
-import SketchParser from '../../src/objectModel/SketchParser';
+import {SketchParser} from '../../src/objectModel/SketchParser';
 import sketch from './testSketches/sketchStringLoader'
 
 /* NOT NICE FIX - these constants are bootstrapped in the repos that use core

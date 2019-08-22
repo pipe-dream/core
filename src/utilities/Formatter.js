@@ -1,26 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var pluralize_1 = require("pluralize");
-var changeCase = require('change-case'); // How to use import instead?
-var default_1 = /** @class */ (function () {
-    function default_1() {
+var pluralize = require("pluralize");
+var changeCase = require("change-case");
+var Formatter = /** @class */ (function () {
+    function Formatter() {
     }
-    default_1.pluralize = function (word) {
-        return pluralize_1.default(word);
+    Formatter.pluralize = function (word) {
+        return pluralize(word);
     };
-    default_1.snakeCase = function (word) {
+    Formatter.snakeCase = function (word) {
         return changeCase.snake(word);
     };
-    default_1.camelCase = function (word) {
+    Formatter.camelCase = function (word) {
         return changeCase.camel(word);
     };
-    default_1.pascalCase = function (word) {
+    Formatter.pascalCase = function (word) {
         return changeCase.pascal(word);
     };
-    default_1.singleQuotePad = function (word) {
-        return "'" + word + "'";
+    Formatter.singleQuotePad = function (word) {
+        return this.surroundWithString(word, "'");
     };
-    return default_1;
+    Formatter.surroundWithString = function (word, character) {
+        return character + word + character;
+    };
+    return Formatter;
 }());
-exports.default = default_1;
+exports.Formatter = Formatter;
 //# sourceMappingURL=Formatter.js.map

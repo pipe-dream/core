@@ -7,5 +7,5 @@ var Stack = /** @class */ (function () {
     }
     return Stack;
 }());
-exports.default = Stack;
+exports.Stack = Stack;
 //# sourceMappingURL=Stack.js.map

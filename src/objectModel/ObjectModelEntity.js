@@ -32,7 +32,7 @@ var __spread = (this && this.__spread) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Formatter_1 = require("../utilities/Formatter");
-var Attribute_js_1 = require("./Attribute.js");
+var Attribute_1 = require("./Attribute");
 var AttributeFactory_js_1 = require("./AttributeFactory.js");
 var Preference_1 = require("../utilities/Preference");
 var ObjectModelEntity = /** @class */ (function () {
@@ -53,7 +53,7 @@ var ObjectModelEntity = /** @class */ (function () {
         var entity = new this();
         entity.name = data.name;
         entity.attributes = Object.keys(data.attributes).map(function (key) {
-            return new Attribute_js_1.Attribute(__assign({}, data.attributes[key], { parent: entity }));
+            return new Attribute_1.Attribute(__assign({}, data.attributes[key], { parent: entity }));
         });
         entity.relationships = data.relationships;
         return entity;
@@ -88,7 +88,7 @@ var ObjectModelEntity = /** @class */ (function () {
         return this.constructor.name == "TableEntity";
     };
     ObjectModelEntity.prototype.asForeignKey = function () {
-        return Formatter_1.default.snakeCase(this.name) + "_id";
+        return Formatter_1.Formatter.snakeCase(this.name) + "_id";
     };
     ObjectModelEntity.prototype.serialize = function () {
         var serialize_results = {
@@ -110,5 +110,5 @@ var ObjectModelEntity = /** @class */ (function () {
     };
     return ObjectModelEntity;
 }());
-exports.default = ObjectModelEntity;
+exports.ObjectModelEntity = ObjectModelEntity;
 //# sourceMappingURL=ObjectModelEntity.js.map

@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import WorkspaceNavigation from '../../src/components/WorkspaceNavigation.vue';
-import PipeDream from '../../src/PipeDream';
+import {PipeDream} from '../../src/PipeDream';
 import { cloneDeep } from 'lodash';
 
 describe('WorkspaceNavigation component', () => {

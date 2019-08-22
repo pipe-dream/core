@@ -1,9 +1,9 @@
-import F from '../utilities/Formatter'
-import {Attribute} from './Attribute.js';
+import {Formatter} from "../utilities/Formatter";
+import {Attribute} from './Attribute';
 import AttributeFactory from './AttributeFactory.js';
 import Preference from '../utilities/Preference'
 
-export default class ObjectModelEntity {
+export class ObjectModelEntity {
     public relationships: { [key: string]: Array<any> } = {}
     public name: string
     public allSegments: Array<any>
@@ -80,7 +80,7 @@ export default class ObjectModelEntity {
     }
 
     asForeignKey() {
-        return F.snakeCase(this.name) + "_id";
+        return Formatter.snakeCase(this.name) + "_id";
     }
 
     serialize() {

@@ -1,9 +1,5 @@
-import PipeDream from './PipeDream'
-import Vue from 'vue'
-export default PipeDream
-
 export const PipeDreamVueTools = {
-    install: function(Vue, options) {
+    install: function (Vue, options) {
         /* Register all vue components */
         //@ts-ignore
         const files = require.context('./', true, /\.vue$/i);
@@ -13,14 +9,9 @@ export const PipeDreamVueTools = {
         );
     }
 }
+console.log(PipeDreamVueTools)
 
-// How can we enable this syntax: export Module from './file.js' ?
-// Until then use local name (_)
-import _Template from './utilities/Template.js'
-export const Template = _Template
-
-import _SketchButton from './utilities/SketchButton.js'
-export const SketchButton = _SketchButton
-
-import _BaseFileFactory from './fileFactories/BaseFileFactory.js'
-export const BaseFileFactory = _BaseFileFactory
+export {PipeDream} from './PipeDream'
+export {Template} from './utilities/Template'
+export {SketchButton} from './utilities/SketchButton'
+export {BaseFileFactory} from './fileFactories/BaseFileFactory'

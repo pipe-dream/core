@@ -13,7 +13,6 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Attribute_1 = require("./Attribute");
 var Preference_1 = require("../utilities/Preference");
-var Formatter_1 = require("../utilities/Formatter");
 var getDataType_1 = require("./attributePropertyResolvers/getDataType");
 var AttributeFactory = /** @class */ (function () {
     function AttributeFactory(name, parent, allSegments) {
@@ -35,7 +34,7 @@ var AttributeFactory = /** @class */ (function () {
             _a;
     };
     AttributeFactory.prototype.bestGuessFor = function (key) {
-        return this[Formatter_1.default.camelCase("get_" + key)]();
+        return this[F.camelCase("get_" + key)]();
     };
     /* GETTERS ***************************************************************/
     AttributeFactory.prototype.getForeign = function () {
@@ -43,9 +42,9 @@ var AttributeFactory = /** @class */ (function () {
         var matches = (new RegExp("^(.*)_id$")).exec(this.name);
         var allOtherModelNames = this.allSegments.map(function (segment) { return segment.name; })
             .filter(function (name) {
-            return name != Formatter_1.default.pascalCase(_this.parent.name);
+            return name != F.pascalCase(_this.parent.name);
         });
-        return matches && allOtherModelNames.includes(Formatter_1.default.pascalCase(matches[1])) ? Formatter_1.default.snakeCase(Formatter_1.default.pluralize(matches[1])) : null;
+        return matches && allOtherModelNames.includes(F.pascalCase(matches[1])) ? F.snakeCase(F.pluralize(matches[1])) : null;
     };
     AttributeFactory.prototype.getCast = function () {
         return null;
@@ -97,5 +96,5 @@ var AttributeFactory = /** @class */ (function () {
     };
     return AttributeFactory;
 }());
-exports.default = AttributeFactory;
+exports.AttributeFactory = AttributeFactory;
 //# sourceMappingURL=AttributeFactory.js.map

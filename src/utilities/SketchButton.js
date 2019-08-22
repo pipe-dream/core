@@ -12,5 +12,5 @@ var SketchButton = /** @class */ (function () {
     };
     return SketchButton;
 }());
-exports.default = SketchButton;
+exports.SketchButton = SketchButton;
 //# sourceMappingURL=SketchButton.js.map
