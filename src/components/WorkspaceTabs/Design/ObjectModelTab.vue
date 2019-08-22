@@ -39,6 +39,8 @@
 </template>
 
 <script>
+    import {decycle} from "../../../utilities/decycle";
+
     export default {
         data() {
             return {
@@ -62,7 +64,7 @@
 
             schema: {
                 get() {
-                    return JSON.stringify(this.$store.state.schema, null, 4)
+                    return JSON.stringify(decycle(this.$store.state.schema), null, 4)
                 },
 
                 set(value) {

@@ -1,7 +1,7 @@
 import {Formatter} from '../utilities/Formatter'
 import {ObjectModelEntityFactory} from './ObjectModelEntityFactory'
 import collect from 'collect.js'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import {ObjectModelEntity} from "./ObjectModelEntity";
 
 
@@ -12,7 +12,6 @@ export class ObjectModelCollection {
     public regexes: { [key: string]: (() => RegExp) }
 
     constructor(entities: Array<ObjectModelEntity> = []) {
-        console.log("It does work?")
         this.entities = entities;
         this.regexes = {
             manyToMany: () => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$")
@@ -140,8 +139,8 @@ export class ObjectModelCollection {
         return sortedEntities.concat(manyToMany)
     }
 
-    serializeSchema(): ObjectModelEntity {
-        //return this.entities.map(entity => entity.serialize())
+    serializeSchema(): any {
+        return this.entities.map(entity => entity.serialize())
         return this.entities.reduce((carry, entity) => {
             carry[entity.name] = entity.serialize()
             return carry

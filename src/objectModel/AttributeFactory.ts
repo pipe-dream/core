@@ -42,7 +42,7 @@ export class AttributeFactory {
     }
 
     bestGuessFor(key): string {
-        return this[F.camelCase(`get_${key}`)]()
+        return this[Formatter.camelCase(`get_${key}`)]()
     }
 
     /* GETTERS ***************************************************************/
@@ -51,10 +51,10 @@ export class AttributeFactory {
         let matches = (new RegExp("^(.*)_id$")).exec(this.name)
         let allOtherModelNames = this.allSegments.map(segment => segment.name)
             .filter(name => {
-                return name != F.pascalCase(this.parent.name)
+                return name != Formatter.pascalCase(this.parent.name)
             })
 
-        return matches && allOtherModelNames.includes(F.pascalCase(matches[1])) ? F.snakeCase(F.pluralize(matches[1])) : null
+        return matches && allOtherModelNames.includes(Formatter.pascalCase(matches[1])) ? Formatter.snakeCase(Formatter.pluralize(matches[1])) : null
     }
 
     getCast(): string | null {

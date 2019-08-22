@@ -6,7 +6,7 @@
             <span class="">
                 You are using pipe-dream/core
             </span>
-            <span class="ml-2 text-gray-700 bg-gray-200 rounded px-3 py-1 text-gray-900  text-xs">v{{core.version()}}</span>
+            <span class="ml-2 text-gray-700 bg-gray-200 rounded px-3 py-1 text-gray-900  text-xs">v{{PipeDream.version()}}</span>
         </div>        
         <div class="p-8 border"
             v-for="fileFactory in fileFactories" v-bind:key="fileFactory.title"
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-    import core from '../../../PipeDream'
+    import {PipeDream} from '../../../PipeDream'
 
     export default {
         data() {
             return {
                 fileFactories: this.$store.state.fileFactories,
-                core
+                PipeDream
             }
         }
     }

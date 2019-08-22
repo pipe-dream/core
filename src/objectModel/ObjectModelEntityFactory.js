@@ -4,8 +4,8 @@ var UserEntity_1 = require("./entities/UserEntity");
 var ModelEntity_1 = require("./entities/ModelEntity");
 var TableEntity_1 = require("./entities/TableEntity");
 var PivotTableEntity_1 = require("./entities/PivotTableEntity");
-var EntityTypes = { UserEntity: UserEntity_1.default, ModelEntity: ModelEntity_1.default, TableEntity: TableEntity_1.TableEntity, PivotTableEntity: PivotTableEntity_1.default };
 var Formatter_1 = require("../utilities/Formatter");
+var EntityTypes = { UserEntity: UserEntity_1.UserEntity, ModelEntity: ModelEntity_1.ModelEntity, TableEntity: TableEntity_1.TableEntity, PivotTableEntity: PivotTableEntity_1.PivotTableEntity };
 var ObjectModelEntityFactory = /** @class */ (function () {
     function ObjectModelEntityFactory() {
     }
@@ -27,6 +27,7 @@ var ObjectModelEntityFactory = /** @class */ (function () {
             Object.keys(entity.relationships).forEach(function (key) {
                 entity.relationships[key] = entity.relationships[key].map(function (targetName) {
                     return factory.entities.find(function (candidate) {
+                        //@ts-ignore
                         return candidate.name == targetName;
                     });
                 });
@@ -39,11 +40,11 @@ var ObjectModelEntityFactory = /** @class */ (function () {
         var _this = this;
         return this.segments.map(function (segment) {
             if (segment.hasUserModel())
-                return UserEntity_1.default.fromSegment(segment, _this.segments);
+                return UserEntity_1.UserEntity.fromSegment(segment, _this.segments);
             if (segment.hasModel())
-                return ModelEntity_1.default.fromSegment(segment, _this.segments);
+                return ModelEntity_1.ModelEntity.fromSegment(segment, _this.segments);
             if (_this.isPivotTableEntity(segment))
-                return PivotTableEntity_1.default.fromSegment(segment, _this.segments);
+                return PivotTableEntity_1.PivotTableEntity.fromSegment(segment, _this.segments);
             // default
             return TableEntity_1.TableEntity.fromSegment(segment, _this.segments);
         });

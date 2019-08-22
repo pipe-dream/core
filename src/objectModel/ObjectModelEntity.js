@@ -46,7 +46,7 @@ var ObjectModelEntity = /** @class */ (function () {
         entity.allSegments = allSegments;
         // Sort and only keep unique attributes
         var attributeRows = __spread(new Set(__spread(entity.optionalColumns(['id']), segment.attributes, entity.optionalColumns(['created_at', 'updated_at']))));
-        entity.attributes = attributeRows.map(function (name) { return AttributeFactory_js_1.default.make(name, entity, allSegments); });
+        entity.attributes = attributeRows.map(function (name) { return AttributeFactory_js_1.AttributeFactory.make(name, entity, allSegments); });
         return entity;
     };
     ObjectModelEntity.deserialize = function (data) {
@@ -72,7 +72,7 @@ var ObjectModelEntity = /** @class */ (function () {
     ObjectModelEntity.prototype.injectAttributes = function (attributeNames) {
         var _this = this;
         this.attributes = this.attributes.concat(attributeNames.map(function (attributeName) {
-            return AttributeFactory_js_1.default.make(attributeName, _this, _this.allSegments);
+            return AttributeFactory_js_1.AttributeFactory.make(attributeName, _this, _this.allSegments);
         }));
     };
     ObjectModelEntity.prototype.className = function () {

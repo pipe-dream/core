@@ -1,10 +1,10 @@
 import {Formatter} from "../utilities/Formatter";
 import {Attribute} from './Attribute';
-import AttributeFactory from './AttributeFactory.js';
+import {AttributeFactory} from './AttributeFactory.js';
 import Preference from '../utilities/Preference'
 
 export class ObjectModelEntity {
-    public relationships: { [key: string]: Array<any> } = {}
+    public relationships: { [key: string]: Array<ObjectModelEntity> } = {}
     public name: string
     public allSegments: Array<any>
     public attributes: Array<any>

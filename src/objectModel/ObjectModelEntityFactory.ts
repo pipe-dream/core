@@ -1,13 +1,12 @@
-import UserEntity from './entities/UserEntity'
-import ModelEntity from './entities/ModelEntity'
+import {UserEntity} from './entities/UserEntity'
+import {ModelEntity} from './entities/ModelEntity'
 import {TableEntity} from './entities/TableEntity'
-import PivotTableEntity from './entities/PivotTableEntity'
+import {PivotTableEntity} from './entities/PivotTableEntity'
+import {Formatter} from '../utilities/Formatter'
+import {ObjectModelEntity} from "./ObjectModelEntity";
 
 const EntityTypes = {UserEntity, ModelEntity, TableEntity, PivotTableEntity};
 
-import {Formatter} from '../utilities/Formatter'
-
-import {ObjectModelEntity} from "./ObjectModelEntity";
 
 export class ObjectModelEntityFactory {
 
@@ -35,6 +34,7 @@ export class ObjectModelEntityFactory {
             Object.keys(entity.relationships).forEach(key => {
                 entity.relationships[key] = entity.relationships[key].map(targetName => {
                     return factory.entities.find(candidate => {
+                        //@ts-ignore
                         return candidate.name == targetName
                     })
                 })

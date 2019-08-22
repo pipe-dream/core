@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Formatter_1 = require("../utilities/Formatter");
 var ObjectModelEntityFactory_1 = require("./ObjectModelEntityFactory");
 var collect_js_1 = require("collect.js");
-var lodash_1 = require("lodash");
+var _ = require("lodash");
 var ObjectModelCollection = /** @class */ (function () {
     function ObjectModelCollection(entities) {
         var _this = this;
         if (entities === void 0) { entities = []; }
-        console.log("It does work?");
         this.entities = entities;
         this.regexes = {
             manyToMany: function () { return new RegExp("^(" + _this.modelsIncludingUser() + ")_(" + _this.modelsIncludingUser() + ")$"); }
@@ -82,25 +81,25 @@ var ObjectModelCollection = /** @class */ (function () {
         if (!entity)
             return;
         var relationships = entity.relationships.belongsTo;
-        return lodash_1.default.every(relationships, function (relationship) { return lodash_1.default.some(migratedList, function (ml) { return ml.name === relationship.name; }); });
+        return _.every(relationships, function (relationship) { return _.some(migratedList, function (ml) { return ml.name === relationship.name; }); });
     };
     ObjectModelCollection.prototype.inOptimalMigrationOrder = function () {
         var _this = this;
         var entitiesLeft = collect_js_1.default(this.entities).toArray();
         // remove all with basic relationships
-        var sortedEntities = lodash_1.default.reject(entitiesLeft, function (entity) { return ObjectModelCollection.hasRelationships(entity) || _this.isManyToMany(entity); });
+        var sortedEntities = _.reject(entitiesLeft, function (entity) { return ObjectModelCollection.hasRelationships(entity) || _this.isManyToMany(entity); });
         // Put ManyToMany into a separate array, we'll take care of them later
-        var manyToMany = lodash_1.default.filter(entitiesLeft, function (entity) { return _this.isManyToMany(entity); });
-        entitiesLeft = lodash_1.default.difference(entitiesLeft, sortedEntities);
+        var manyToMany = _.filter(entitiesLeft, function (entity) { return _this.isManyToMany(entity); });
+        entitiesLeft = _.difference(entitiesLeft, sortedEntities);
         // Iterate everything 100 times, to prevent overflows
         // If 2 different tables has a "belongTo" relationship with each other, they will never complete
         for (var i = 0; i < 100; i++) {
-            lodash_1.default.forEachRight(entitiesLeft, function (entity) {
+            _.forEachRight(entitiesLeft, function (entity) {
                 if (_this.isManyToMany(entity))
                     return;
                 if (ObjectModelCollection.hasRelationshipBeenMigrated(entity, sortedEntities)) {
                     sortedEntities.push(entity);
-                    lodash_1.default.remove(entitiesLeft, function (el) { return el.name === entity.name; });
+                    _.remove(entitiesLeft, function (el) { return el.name === entity.name; });
                 }
             });
             if (entitiesLeft.length < 1) {
@@ -110,7 +109,7 @@ var ObjectModelCollection = /** @class */ (function () {
         return sortedEntities.concat(manyToMany);
     };
     ObjectModelCollection.prototype.serializeSchema = function () {
-        //return this.entities.map(entity => entity.serialize())
+        return this.entities.map(function (entity) { return entity.serialize(); });
         return this.entities.reduce(function (carry, entity) {
             carry[entity.name] = entity.serialize();
             return carry;
