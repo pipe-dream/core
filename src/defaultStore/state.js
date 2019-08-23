@@ -33,11 +33,16 @@ function defaultKeyValuePairs(options) {
             ]
         }, []),
         
-        settings: options.fileFactories.reduce((all, fileFactory) => {
+        settings: options.fileFactories.reduce((allFileFactories, fileFactory) => {
             return {
-                ...all,
+                ...allFileFactories,
                 ...{
-                    [fileFactory.title]: fileFactory.settings()
+                    [fileFactory.title]: fileFactory.settings().reduce((allSettings, setting) => {
+                        return {
+                            ...allSettings,
+                            [setting.name]: setting
+                        }
+                    }, {}), 
                 }
             }
         }, {}),          
@@ -79,7 +84,6 @@ function keyValuePairsFromSavedWorkbenchData(options) {
             "fileFactories",
             "preferences",
             "masterFileFactory",
-            "settings"
         ].includes(key)
     }).reduce((toBeMerged, key) => {
         return { [key]: options.workbench_data[key], ...toBeMerged }

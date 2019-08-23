@@ -15,9 +15,15 @@
             </div>
 
             <!-- FILE FACTORY SETTINGS -->
-            <div class="flex flex-col ml-4 mt-4" v-for="setting in $store.state.settings[fileFactory.title]" v-bind:key="setting.title">
-                <p class="mb-2 font-semibold text-gray-800 text-base">{{setting}}</p>
-                <input type="text" class="pipedream-input" :value="getSetting(setting.title)" placeholder="yea">
+            <div class="flex flex-col ml-4 mt-4" v-for="(setting, settingName) in $store.state.settings[fileFactory.title]" v-bind:key="settingName">
+                <p class="mb-2 font-semibold text-gray-800 text-base">{{setting.name}}</p>
+                <input type="text" class="pipedream-input"
+                    :settingName="setting.name"
+                    :fileFactoryTitle="fileFactory.title"
+                    :value="$store.state.settings[fileFactory.title][setting.name].value"
+                    @input="setSetting"
+                    :placeholder="setting.name"
+                >
             </div>
 
         </div>
@@ -46,8 +52,20 @@
                 this.$store.dispatch('toggleSelectedPipe', name)
             },
 
-            setSetting(path, value) {
+            setSetting(event) {
 
+                let settingName = event.srcElement.attributes.settingName.nodeValue
+                let fileFactoryTitle = event.srcElement.attributes.fileFactoryTitle.nodeValue
+                let value = event.srcElement.value
+
+                this.$store.dispatch('setSetting', {
+                    fileFactoryTitle,
+                    settingName,
+                    value
+                })
+                console.log(
+                    this.$store.state.settings
+                )                
             },
 
             getSetting(path) {
@@ -57,10 +75,7 @@
 
         mounted() {
             console.log(
-                this.$store.state.settings,
-                flattenKeys(
-                    this.$store.state.settings
-                )
+                this.$store.state.settings
             )
         }
     }

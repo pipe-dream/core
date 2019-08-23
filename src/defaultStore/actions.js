@@ -28,7 +28,11 @@ export default function(options) {
                     schema
                 )
             )            
-        },          
+        },
+        
+        setSetting(context, data) {
+            context.commit('setSetting', data)
+        },
         
         compileSchema(context, sketch) {
             let schema = ObjectModelCollection.fromEntities(

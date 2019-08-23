@@ -40,6 +40,10 @@ export default function(options) {
         setBuiltFiles(state, files) {
             state.builtFiles = files
         },
+
+        setSetting(state, data) {
+            state.settings[data.fileFactoryTitle][data.settingName]["value"] = data.value
+        },
         
         toggleSelectedPipe(state, name) {
             if(state.selectedPipes.includes(name)) {
