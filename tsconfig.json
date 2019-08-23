@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "esnext",
     "sourceMap": true,
     "downlevelIteration": true,
     "lib": ["es2015", "dom"],
     "strict": false,
-    "declaration": true,
+    "declaration": false,
     "outDir": "dist"
   },
   "include": ["src/**/*.ts", "src/**/*.vue"],

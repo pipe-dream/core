@@ -2,7 +2,7 @@
   "name": "@pipe-dream/core",
   "version": "1.0.10",
   "description": "Pipe Dream core functionality used by other repos",
-  "main": "dist/index.ts",
+
   "repository": "github.com:pipe-dream/core",
   "author": "Anders Jurisoo <jurisoo@hotmail.com>",
   "license": "MIT",
