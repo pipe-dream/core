@@ -83,6 +83,7 @@ export class ObjectModelEntityFactory {
             manyToManyAssociatedModels_[entity.name] = this.pivotTablenamesPair(entity)
         })
         //TODO: Fix this
+        //@ts-ignore
         this.entities.mapWithRemaining((model, remaining) => {
             // HasOne/HasMany -------- HasOneOrMany
             model.relationships.hasMany = remaining.filter(candidate => {

@@ -1,2 +1,2 @@
 import './css/app.css';
-import './index';
+import * as PipeDream from './index'

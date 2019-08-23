@@ -119,3 +119,5 @@ export class AttributeFactory {
         ]
     }
 }
+
+type SettingsArray = [string,string,string,string] | string

@@ -1,4 +1,4 @@
-import {PipeDream} from '../src/PipeDream';
+import {PipeDream} from '../src';
 
 describe("PipeDream", () => {
 

@@ -1,4 +1,4 @@
-import defaultStore from './defaultStore/index.js'
+import defaultStore from './defaultStore/index'
 const mergeJSON = require('deepmerge')
 
 export class PipeDream {

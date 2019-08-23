@@ -2,18 +2,21 @@
   "name": "@pipe-dream/core",
   "version": "1.0.10",
   "description": "Pipe Dream core functionality used by other repos",
-  "main": "src/index.js",
+  "main": "dist/index.ts",
   "repository": "github.com:pipe-dream/core",
   "author": "Anders Jurisoo <jurisoo@hotmail.com>",
   "license": "MIT",
   "private": false,
   "devDependencies": {
     "@babel/core": "7.5.5",
+    "@types/jest": "^24.0.18",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.1.0",
     "cssnano": "^4.1.10",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3",
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10",
     "webpack-cli": "^3.3.6"
@@ -27,12 +30,14 @@
     "moduleFileExtensions": [
       "js",
       "json",
-      "vue"
+      "vue",
+      "ts"
     ],
     "transform": {
       ".*\\.(js)$": "babel-jest",
       ".*\\.(vue)$": "vue-jest",
-      ".*\\.(string)$": "jest-raw-loader"
+      ".*\\.(string)$": "jest-raw-loader",
+      ".*\\.(tsx?)$": "ts-jest"
     }
   },
   "dependencies": {
@@ -59,6 +64,7 @@
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
     "tailwindcss": "^1.0",
+    "ts-loader": "^6.0.4",
     "vue": "^2.5.17",
     "vue-highlightjs": "^1.3.3",
     "vue-jest": "^3.0.4",

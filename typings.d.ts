@@ -1,5 +1,6 @@
-type SettingsArray = [string, string, string, string] | string
-
 interface Array<T>{
-    mapWithRemaining: (callback:(object:T,remaining:T[]) => void) => void
+    mapWithRemaining(): void
 }
+
+type Predicate<T> = (predicate:(obj:T, ...args:any[]) => boolean) => void
+type SettingsArray = [string,string,string,string] | string

@@ -1,6 +1,6 @@
 import {Formatter} from "../utilities/Formatter";
 import {Attribute} from './Attribute';
-import {AttributeFactory} from './AttributeFactory.js';
+import {AttributeFactory} from './AttributeFactory';
 import Preference from '../utilities/Preference'
 
 export class ObjectModelEntity {
