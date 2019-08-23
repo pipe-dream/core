@@ -1,6 +1,7 @@
 export default class {
-    constructor(defaultValue, dataType) {
-        this.defaultValue = defaultValue
+    constructor(name, value, dataType) {
+        this.name = name
+        this.value = value
         this.dataType = dataType
 
         this.isSetting = true;
