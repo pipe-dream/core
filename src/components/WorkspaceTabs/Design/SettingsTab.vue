@@ -15,9 +15,9 @@
             </div>
 
             <!-- FILE FACTORY SETTINGS -->
-            <div class="flex flex-col ml-4 mt-4" v-for="setting in fileFactory.settings()" v-bind:key="setting.title">
-                    <p class="mb-2 font-semibold text-gray-800 text-base">Hittepåtitel</p>
-                    <input type="text" class="pipedream-input" :value="getSetting(setting.title)" placeholder="yea">
+            <div class="flex flex-col ml-4 mt-4" v-for="setting in $store.state.settings[fileFactory.title]" v-bind:key="setting.title">
+                <p class="mb-2 font-semibold text-gray-800 text-base">{{setting}}</p>
+                <input type="text" class="pipedream-input" :value="getSetting(setting.title)" placeholder="yea">
             </div>
 
         </div>
@@ -57,6 +57,7 @@
 
         mounted() {
             console.log(
+                this.$store.state.settings,
                 flattenKeys(
                     this.$store.state.settings
                 )
