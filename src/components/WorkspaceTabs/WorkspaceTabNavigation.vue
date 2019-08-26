@@ -1,10 +1,10 @@
 <template>
     <ul class="flex border-b px-24 mb-0">
         <li :class="styleButtonContainer(tab)" v-for="tab in availableTabs" :key="tab">
-            <div 
+            <a 
                 :class="styleButton(tab)"
                 @click="activeTab = tab; $store.dispatch('navigate', {namespace, tab})"
-            >{{ tab }}</div>
+            >{{ tab }}</a>
         </li>
     </ul>
 </template>
