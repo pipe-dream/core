@@ -32,6 +32,7 @@ export default function(options) {
         
         setSetting(context, data) {
             context.commit('setSetting', data)
+            context.dispatch('compileFiles', context.state.schema)
         },
         
         compileSchema(context, sketch) {
