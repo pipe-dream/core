@@ -31,7 +31,21 @@ function defaultKeyValuePairs(options) {
                 ...all,
                 ...fileFactory.pipes().map(pipe => pipe.name)
             ]
-        }, []),        
+        }, []),
+        
+        settings: options.fileFactories.reduce((allFileFactories, fileFactory) => {
+            return {
+                ...allFileFactories,
+                ...{
+                    [fileFactory.title]: fileFactory.settings().reduce((allSettings, setting) => {
+                        return {
+                            ...allSettings,
+                            [setting.name]: setting
+                        }
+                    }, {}), 
+                }
+            }
+        }, {}),          
 
 
         fileFactories: options.fileFactories,

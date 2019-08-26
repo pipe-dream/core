@@ -4,10 +4,10 @@
             v-bind:key="fileFactory.title"
             class="border p-4"
         >
-            <h2>{{ fileFactory.title }}</h2>
+            <p class="mb-2 border-b pb-4 font-semibold text-gray-800 text-xl">{{ fileFactory.title }}</p>
             <!-- FILE FACTORY PIPES -->
             <div class="flex flex-col ml-4 mt-4">
-                <h3 class="mb-2">Pipes</h3>
+                <p class="mb-2 font-semibold text-gray-800 text-base">Pipes</p>
                 <div v-for="pipe in fileFactory.pipes()" v-bind:key="pipe.title" class="flex items-center">
                     <input type="checkbox" :checked="isChecked(pipe.title)" @click="toggle(pipe.title)">
                     <p class="ml-2">{{pipe.title}}</p>
@@ -15,10 +15,15 @@
             </div>
 
             <!-- FILE FACTORY SETTINGS -->
-            <div class="flex flex-col ml-4 mt-4" v-for="setting in fileFactory.settings()" v-bind:key="setting.title">
-                    <h3 class="mb-2">{{setting.title}}</h3>
-                    <input type="text" name="fname" class="pipedream-input" :value="setting.default" placeholder="yea">
-                     
+            <div class="flex flex-col ml-4 mt-4" v-for="(setting, settingName) in $store.state.settings[fileFactory.title]" v-bind:key="settingName">
+                <p class="mb-2 font-semibold text-gray-800 text-base">{{setting.name}}</p>
+                <input type="text" class="pipedream-input"
+                    :settingName="setting.name"
+                    :fileFactoryTitle="fileFactory.title"
+                    :value="$store.state.settings[fileFactory.title][setting.name].value"
+                    @input="setSetting"
+                    :placeholder="setting.name"
+                >
             </div>
 
         </div>
@@ -26,11 +31,15 @@
 </template>
 
 <script>
+
+    import {flattenKeys} from '../../../utilities/JSONLeaves'
+
     export default {
         data() {
             return {
                 fileFactories: this.$store.state.fileFactories,
-                availablePipes: this.$store.state.availablePipes
+                availablePipes: this.$store.state.availablePipes,
+                settings: this.$store.state.settings
             }
         },
 
@@ -41,11 +50,33 @@
 
             toggle(name) {
                 this.$store.dispatch('toggleSelectedPipe', name)
+            },
+
+            setSetting(event) {
+
+                let settingName = event.srcElement.attributes.settingName.nodeValue
+                let fileFactoryTitle = event.srcElement.attributes.fileFactoryTitle.nodeValue
+                let value = event.srcElement.value
+
+                this.$store.dispatch('setSetting', {
+                    fileFactoryTitle,
+                    settingName,
+                    value
+                })
+                console.log(
+                    this.$store.state.settings
+                )                
+            },
+
+            getSetting(path) {
+
             }
         },
 
         mounted() {
-            //
+            console.log(
+                this.$store.state.settings
+            )
         }
     }
 </script>

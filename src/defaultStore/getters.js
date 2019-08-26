@@ -30,7 +30,8 @@ export default function(options) {
         preferences: state => state.preferences,
         sketch: state => state.sketch,
         masterFileFactory: state => state.masterFileFactory,
-
+        settings: state => state.settings,
+        
         /* experimental */
         modules: state => {               
             return customizeModules(
