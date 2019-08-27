@@ -40,6 +40,12 @@
                     console.log(result)
                 }, this.$store.state.api.debounceTime)()                
             })
+
+
+            window.onbeforeunload = () => {
+                this.$store.dispatch('save')
+                return 'Saving your data...';
+            };            
         }
     }
 </script>
