@@ -18,7 +18,6 @@ function defaultKeyValuePairs(options) {
 
         schema: {},
 
-        // TODO: namepace and group the pipes per factory
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
                 ...all,
@@ -49,6 +48,7 @@ function defaultKeyValuePairs(options) {
 
 
         fileFactories: options.fileFactories,
+        enabledFileFactories: [options.fileFactories[0].title],
         masterFileFactory: options.fileFactories[0],
         // TODO: namepace and group the templates per factory
         templates: options.fileFactories.reduce((all, fileFactory) => {

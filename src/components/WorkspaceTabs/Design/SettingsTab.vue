@@ -2,7 +2,7 @@
     <div class="flex flex-col max-w-3xl mx-auto px-8 bg-white pt-4 text-sm">
         <div v-for="fileFactory in fileFactories"
             v-bind:key="fileFactory.title"
-            class="border p-4"
+            class="border p-4 mb-8"
         >
             <p class="mb-2 border-b pb-4 font-semibold text-gray-800 text-xl">{{ fileFactory.title }}</p>
             <!-- FILE FACTORY PIPES -->
@@ -37,8 +37,7 @@
     export default {
         data() {
             return {
-                fileFactories: this.$store.state.fileFactories,
-                availablePipes: this.$store.state.availablePipes,
+                fileFactories: this.$store.getters.deployedFileFactories,
                 settings: this.$store.state.settings
             }
         },
@@ -63,9 +62,7 @@
                     settingName,
                     value
                 })
-                console.log(
-                    this.$store.state.settings
-                )                
+                
             },
 
             getSetting(path) {
@@ -74,9 +71,7 @@
         },
 
         mounted() {
-            console.log(
-                this.$store.state.settings
-            )
+            //
         }
     }
 </script>
