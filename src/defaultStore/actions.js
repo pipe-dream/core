@@ -10,6 +10,11 @@ export default function(options) {
             context.commit('navigate', payload)
         },
 
+        setMasterFileFactory(context, masterFileFactory) {
+            context.commit('setMasterFileFactory', masterFileFactory)
+            context.dispatch('compileFiles', context.state.schema)
+        },
+
         setSketch(context, sketch) {
             context.commit('setSketch', sketch)
             context.dispatch('compileSchema', sketch)
@@ -64,6 +69,16 @@ export default function(options) {
             context.dispatch('compileFiles', context.state.schema)
         },
 
+        toggleEnabledFileFactory(context, name) {
+            context.commit('toggleEnabledFileFactory', name)
+            context.dispatch('compileFiles', context.state.schema)
+        },
+        
+        setEnabledFileFactory(context, name) {
+            context.commit('setEnabledFileFactory', name)
+            context.dispatch('compileFiles', context.state.schema)            
+        },
+
         toggleSelectedFile(context, path) {
             context.commit('toggleSelectedFile', path)
         },
@@ -71,20 +86,20 @@ export default function(options) {
         compileFiles: function(context, schema) {
             // Make deep copy of schema to detach any previous bindings
             schema = JSON.parse(JSON.stringify(schema))
-            
-            let allFiles = options.fileFactories.reduce((allFiles, fileFactory) => {
-                let files = fileFactory.from(
-                    ObjectModelCollection.fromSchema(schema)                   
-                ).withPipes(
-                    context.state.availablePipes.filter(pipe => {
-                        return context.state.selectedPipes.includes(pipe.name)
-                    })
-                ).calculateFiles()
-
-
-                return [ ...allFiles, ...files]
+            let allFiles = context.getters.deployedFileFactories.reduce((allFiles, fileFactory) => {
+                return [
+                    ...allFiles,
+                    ...fileFactory.from(
+                        ObjectModelCollection.fromSchema(schema)                   
+                    ).withPipes(
+                        context.getters.deployedPipes.filter(pipe => {
+                            return fileFactory.pipes().map(candidate => candidate.title).includes(pipe.title)
+                        })
+                    )
+                    .calculateFiles()
+                ]
             }, [])
-
+            
             context.commit('setReviewFiles', allFiles)
         },
 
