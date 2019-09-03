@@ -9,12 +9,11 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'pipe-dream.js',
-        library: 'PipeDreamCore',
+        library: 'PipeDream',
         libraryTarget: 'umd',
     },
     resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: [".ts", ".tsx", ".js", ".vue", ".webpack.js"]
+        extensions: [".ts", ".tsx", ".js", ".vue"]
     },
     module: {
         rules: [
@@ -29,7 +28,6 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
             },
-            // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
             {test: /\.tsx?$/, loader: "ts-loader"}
         ]
     },

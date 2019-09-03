@@ -17,8 +17,9 @@ export const Globals = {
         return this.___SINGLE_LINE_BREAK___.repeat(2)
     }
 }
-
-export {PipeDream} from './PipeDream'
-export {Template} from './utilities/Template'
-export {SketchButton} from './utilities/SketchButton'
-export {BaseFileFactory} from './fileFactories/BaseFileFactory'
+export const PipeDream = require("./PipeDream").PipeDream;
+export const defaultStore = require("./defaultStore");
+export const Template = require("./utilities/Template").Template;
+export const SketchButton = require("./utilities/SketchButton").SketchButton
+export const BaseFileFactory = require("./fileFactories/BaseFileFactory").BaseFileFactory
+export const ModelEntity = require("./objectModel/ObjectModelEntity").ObjectModelEntity

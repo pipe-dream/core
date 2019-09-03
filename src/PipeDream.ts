@@ -1,4 +1,4 @@
-import defaultStore from './defaultStore/index'
+import {DefaultStore} from './defaultStore'
 const mergeJSON = require('deepmerge')
 
 export class PipeDream {
@@ -25,10 +25,10 @@ export class PipeDream {
 
     public get defaultStore() {
         return {
-            state: defaultStore.state(this.options),
-            mutations: defaultStore.mutations(this.options),
-            actions: defaultStore.actions(this.options),
-            getters: defaultStore.getters(this.options),
+            state: DefaultStore.state(this.options),
+            mutations: DefaultStore.mutations(this.options),
+            actions: DefaultStore.actions(this.options),
+            getters: DefaultStore.getters(this.options),
         }
     }
 }

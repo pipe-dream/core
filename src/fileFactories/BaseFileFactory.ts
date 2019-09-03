@@ -1,5 +1,5 @@
 import collect from 'collect.js'
-import {SketchButton} from "..";
+import {SketchButton} from "../utilities/SketchButton";
 
 export class BaseFileFactory {
     public omc: any;

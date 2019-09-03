@@ -1,2 +1,2 @@
 import './css/app.css';
-import "./PipeDream";
+import "./index";
