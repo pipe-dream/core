@@ -22,7 +22,7 @@
     "webpack-cli": "^3.3.6"
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "tsc && webpack --mode production",
     "test": "cross-env NODE_ENV=test jest",
     "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
