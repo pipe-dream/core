@@ -34,7 +34,7 @@
             },
 
             styleButton(tab) {
-                let common = "bg-white inline-block text-sm "
+                let common = "bg-white inline-block text-sm cursor-pointer "
                 let activeStyle = "border-l border-t border-r rounded-t py-2 px-4 text-blue-600"
                 let passiveStyle = "py-2 px-4 text-gray-700 hover:text-blue-800"                
             
