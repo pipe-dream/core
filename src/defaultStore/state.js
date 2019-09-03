@@ -3,7 +3,7 @@ function defaultKeyValuePairs(options) {
         //Keep track of active tabs in each section
         navigation: {
             workspace: "Design",
-            design: "stack",
+            design: "object model",
             template: "",
             review: "",
         },
