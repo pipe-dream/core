@@ -30,7 +30,25 @@ export default function(options) {
         preferences: state => state.preferences,
         sketch: state => state.sketch,
         masterFileFactory: state => state.masterFileFactory,
+        settings: state => state.settings,
+        
+        deployedFileFactories: state => {
+            return state.fileFactories.filter(fileFactory => state.enabledFileFactories.includes(fileFactory.name) )
+        },
 
+        deployedPipes: (state, getters) => {
+            return getters.deployedFileFactories.map(fileFactory => {
+                return fileFactory.pipes().filter(pipe => {
+                    return state.selectedPipes.includes(pipe.title)
+                })
+            }).reduce((all, pipes) => {
+                return [
+                    ...all,
+                    ...pipes
+                ]
+            }, [])          
+        },
+        
         /* experimental */
         modules: state => {               
             return customizeModules(

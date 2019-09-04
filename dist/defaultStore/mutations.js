@@ -26,6 +26,9 @@ function default_1(options) {
             var namespace = _a.namespace, tab = _a.tab;
             state.navigation[namespace] = tab;
         },
+        setMasterFileFactory: function (state, masterFileFactory) {
+            state.masterFileFactory = masterFileFactory;
+        },
         setSketch: function (state, content) {
             state.sketch = content;
         },
@@ -54,12 +57,31 @@ function default_1(options) {
         setBuiltFiles: function (state, files) {
             state.builtFiles = files;
         },
+        setSetting: function (state, data) {
+            state.settings[data.fileFactoryTitle][data.settingName]["value"] = data.value;
+        },
         toggleSelectedPipe: function (state, name) {
             if (state.selectedPipes.includes(name)) {
                 state.selectedPipes = state.selectedPipes.filter(function (pipe) { return pipe != name; });
                 return;
             }
             state.selectedPipes = __spread(state.selectedPipes, [
+                name
+            ]);
+        },
+        toggleEnabledFileFactory: function (state, name) {
+            if (state.enabledFileFactories.includes(name)) {
+                state.enabledFileFactories = state.enabledFileFactories.filter(function (fileFactoryName) { return fileFactoryName != name; });
+                return;
+            }
+            state.enabledFileFactories = __spread(state.enabledFileFactories, [
+                name
+            ]);
+        },
+        setEnabledFileFactory: function (state, name) {
+            if (state.enabledFileFactories.includes(name))
+                return;
+            state.enabledFileFactories = __spread(state.enabledFileFactories, [
                 name
             ]);
         },

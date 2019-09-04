@@ -93,7 +93,7 @@
             },
 
             listingStyleFor(file) {
-                let common = 'px-2 py-2 flex hover:bg-gray-700 '
+                let common = 'px-2 py-2 flex hover:bg-gray-200 '
                 let passive = 'bg-white'
                 let active = 'bg-blue-600 text-white hover:bg-blue-400'
                 return this.isActiveFile(file) ? common + active : common + passive

@@ -1,10 +1,10 @@
 <template>
     <ul class="flex justify-around border-b bg-gray-100">
         <li :class="styleButtonContainer(tab)" v-for="tab in availableTabs" :key="tab">
-            <div
+            <a 
                 :class="styleButton(tab)"
                 @click="activeTab = tab; $store.dispatch('navigate', {namespace: 'workspace', tab})"
-            >{{ tab }}</div>
+            >{{ tab }}</a>
         </li>
     </ul>
 </template>

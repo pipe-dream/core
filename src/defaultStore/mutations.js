@@ -4,6 +4,10 @@ export default function(options) {
             state.navigation[namespace] = tab
         },
 
+        setMasterFileFactory(state, masterFileFactory) {
+            state.masterFileFactory = masterFileFactory
+        },
+
         setSketch(state, content) {
             state.sketch = content
         },
@@ -40,6 +44,10 @@ export default function(options) {
         setBuiltFiles(state, files) {
             state.builtFiles = files
         },
+
+        setSetting(state, data) {
+            state.settings[data.fileFactoryTitle][data.settingName]["value"] = data.value
+        },
         
         toggleSelectedPipe(state, name) {
             if(state.selectedPipes.includes(name)) {
@@ -52,6 +60,27 @@ export default function(options) {
                 name
             ]
         },
+
+        toggleEnabledFileFactory(state, name) {
+            if(state.enabledFileFactories.includes(name)) {
+                state.enabledFileFactories = state.enabledFileFactories.filter(fileFactoryName => fileFactoryName != name)
+                return
+            }
+
+            state.enabledFileFactories = [
+                ...state.enabledFileFactories,
+                name
+            ]            
+        },
+
+        setEnabledFileFactory(state, name) {
+            if(state.enabledFileFactories.includes(name)) return
+
+            state.enabledFileFactories = [
+                ...state.enabledFileFactories,
+                name
+            ]
+        },        
 
         toggleSelectedFile(state, path) {
             state.selectedFiles[path] = !state.selectedFiles[path]

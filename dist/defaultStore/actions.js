@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -76,6 +77,10 @@ function default_1(options) {
         navigate: function (context, payload) {
             context.commit('navigate', payload);
         },
+        setMasterFileFactory: function (context, masterFileFactory) {
+            context.commit('setMasterFileFactory', masterFileFactory);
+            context.dispatch('compileFiles', context.state.schema);
+        },
         setSketch: function (context, sketch) {
             context.commit('setSketch', sketch);
             context.dispatch('compileSchema', sketch);
@@ -88,6 +93,10 @@ function default_1(options) {
         },
         setPreferences: function (context, schema) {
             context.commit('setPreferences', mergeJSON(context.state.preferences, schema));
+        },
+        setSetting: function (context, data) {
+            context.commit('setSetting', data);
+            context.dispatch('compileFiles', context.state.schema);
         },
         compileSchema: function (context, sketch) {
             var schema = ObjectModelCollection_1.ObjectModelCollection.fromEntities(ObjectModelEntityFactory_1.ObjectModelEntityFactory.fromSegments(SketchParser_1.SketchParser.parse(sketch).segment())).serializeSchema();
@@ -108,17 +117,25 @@ function default_1(options) {
             context.commit('toggleSelectedPipe', name);
             context.dispatch('compileFiles', context.state.schema);
         },
+        toggleEnabledFileFactory: function (context, name) {
+            context.commit('toggleEnabledFileFactory', name);
+            context.dispatch('compileFiles', context.state.schema);
+        },
+        setEnabledFileFactory: function (context, name) {
+            context.commit('setEnabledFileFactory', name);
+            context.dispatch('compileFiles', context.state.schema);
+        },
         toggleSelectedFile: function (context, path) {
             context.commit('toggleSelectedFile', path);
         },
         compileFiles: function (context, schema) {
             // Make deep copy of schema to detach any previous bindings
             schema = JSON.parse(JSON.stringify(decycle_1.decycle(schema)));
-            var allFiles = options.fileFactories.reduce(function (allFiles, fileFactory) {
-                var files = fileFactory.from(ObjectModelCollection_1.ObjectModelCollection.fromSchema(schema)).withPipes(context.state.availablePipes.filter(function (pipe) {
-                    return context.state.selectedPipes.includes(pipe.name);
-                })).calculateFiles();
-                return __spread(allFiles, files);
+            var allFiles = context.getters.deployedFileFactories.reduce(function (allFiles, fileFactory) {
+                return __spread(allFiles, fileFactory.from(ObjectModelCollection_1.ObjectModelCollection.fromSchema(schema)).withPipes(context.getters.deployedPipes.filter(function (pipe) {
+                    return fileFactory.pipes().map(function (candidate) { return candidate.title; }).includes(pipe.title);
+                }))
+                    .calculateFiles());
             }, []);
             context.commit('setReviewFiles', allFiles);
         },
