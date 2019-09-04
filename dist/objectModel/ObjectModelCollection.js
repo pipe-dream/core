@@ -25,6 +25,7 @@ var ObjectModelCollection = /** @class */ (function () {
         return models.map(function (item) { return Formatter_1.Formatter.snakeCase(item.name).toLowerCase(); }).join("|");
     };
     ObjectModelCollection.prototype.isManyToMany = function (candidate) {
+        return candidate.type === "PivotTableEntity";
         return this.regexes.manyToMany().test(candidate.name);
     };
     ObjectModelCollection.prototype.getManyToMany = function (candidate) {

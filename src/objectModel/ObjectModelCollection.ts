@@ -34,6 +34,7 @@ export class ObjectModelCollection {
 
 
     isManyToMany(candidate: ObjectModelEntity): boolean {
+        return candidate.type === "PivotTableEntity"
         return this.regexes.manyToMany().test(candidate.name);
     }
 

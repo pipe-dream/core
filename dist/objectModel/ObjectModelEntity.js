@@ -38,6 +38,7 @@ var Preference_1 = require("../utilities/Preference");
 var ObjectModelEntity = /** @class */ (function () {
     function ObjectModelEntity() {
         this.relationships = {};
+        this.type = this.constructor.name;
         this.relationships = {};
     }
     ObjectModelEntity.fromSegment = function (segment, allSegments) {

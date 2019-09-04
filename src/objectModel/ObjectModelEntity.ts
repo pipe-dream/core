@@ -5,11 +5,13 @@ import Preference from '../utilities/Preference'
 
 export class ObjectModelEntity {
     public relationships: { [key: string]: Array<ObjectModelEntity> } = {}
-    public name: string
+    public name: string;
+    public type: string;
     public allSegments: Array<any>
-    public attributes: Array<any>
+    public attributes: Array<Attribute>
 
     constructor() {
+        this.type = this.constructor.name
         this.relationships = {}
     }
 
