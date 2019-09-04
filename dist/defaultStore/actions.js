@@ -86,7 +86,6 @@ function default_1(options) {
             context.dispatch('compileSchema', sketch);
         },
         setSchema: function (context, schema) {
-            console.log(schema);
             context.commit('setSchema', schema);
             context.dispatch('compileFiles', schema);
             context.dispatch('setPreferences', schema);
