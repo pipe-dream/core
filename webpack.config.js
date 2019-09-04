@@ -1,6 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: "development",
@@ -36,5 +37,14 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'pipe-dream.css'
         }),
+        new CopyPlugin([
+            {
+                from: './src/**/*.vue',
+                to: './',
+                transformPath(targetPath) {                    
+                    return targetPath.replace(/src\//g,'');;
+                  },
+            },
+        ]),
     ]
 };

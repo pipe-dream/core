@@ -1,17 +1,17 @@
 <template>
     <ul class="flex border-b px-24 mb-0">
         <li :class="styleButtonContainer(tab)" v-for="tab in availableTabs" :key="tab">
-            <div
+            <a 
                 :class="styleButton(tab)"
                 @click="activeTab = tab; $store.dispatch('navigate', {namespace, tab})"
-            >{{ tab }}</div>
+            >{{ tab }}</a>
         </li>
     </ul>
 </template>
 
 <script lang="ts">
     import Vue from 'vue'
-    export default{
+    export default {
         props: ['availableTabs', 'namespace'],
 
         computed: {
@@ -35,7 +35,7 @@
             },
 
             styleButton(tab) {
-                let common = "bg-white inline-block text-sm "
+                let common = "bg-white inline-block text-sm cursor-pointer "
                 let activeStyle = "border-l border-t border-r rounded-t py-2 px-4 text-blue-600"
                 let passiveStyle = "py-2 px-4 text-gray-700 hover:text-blue-800"
 
