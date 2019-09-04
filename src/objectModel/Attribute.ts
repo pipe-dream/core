@@ -16,6 +16,10 @@ export class Attribute {
         return this.properties[key]
     }
 
+    public get name(): string{
+        return this.getProperty("name")
+    }
+
     public getProperties(): {[key: string]: any}{
         return this.properties
     }

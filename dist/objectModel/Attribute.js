@@ -25,6 +25,13 @@ var Attribute = /** @class */ (function () {
     Attribute.prototype.getProperty = function (key) {
         return this.properties[key];
     };
+    Object.defineProperty(Attribute.prototype, "name", {
+        get: function () {
+            return this.getProperty("name");
+        },
+        enumerable: true,
+        configurable: true
+    });
     Attribute.prototype.getProperties = function () {
         return this.properties;
     };
