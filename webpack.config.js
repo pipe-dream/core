@@ -3,12 +3,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
-    entry: './src/standalone.js',
+    mode: "development",
+    devtool: "inline-source-map",
+    entry: "./src/standalone.ts",
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'pipe-dream.js',
-        library: 'PipeDreamCore',
+        library: 'PipeDream',
         libraryTarget: 'umd',
+    },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", ".vue"]
     },
     module: {
         rules: [
@@ -22,11 +27,8 @@ module.exports = {
             }, {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-            }, {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
             },
+            {test: /\.tsx?$/, loader: "ts-loader"}
         ]
     },
     plugins: [

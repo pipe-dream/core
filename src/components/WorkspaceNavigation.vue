@@ -10,7 +10,8 @@
 </template>
 
 <script>
-    export default {
+    import Vue from 'vue'
+    export default Vue.extend({
         data: function() {
             return {
                 availableTabs: ["Design", "Review", "Build"],
@@ -28,10 +29,10 @@
             styleButton(tab) {
                 let common = "py-4 w-full text-center flex-1 inline-block font-semibold cursor-pointer border-gray-400 "
                 let activeStyle = "bg-white border-l border-t border-r py-2 px-4 text-blue"
-                let passiveStyle = "py-2 px-4 hover:text-blue-800 bg-gray-100 text-gray-800"                
-            
+                let passiveStyle = "py-2 px-4 hover:text-blue-800 bg-gray-100 text-gray-800"
+
                 return this.activeTab == tab ? common + activeStyle : common + passiveStyle
             },
         }
-    }
+    })
 </script>

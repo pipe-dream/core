@@ -38,7 +38,7 @@
                 debounce(async () => {
                     let result = await this.$store.dispatch('save')
                     console.log(result)
-                }, this.$store.state.api.debounceTime)()                
+                }, this.$store.state.api.debounceTime)()
             })
 
 

@@ -1,7 +1,9 @@
-import SketchParser from '../objectModel/SketchParser'
-import ObjectModelCollection from '../objectModel/ObjectModelCollection'
-import ObjectModelEntityFactory from '../objectModel/ObjectModelEntityFactory'
+import {SketchParser} from '../objectModel/SketchParser'
+import {ObjectModelCollection} from '../objectModel/ObjectModelCollection'
+import {ObjectModelEntityFactory} from '../objectModel/ObjectModelEntityFactory'
+import {decycle} from "../utilities/decycle";
 import JSONDiff from '../utilities/JSONDiff'
+
 const mergeJSON = require('deepmerge')
 
 export default function(options) {
@@ -21,6 +23,7 @@ export default function(options) {
         },
 
         setSchema(context, schema) {
+            console.log(schema)
             context.commit('setSchema', schema)
             context.dispatch('compileFiles', schema)
             context.dispatch('setPreferences', schema)
@@ -85,7 +88,7 @@ export default function(options) {
         
         compileFiles: function(context, schema) {
             // Make deep copy of schema to detach any previous bindings
-            schema = JSON.parse(JSON.stringify(schema))
+            schema = JSON.parse(JSON.stringify(decycle(schema)))
             let allFiles = context.getters.deployedFileFactories.reduce((allFiles, fileFactory) => {
                 return [
                     ...allFiles,

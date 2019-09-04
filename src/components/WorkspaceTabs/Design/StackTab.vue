@@ -32,7 +32,7 @@
 </template>
 
 <script>
-    import core from '../../../PipeDream'
+    import {PipeDream} from '../../../PipeDream'
 
     export default {
         data() {
