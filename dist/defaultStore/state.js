@@ -36,21 +36,27 @@ function defaultKeyValuePairs(options) {
         //Keep track of active tabs in each section
         navigation: {
             workspace: "Design",
-            design: "stack",
+            design: "object model",
             template: "",
             review: "",
-        }, selectedFiles: {}, sketch: "", reviewFiles: [], builtFiles: [], schema: {}, 
-        // TODO: namepace and group the pipes per factory
-        availablePipes: options.fileFactories.reduce(function (all, fileFactory) {
+        }, selectedFiles: {}, sketch: "", reviewFiles: [], builtFiles: [], schema: {}, availablePipes: options.fileFactories.reduce(function (all, fileFactory) {
             return __spread(all, fileFactory.pipes());
         }, []), selectedPipes: options.fileFactories.reduce(function (all, fileFactory) {
             return __spread(all, fileFactory.pipes().map(function (pipe) { return pipe.name; }));
-        }, []), fileFactories: options.fileFactories, masterFileFactory: options.fileFactories[0], 
+        }, []), settings: options.fileFactories.reduce(function (allFileFactories, fileFactory) {
+            var _a;
+            return __assign(__assign({}, allFileFactories), (_a = {},
+                _a[fileFactory.title] = fileFactory.settings().reduce(function (allSettings, setting) {
+                    var _a;
+                    return __assign(__assign({}, allSettings), (_a = {}, _a[setting.name] = setting, _a));
+                }, {}),
+                _a));
+        }, {}), fileFactories: options.fileFactories, enabledFileFactories: [options.fileFactories[0].title], masterFileFactory: options.fileFactories[0], 
         // TODO: namepace and group the templates per factory
         templates: options.fileFactories.reduce(function (all, fileFactory) {
-            return __assign({}, all, fileFactory.templates());
+            return __assign(__assign({}, all), fileFactory.templates());
         }, {}), reverseHistory: true, preferences: options.fileFactories.reduce(function (all, fileFactory) {
-            return __assign({}, all, fileFactory.defaultPreferences());
+            return __assign(__assign({}, all), fileFactory.defaultPreferences());
         }, {}) }, options);
 }
 function keyValuePairsFromSavedWorkbenchData(options) {
@@ -75,7 +81,7 @@ function keyValuePairsFromSavedWorkbenchData(options) {
     return result;
 }
 function default_1(options) {
-    return __assign({}, defaultKeyValuePairs(options), keyValuePairsFromSavedWorkbenchData(options));
+    return __assign(__assign({}, defaultKeyValuePairs(options)), keyValuePairsFromSavedWorkbenchData(options));
 }
 exports.default = default_1;
 //# sourceMappingURL=state.js.map

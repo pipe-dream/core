@@ -1,6 +1,6 @@
 {
   "name": "@pipe-dream/core",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "Pipe Dream core functionality used by other repos",
   "main": "dist/index.js",
   "repository": "github.com:pipe-dream/core",

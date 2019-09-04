@@ -3,7 +3,7 @@ function defaultKeyValuePairs(options) {
         //Keep track of active tabs in each section
         navigation: {
             workspace: "Design",
-            design: "stack",
+            design: "object model",
             template: "",
             review: "",
         },
@@ -18,7 +18,6 @@ function defaultKeyValuePairs(options) {
 
         schema: {},
 
-        // TODO: namepace and group the pipes per factory
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
                 ...all,
@@ -31,10 +30,25 @@ function defaultKeyValuePairs(options) {
                 ...all,
                 ...fileFactory.pipes().map(pipe => pipe.name)
             ]
-        }, []),        
+        }, []),
+        
+        settings: options.fileFactories.reduce((allFileFactories, fileFactory) => {
+            return {
+                ...allFileFactories,
+                ...{
+                    [fileFactory.title]: fileFactory.settings().reduce((allSettings, setting) => {
+                        return {
+                            ...allSettings,
+                            [setting.name]: setting
+                        }
+                    }, {}), 
+                }
+            }
+        }, {}),          
 
 
         fileFactories: options.fileFactories,
+        enabledFileFactories: [options.fileFactories[0].title],
         masterFileFactory: options.fileFactories[0],
         // TODO: namepace and group the templates per factory
         templates: options.fileFactories.reduce((all, fileFactory) => {
