@@ -11,7 +11,7 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    export default Vue.extend({
+    export default {
         props: ['availableTabs', 'namespace'],
 
         computed: {
@@ -42,5 +42,5 @@
                 return this.activeTab == tab ? common + activeStyle : common + passiveStyle
             },
         }
-    })
+    }
 </script>
