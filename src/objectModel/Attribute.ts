@@ -1,18 +1,18 @@
 export class Attribute {
 
-    public properties: { [key: string]: any } = {}
+    public properties: { [key: string]: Primitive } = {}
 
-    constructor(properties: {[key: string]: any}) {
+    constructor(properties: {[key: string]: Primitive}) {
         Object.keys(properties).map((key) => {
             this.setProperty(key, properties[key])
         })
     }
 
-    private setProperty(key: string, value: any): void {
+    private setProperty(key: string, value: Primitive): void {
         this.properties[key] = value
     }
 
-    public getProperty(key: string): any {
+    public getProperty(key: string): Primitive {
         return this.properties[key]
     }
 
@@ -20,7 +20,7 @@ export class Attribute {
         return this.getProperty("name")
     }
 
-    public getProperties(): {[key: string]: any}{
+    public getProperties(): {[key: string]: Primitive}{
         return this.properties
     }
 
