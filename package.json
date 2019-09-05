@@ -23,7 +23,9 @@
     "webpack-cli": "^3.3.6"
   },
   "scripts": {
-    "build": "tsc && webpack --mode production",
+    "build": "./node_modules/typescript/bin/tsc && ./node_modules/webpack-cli/bin/cli.js --mode production",
+    "ts-watch": "./node_modules/.bin/tsc -p /Users/anders/Code/pipe-dream/core/tsconfig.json --watch",
+    "webpack-watch": "./node_modules/webpack-cli/bin/cli.js --watch",
     "test": "cross-env NODE_ENV=test jest",
     "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
