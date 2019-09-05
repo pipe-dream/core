@@ -45,7 +45,7 @@ export class ObjectModelEntity {
     }
 
     attributeNames(): Array<any> {
-        return this.attributes.map(attribute => attribute.name)
+        return this.attributes.map(attribute => attribute.properties.name)
     }
 
     optionalColumns(columns) {
