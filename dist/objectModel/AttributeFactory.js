@@ -25,7 +25,7 @@ var AttributeFactory = /** @class */ (function () {
     AttributeFactory.make = function (name, parent, allSegments) {
         if (allSegments === void 0) { allSegments = []; }
         var factory = new this(name, parent, allSegments);
-        return new Attribute_1.Attribute(__assign(__assign(__assign(__assign(__assign(__assign(__assign(__assign({ name: factory.name, parent: factory.parent }, factory.property("cast")), factory.property("dataType")), factory.property("fillable")), factory.property("hidden")), factory.property("index")), factory.property("nullable")), factory.property("unique")), factory.property("foreign")));
+        return new Attribute_1.Attribute(__assign({ name: factory.name, parent: factory.parent }, factory.property("cast"), factory.property("dataType"), factory.property("fillable"), factory.property("hidden"), factory.property("index"), factory.property("nullable"), factory.property("unique"), factory.property("foreign")));
     };
     /* If there is a preference available use that, else refer to dedicated get method */
     AttributeFactory.prototype.property = function (key) {
