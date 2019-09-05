@@ -39,7 +39,7 @@ var Attribute = /** @class */ (function () {
         var _this = this;
         return Object.keys(this.getProperties()).filter(function (key) { return key != "parent"; }).reduce(function (result, key) {
             var _a;
-            return __assign(__assign({}, result), (_a = {}, _a[key] = _this.getProperty(key), _a));
+            return __assign({}, result, (_a = {}, _a[key] = _this.getProperty(key), _a));
         }, {});
     };
     return Attribute;

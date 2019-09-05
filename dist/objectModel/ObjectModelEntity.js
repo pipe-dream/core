@@ -54,7 +54,7 @@ var ObjectModelEntity = /** @class */ (function () {
         var entity = new this();
         entity.name = data.name;
         entity.attributes = Object.keys(data.attributes).map(function (key) {
-            return new Attribute_1.Attribute(__assign(__assign({}, data.attributes[key]), { parent: entity }));
+            return new Attribute_1.Attribute(__assign({}, data.attributes[key], { parent: entity }));
         });
         entity.relationships = data.relationships;
         return entity;
@@ -97,7 +97,7 @@ var ObjectModelEntity = /** @class */ (function () {
             type: this.constructor.name,
             //attributes: this.attributes.map(attribute => attribute.serialize()),
             attributes: this.attributes.reduce(function (carry, attribute) {
-                carry[attribute.properties.name] = attribute.serialize();
+                carry[attribute.name] = attribute.serialize();
                 return carry;
             }, {}),
             relationships: {

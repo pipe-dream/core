@@ -2,12 +2,13 @@ import {Formatter} from "../utilities/Formatter";
 import {Attribute} from './Attribute';
 import {AttributeFactory} from './AttributeFactory';
 import Preference from '../utilities/Preference'
+import {Segment} from "./Segment";
 
 export class ObjectModelEntity {
     public relationships: { [key: string]: Array<ObjectModelEntity> } = {}
     public name: string;
     public type: string;
-    public allSegments: Array<any>
+    public allSegments: Array<Segment>
     public attributes: Array<Attribute>
 
     constructor() {
@@ -15,7 +16,7 @@ export class ObjectModelEntity {
         this.relationships = {}
     }
 
-    public static fromSegment(segment: { name: string, attributes: Array<any> }, allSegments): ObjectModelEntity {
+    public static fromSegment(segment: { name: string, attributes: Array<string> }, allSegments): ObjectModelEntity {
         let entity = new this()
         entity.name = segment.name
         entity.allSegments = allSegments
@@ -31,7 +32,7 @@ export class ObjectModelEntity {
         return entity
     }
 
-    static deserialize(data: { name: string, attributes: Array<any>, relationships: {} }): ObjectModelEntity {
+    static deserialize(data: { name: string, attributes: Array<string>, relationships: {} }): ObjectModelEntity {
         let entity = new this()
         entity.name = data.name
         entity.attributes = Object.keys(data.attributes).map(key => {
@@ -44,11 +45,11 @@ export class ObjectModelEntity {
         return entity
     }
 
-    attributeNames(): Array<any> {
+    attributeNames(): Array<string> {
         return this.attributes.map(attribute => attribute.name)
     }
 
-    optionalColumns(columns) {
+    optionalColumns(columns): Array<string>{
         return columns.filter(column => {
             let path = ['objectModel', this.name, column]
             // Check if it is excluded in preferences
@@ -56,8 +57,7 @@ export class ObjectModelEntity {
         })
     }
 
-    injectAttributes(attributeNames) {
-
+    injectAttributes(attributeNames): void {
         this.attributes = this.attributes.concat(
             attributeNames.map(attributeName => {
                 return AttributeFactory.make(attributeName, this, this.allSegments)
@@ -65,33 +65,33 @@ export class ObjectModelEntity {
         )
     }
 
-    className() {
+    className(): string {
         return this.name
     }
 
-    isUserEntity() {
+    isUserEntity(): boolean {
         return this.constructor.name == "UserEntity"
     }
 
-    isModelEntity() {
+    isModelEntity(): boolean {
         return this.constructor.name == "ModelEntity"
     }
 
-    isTableEntity() {
+    isTableEntity(): boolean {
         return this.constructor.name == "TableEntity"
     }
 
-    asForeignKey() {
+    asForeignKey(): string {
         return Formatter.snakeCase(this.name) + "_id";
     }
 
-    serialize() {
+    serialize(): object {
         const serialize_results = {
             name: this.name,
             type: this.constructor.name,
             //attributes: this.attributes.map(attribute => attribute.serialize()),
             attributes: this.attributes.reduce((carry, attribute) => {
-                carry[attribute.properties.name] = attribute.serialize()
+                carry[attribute.name] = attribute.serialize()
                 return carry
             }, {}),
             relationships: {

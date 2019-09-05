@@ -3,6 +3,8 @@ import {ObjectModelEntityFactory} from './ObjectModelEntityFactory'
 import collect from 'collect.js'
 import * as _ from 'lodash'
 import {ObjectModelEntity} from "./ObjectModelEntity";
+import {ModelEntity} from "./entities/ModelEntity";
+import {TableEntity} from "./entities/TableEntity";
 
 
 export class ObjectModelCollection {
@@ -28,7 +30,7 @@ export class ObjectModelCollection {
     }
 
     // TODO: Implement model type
-    static getModelRegexString(models: Array<any /*Model*/>): string {
+    static getModelRegexString(models: Array<ModelEntity>): string {
         return models.map(item => Formatter.snakeCase(item.name).toLowerCase()).join("|")
     }
 
@@ -54,32 +56,32 @@ export class ObjectModelCollection {
         return this.modelsIncludingUser().length > 0
     }
 
-    userModel(): any/*Model*/ {
+    userModel(): ModelEntity {
         //@ts-ignore
         return this.userModels().first()
     }
 
-    userModels(): Array<any/*Model*/> {
+    userModels(): Array<ModelEntity> {
         return this.entities.filter(entity => entity.isUserEntity())
     }
 
-    models(): Array<any/*Model*/> {
+    models(): Array<ModelEntity> {
         return this.entities.filter(entity => entity.isModelEntity())
     }
 
-    tablesOnly(): Array<any/*Table*/> {
+    tablesOnly(): Array<TableEntity> {
         return this.entities.filter(entity => entity.name === entity.name.toLowerCase())
     }
 
-    manyToManys(): Array<any/*Table*/> {
+    manyToManys(): Array<TableEntity> {
         return this.tablesOnly().filter(entity => this.isManyToMany(entity))
     }
 
-    modelsIncludingUser(): Array<any/*Model*/> {
+    modelsIncludingUser(): Array<ModelEntity> {
         return this.models().concat(this.userModels())
     }
 
-    modelsExceptUser(): Array<any/*Model*/> {
+    modelsExceptUser(): Array<ModelEntity> {
         return this.models().filter(model => !model.isUserEntity())
     }
 
@@ -140,7 +142,7 @@ export class ObjectModelCollection {
         return sortedEntities.concat(manyToMany)
     }
 
-    serializeSchema(): any {
+    serializeSchema(): object {
         return this.entities.map(entity => entity.serialize())
         return this.entities.reduce((carry, entity) => {
             carry[entity.name] = entity.serialize()

@@ -2,20 +2,21 @@ import {Attribute} from './Attribute'
 import Preference from '../utilities/Preference'
 import {Formatter} from '../utilities/Formatter'
 import getDataType from './attributePropertyResolvers/getDataType'
+import {Segment} from "./Segment";
 
 export class AttributeFactory {
 
     public name: string;
     public parent: any;
-    public allSegments: Array<any>
+    public allSegments: Array<Segment>
 
-    constructor(name: string, parent: any, allSegments: Array<any> = []) {
+    constructor(name: string, parent: any, allSegments: Array<Segment> = []) {
         this.name = name
         this.parent = parent
         this.allSegments = allSegments
     }
 
-    static make(name: string, parent: any, allSegments: Array<any> = []): Attribute {
+    static make(name: string, parent: any, allSegments: Array<Segment> = []): Attribute {
         let factory = new this(name, parent, allSegments)
 
         return new Attribute(
