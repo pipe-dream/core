@@ -91,7 +91,10 @@ function default_1(options) {
             context.dispatch('setPreferences', schema);
         },
         setPreferences: function (context, schema) {
-            context.commit('setPreferences', mergeJSON(context.state.preferences, schema));
+            context.commit('setPreferences', mergeJSON(context.state.preferences, schema.reduce(function (carry, entity) {
+                carry[entity.name] = entity;
+                return carry;
+            }, {}), { arrayMerge: function (destinationArray, sourceArray, options) { return sourceArray; } }));
         },
         setSetting: function (context, data) {
             context.commit('setSetting', data);

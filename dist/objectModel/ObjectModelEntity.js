@@ -60,7 +60,7 @@ var ObjectModelEntity = /** @class */ (function () {
         return entity;
     };
     ObjectModelEntity.prototype.attributeNames = function () {
-        return this.attributes.map(function (attribute) { return attribute.name; });
+        return this.attributes.map(function (attribute) { return attribute.properties.name; });
     };
     ObjectModelEntity.prototype.optionalColumns = function (columns) {
         var _this = this;
