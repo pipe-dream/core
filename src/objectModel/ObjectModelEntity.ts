@@ -91,7 +91,7 @@ export class ObjectModelEntity {
             type: this.constructor.name,
             //attributes: this.attributes.map(attribute => attribute.serialize()),
             attributes: this.attributes.reduce((carry, attribute) => {
-                carry[attribute.name] = attribute.serialize()
+                carry[attribute.properties.name] = attribute.serialize()
                 return carry
             }, {}),
             relationships: {
