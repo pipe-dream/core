@@ -4,7 +4,7 @@ import * as Vuex from 'vuex'
 //@ts-ignore
 import WorkspaceNavigation from '../../src/components/WorkspaceNavigation.vue';
 import {PipeDream} from '../../src';
-import {cloneDeep} from 'lodash';
+//import {cloneDeep} from 'lodash';
 
 describe('WorkspaceNavigation component', () => {
 
