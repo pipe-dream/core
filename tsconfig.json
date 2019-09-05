@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
-    "sourceMap": true,
+    "target": "es6",
+    "sourceMap": false,
     "downlevelIteration": true,
     "lib": ["es2015", "dom"],
     "strict": false,
     "declaration": false,
-    "outDir": "dist",
+    "outDir": "./dist/",
     "allowJs": true
   },
   "include": ["src/**/*.ts", "src/**/*.js"],

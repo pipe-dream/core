@@ -5,7 +5,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: "development",
-    devtool: "inline-source-map",
     entry: "./src/standalone.ts",
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -41,7 +40,7 @@ module.exports = {
             {
                 from: './src/**/*.vue',
                 to: './',
-                transformPath(targetPath) {                    
+                transformPath(targetPath) {
                     return targetPath.replace(/src\//g,'');;
                   },
             },
