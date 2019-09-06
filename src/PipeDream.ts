@@ -4,7 +4,7 @@ const mergeJSON = require('deepmerge')
 export class PipeDream {
     public options: any;
 
-    constructor(options) {
+    constructor(options = {}) {
         this.options = mergeJSON(PipeDream.defaultOptions(), options)
     }
 

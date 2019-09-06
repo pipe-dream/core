@@ -1,7 +1,7 @@
 <template>
     <ul class="flex border-b px-24 mb-0">
         <li :class="styleButtonContainer(tab)" v-for="tab in availableTabs" :key="tab">
-            <a 
+            <a
                 :class="styleButton(tab)"
                 @click="activeTab = tab; $store.dispatch('navigate', {namespace, tab})"
             >{{ tab }}</a>
@@ -9,8 +9,7 @@
     </ul>
 </template>
 
-<script lang="ts">
-    import Vue from 'vue'
+<script>
     export default {
         props: ['availableTabs', 'namespace'],
 

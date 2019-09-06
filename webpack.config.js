@@ -4,13 +4,13 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    mode: "production",
-    entry: "./src/standalone.ts",
+    mode: "development",
+    entry: "./src/index.ts",
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'pipe-dream.js',
         library: 'PipeDream',
-        libraryTarget: 'commonjs',
+        libraryTarget: 'commonjs2',
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".vue"]
