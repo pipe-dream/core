@@ -32,7 +32,11 @@ export default function(options) {
             context.commit('setPreferences',
                 mergeJSON(
                     context.state.preferences,
-                    schema
+                    schema.reduce((carry, entity) => {
+                        carry[entity.name] = entity
+                        return carry
+                    }, {}),
+                    { arrayMerge: (destinationArray, sourceArray, options) => sourceArray }
                 )
             )            
         },
