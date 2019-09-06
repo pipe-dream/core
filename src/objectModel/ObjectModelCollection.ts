@@ -14,7 +14,6 @@ export class ObjectModelCollection {
     public regexes: { [key: string]: (() => RegExp) }
 
     constructor(entities: Array<ObjectModelEntity> = []) {
-        console.log("test")
         this.entities = entities;
         this.regexes = {
             manyToMany: () => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$")
