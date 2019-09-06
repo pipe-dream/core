@@ -17,7 +17,7 @@ export class Attribute {
     }
 
     public get name(): string{
-        return this.getProperty("name")
+        return <string>this.getProperty("name")
     }
 
     public getProperties(): {[key: string]: Primitive}{

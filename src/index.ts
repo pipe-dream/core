@@ -1,3 +1,5 @@
+import './css/app.css';
+
 export const PipeDreamVueTools = {
     install: function (Vue: any, options: any) {
         /* Register all vue components */

@@ -5,13 +5,12 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: "development",
-    devtool: "inline-source-map",
-    entry: "./src/standalone.ts",
+    entry: "./src/index.ts",
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'pipe-dream.js',
         library: 'PipeDream',
-        libraryTarget: 'umd',
+        libraryTarget: 'commonjs2',
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".vue"]
@@ -41,7 +40,7 @@ module.exports = {
             {
                 from: './src/**/*.vue',
                 to: './',
-                transformPath(targetPath) {                    
+                transformPath(targetPath) {
                     return targetPath.replace(/src\//g,'');;
                   },
             },
