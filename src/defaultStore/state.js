@@ -16,7 +16,7 @@ function defaultKeyValuePairs(options) {
 
         builtFiles: [],        
 
-        schema: {},
+        schema: [],
 
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [

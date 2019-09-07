@@ -130,10 +130,6 @@ export default function(options) {
         },
 
         save: async function (context) {
-            
-            // // Added some useful stuff for later
-            // var hash = require('object-hash');
-            // JSONDiff(old, new)
 
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',
@@ -143,11 +139,9 @@ export default function(options) {
                     'Authorization': 'Bearer ' + options.api.token,
                 },
                 body: JSON.stringify({
-                    // todo: send only changed keys that needs to be updated at server
                     workbench_data: {
                         ...context.state
                     }
-                    
                 })
             });
 

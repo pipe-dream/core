@@ -1,33 +1,12 @@
-import {Attribute} from '../objectModel/Attribute'
-import {AttributeFactory} from '../objectModel/AttributeFactory'
-import {ObjectModelCollection} from '../objectModel/ObjectModelCollection'
-import {ObjectModelEntity} from '../objectModel/ObjectModelEntity'
-import {ObjectModelEntityFactory} from '../objectModel/ObjectModelEntityFactory'
-import {Segment} from '../objectModel/Segment'
-import {SegmentRow} from '../objectModel/SegmentRow'
-import {SketchParser} from '../objectModel/SketchParser'
-
-const mergeJSON = require('deepmerge')
-
-function customizeModules(overriddenModules) {
-    let defaultModules = {            
-        Attribute,
-        AttributeFactory,
-        ObjectModelCollection,
-        ObjectModelEntity,
-        ObjectModelEntityFactory,
-        Segment,
-        SegmentRow,
-        SketchParser
-    }
-
-    return mergeJSON(defaultModules, overriddenModules)
-}
-
 export default function(options) {
     return {
         templates: state => state.templates,
         preferences: state => state.preferences,
+        // Get only active preferences ie the entities in the schema
+        strippedPreferences: state => state.schema.reduce((carry, entity) => {
+            carry[entity.name] = entity
+            return carry
+        }, {}),
         sketch: state => state.sketch,
         masterFileFactory: state => state.masterFileFactory,
         settings: state => state.settings,
@@ -48,14 +27,5 @@ export default function(options) {
                 ]
             }, [])          
         },
-        
-        /* experimental */
-        modules: state => {               
-            return customizeModules(
-                state.masterFileFactory.overriddenModules ?
-                state.masterFileFactory.overriddenModules() :
-                {}
-            )
-        }
     }
 }
