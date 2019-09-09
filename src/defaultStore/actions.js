@@ -144,7 +144,11 @@ export default function(options) {
                         ...context.state,
                         ...{
                             // Dont send preference history to server, strip it first
-                            preferences: context.getters.strippedPreferences
+                            preferences: context.getters.strippedPreferences,
+                            // Dont send api details here
+                            api: null,
+                            // Never send recursive data
+                            workbench_data: null,
                         }
                     }
                 })
