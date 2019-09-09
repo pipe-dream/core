@@ -140,7 +140,12 @@ export default function(options) {
                 },
                 body: JSON.stringify({
                     workbench_data: {
-                        ...context.state
+                        // Default send everything as is in store
+                        ...context.state,
+                        ...{
+                            // Dont send preference history to server, strip it first
+                            preferences: context.getters.strippedPreferences
+                        }
                     }
                 })
             });

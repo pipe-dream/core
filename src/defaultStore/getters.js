@@ -6,7 +6,7 @@ export default function(options) {
         strippedPreferences: state => state.schema.reduce((carry, entity) => {
             carry[entity.name] = entity
             return carry
-        }, {}),
+        }, {}),        
         sketch: state => state.sketch,
         masterFileFactory: state => state.masterFileFactory,
         settings: state => state.settings,
