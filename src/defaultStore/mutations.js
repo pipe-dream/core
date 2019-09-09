@@ -24,7 +24,16 @@ export default function(options) {
                 .forEach(file => {
                     state.selectedFiles[file.path] = true
             })
-            
+
+            // remove old timestamps
+            let cleaned = {}
+            Object.keys(state.selectedFiles).forEach(key => {
+                if(state.reviewFiles.map(file => file.path).includes(key)) {
+                    cleaned[key] = state.selectedFiles[key]
+                }
+            })
+
+            state.selectedFiles = cleaned            
         },
 
         setReviewFile(state, file) {
