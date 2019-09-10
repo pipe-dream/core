@@ -1,4 +1,4 @@
-import {PipeDreamVueTools} from "../src";
+import {PipeDreamVueTools} from "../dist/pipe-dream.js";
 import Vue from 'vue'
 describe("index.ts", () => {
     describe("PipeDream Vue Tools", () => {
