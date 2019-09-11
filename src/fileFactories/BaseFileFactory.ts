@@ -1,6 +1,7 @@
 import collect from 'collect.js'
 import {SketchButton} from "../utilities/SketchButton";
 import {file} from "@babel/types";
+import {ObjectModelCollection} from "../objectModel/ObjectModelCollection";
 
 export class BaseFileFactory {
     public omc: any;
@@ -8,10 +9,6 @@ export class BaseFileFactory {
 
     constructor(objectModelCollection: any) {
         this.omc = objectModelCollection
-    }
-
-    static get title(): string {
-        return "Not named yet!"
     }
 
     // TODO: Template type
@@ -37,8 +34,7 @@ export class BaseFileFactory {
         return {};
     }
 
-    // TODO: ObjectModelCollection type
-    static from(objectModelCollection: any): BaseFileFactory {
+    static from(objectModelCollection: ObjectModelCollection): BaseFileFactory {
         return new this(objectModelCollection)
     }
 

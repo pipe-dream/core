@@ -1,5 +1,5 @@
 import './css/app.css';
-
+require('./utilities/extendArray.js')
 export const PipeDreamVueTools = {
     install: function (Vue: any, options: any) {
         /* Register all vue components */
@@ -19,6 +19,9 @@ export const Globals = {
         return this.___SINGLE_LINE_BREAK___.repeat(2)
     }
 }
+
+
+
 export const PipeDream = require("./PipeDream").PipeDream;
 export const defaultStore = require("./defaultStore");
 export const Template = require("./utilities/Template").Template;
