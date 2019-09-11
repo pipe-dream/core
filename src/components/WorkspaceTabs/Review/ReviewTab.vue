@@ -46,16 +46,16 @@
             let files = this.$store.state.reviewFiles
             let factories = Array.from(new Set(files.map(f => f.factory)))
             let grouped = {}
-            factories.forEach(factory => {
-                grouped[factory] = {open: false, pipes: {}}
-                files.forEach(file => {
-                    if (!grouped[factory]["pipes"][file.pipe])
-                        grouped[factory]["pipes"][file.pipe] = {open: false, files: []}
-                    grouped[factory]["pipes"][file.pipe]["files"].push(file)
-                })
+
+            files.forEach(file => {
+                if(!grouped[file.factory])
+                    grouped[file.factory] = {open: false, pipes: {}}
+                if(!grouped[file.factory].pipes[file.pipe])
+                    grouped[file.factory].pipes[file.pipe] = {open: false, files: []}
+                grouped[file.factory].pipes[file.pipe].files.push(file)
             })
 
-            this.groupedFiles = grouped
+            return this.groupedFiles = grouped
         },
         data() {
             return {
