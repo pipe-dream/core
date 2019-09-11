@@ -1,5 +1,6 @@
 import collect from 'collect.js'
 import {SketchButton} from "../utilities/SketchButton";
+import {file} from "@babel/types";
 
 export class BaseFileFactory {
     public omc: any;
@@ -32,7 +33,7 @@ export class BaseFileFactory {
     }
 
     // TODO: Preference interface?
-    static defaultPreferences(): {[key: string]: any} {
+    static defaultPreferences(): { [key: string]: any } {
         return {};
     }
 
@@ -49,7 +50,12 @@ export class BaseFileFactory {
     // TODO: Make this prettier
     calculateFiles(): Array<string> {
         return collect(this.pipes.map(pipe => {
-            return pipe.with(this.omc).calculateFiles(this.omc)
+            let files = pipe.with(this.omc).calculateFiles(this.omc)
+            files.forEach(file => {
+                file.pipe = pipe.name
+                file.factory = this.constructor.name
+            })
+            return files
         }).reduce((pipeFileList, allFiles) => {
             return allFiles.concat(pipeFileList)
         }, [])).sortBy('path').toArray();
