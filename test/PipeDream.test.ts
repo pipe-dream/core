@@ -1,4 +1,4 @@
-import {PipeDream} from '../dist/pipe-dream.js';
+import {PipeDream} from '../src/PipeDream';
 
 describe("PipeDream", () => {
 
