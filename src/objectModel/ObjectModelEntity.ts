@@ -10,13 +10,14 @@ export class ObjectModelEntity {
     public type: string;
     public allSegments: Array<Segment>
     public attributes: Array<Attribute>
+    public softdeletes: Boolean
 
     constructor() {
         this.type = this.constructor.name
         this.relationships = {}
     }
 
-    public static fromSegment(segment: { name: string, attributes: Array<string> }, allSegments): ObjectModelEntity {
+    public static fromSegment(segment: { name: string, attributes: Array<string>, softdeletes: Boolean }, allSegments): ObjectModelEntity {
         let entity = new this()
         entity.name = segment.name
         entity.allSegments = allSegments
@@ -29,10 +30,11 @@ export class ObjectModelEntity {
             ])
         ]
         entity.attributes = attributeRows.map(name => AttributeFactory.make(name, entity, allSegments))
+        entity.softdeletes = segment.softdeletes
         return entity
     }
 
-    static deserialize(data: { name: string, attributes: Array<string>, relationships: {} }): ObjectModelEntity {
+    static deserialize(data: { name: string, attributes: Array<string>, relationships: {}, softdeletes: Boolean }): ObjectModelEntity {
         let entity = new this()
         entity.name = data.name
         entity.attributes = Object.keys(data.attributes).map(key => {
@@ -42,6 +44,7 @@ export class ObjectModelEntity {
             })
         })
         entity.relationships = data.relationships
+        entity.softdeletes = data.softdeletes
         return entity
     }
 
@@ -99,7 +102,8 @@ export class ObjectModelEntity {
                 hasMany: this.relationships.hasMany.map(target => target.name),
                 belongsTo: this.relationships.belongsTo.map(target => target.name),
                 belongsToMany: this.relationships.belongsToMany.map(target => target.name)
-            }
+            },
+            softdeletes: this.softdeletes
         }
 
         return serialize_results;
