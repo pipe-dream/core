@@ -129,7 +129,28 @@ export default function(options) {
             return await rawResponse.json();
         },
 
-        save: async function (context) {
+        save(context) {
+            localStorage.setItem("pipedream_data",
+                JSON.stringify({
+                    workbench_data: {
+                        // Default send everything as is in store
+                        ...context.state,
+                        ...{
+                            // Dont send preference history to server, strip it first
+                            preferences: context.getters.strippedPreferences,
+                            // Dont send api details here
+                            api: null,
+                            // Never send recursive data
+                            workbench_data: null,
+                        }
+                    }
+                })            
+            );
+
+            return ["Saved data in localstorage"];
+        },
+
+        saveWithAPI: async function (context) {
 
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
                 method: 'PATCH',

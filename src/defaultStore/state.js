@@ -69,6 +69,31 @@ function defaultKeyValuePairs(options) {
     }
 }
 
+function keyValuePairsFromSavedWorkbenchDataLocalStorage(options) {    
+    let pipedreamData = localStorage.getItem("pipedream_data")
+    pipedreamData = JSON.parse(pipedreamData)
+    if (pipedreamData == null) return {};
+    let result = Object.keys(pipedreamData.workbench_data).filter((key) => {
+        return (
+            typeof pipedreamData.workbench_data !== 'undefined' &&
+            typeof pipedreamData.workbench_data[key] !== 'undefined' &&
+            pipedreamData.workbench_data[key] !== null
+        )
+    }).filter(key => {
+        // exclude complex things for now
+        return ![
+            "availablePipes",
+            "fileFactories",
+            "preferences",
+            "masterFileFactory",
+        ].includes(key)
+    }).reduce((toBeMerged, key) => {
+        return { [key]: pipedreamData.workbench_data[key], ...toBeMerged }
+    }, {})
+    console.log('local-storage', result)
+    return result    
+}
+
 function keyValuePairsFromSavedWorkbenchData(options) {
     if (options.workbench_data == null) return {};
     let result = Object.keys(options.workbench_data).filter((key) => {
@@ -88,13 +113,14 @@ function keyValuePairsFromSavedWorkbenchData(options) {
     }).reduce((toBeMerged, key) => {
         return { [key]: options.workbench_data[key], ...toBeMerged }
     }, {})
-    
+    console.log('regular', result)
     return result
 }
 
 export default function(options) {
     return {
         ...defaultKeyValuePairs(options),
-        ...keyValuePairsFromSavedWorkbenchData(options)
+        ...keyValuePairsFromSavedWorkbenchData(options),
+        ...keyValuePairsFromSavedWorkbenchDataLocalStorage(options),
     }
 }
