@@ -24,4 +24,14 @@ describe("Segment", () => {
             new Segment(segment.MODEL_WITH_ONE_ATTRIBUTE).attributes.length
         ).toBe(1)
     });
+
+    test('a segment with arguments and parameters can be successfully initialized', () => {
+        let model = new Segment(segment.MODEL_WITH_ONE_ATTRIBUTE_AND_ARGUMENTS);
+        expect(model.args.length).toBe(3)
+        expect(model.args[0].key).toBe("defaultSpeed")
+        expect(typeof model.args[0].value).toBe("number")
+        expect(model.args[0].value).toBe(50)
+        expect(model.args[1].value).toStrictEqual(["green", "yellow", "red", "black", "white"])
+        expect(model.args[2].value).toBe(true)
+    })
 });

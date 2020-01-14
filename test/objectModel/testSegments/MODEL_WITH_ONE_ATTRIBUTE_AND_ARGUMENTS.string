@@ -1,2 +1,2 @@
-Car : App\Models\Veichles
-max_speed : unsigned, integer
+Car > defaultSpeed: 50, colors : green:yellow :red:     black   :white,fast
+max_speed
