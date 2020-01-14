@@ -13,7 +13,7 @@ describe('WorkspaceNavigation component', () => {
         expect(true).toBeTruthy();
     })
 
-    /*
+
     const appCtx = new PipeDream({
         fileFactories: [],
     });
@@ -38,7 +38,7 @@ describe('WorkspaceNavigation component', () => {
         expect(vm.$data.availableTabs)
             .toEqual(['Design', 'Review', 'Build']);
 
-        expect(wrapper.findAll('div').length)
+        expect(wrapper.findAll('a').length)
             .toBe(3);
     });
 
@@ -48,7 +48,7 @@ describe('WorkspaceNavigation component', () => {
     });
 
     test('can navigate between tabs', () => {
-        const tabMenu = wrapper.findAll('div');
+        const tabMenu = wrapper.findAll('a');
 
         tabMenu.at(2)
             .trigger('click');
@@ -64,21 +64,40 @@ describe('WorkspaceNavigation component', () => {
         expect(store.state.navigation['workspace'])
             .toBe('Review');
     });
-    
+
     test('will style button container differently for active tab', () => {
         expect(vm.styleButtonContainer('Design'))
-            .toBe('flex-1 -mb-px mr-1');
+            .toContain('flex-1 -mb-px mr-1');
 
         expect(vm.styleButtonContainer('Review'))
-            .toBe('flex-1 mr-1');
+            .toContain('flex-1 mr-1');
     });
 
     test('will style tab differently for active tab', () => {
-        expect(vm.styleButton('Design'))
-            .toBe('py-4 w-full text-center flex-1 inline-block font-semibold cursor-pointer bg-white border-l border-t border-r py-2 px-4 text-blue');
+        // Only classes that are not for cosmetics
+        let mandatoryClasses = [
+            'py-2',
+            'w-full',
+            'text-center',
+            'flex-1',
+            'inline-block',
+            'px-4'
+        ]
+        let hits = mandatoryClasses.filter(x => vm.styleButton('Design').indexOf(x)>1).length
+        expect(hits).toBe(mandatoryClasses.length)
 
-        expect(vm.styleButton('Review'))
-            .toBe('py-4 w-full text-center flex-1 inline-block font-semibold cursor-pointer py-2 px-4 hover:text-blue-800 bg-gray-100 text-gray-800');
+        // Only classes that are not for cosmetics
+        mandatoryClasses = [
+            'py-2',
+            'w-full',
+            'text-center',
+            'flex-1',
+            'inline-block',
+            'px-4',
+            'hover:'
+        ]
+        hits = mandatoryClasses.filter(x => vm.styleButton('Review').indexOf(x)>1).length
+        expect(hits).toBe(mandatoryClasses.length);
     });
-    */
+
 });
