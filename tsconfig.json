@@ -4,7 +4,7 @@
     "target": "es5",
     "sourceMap": false,
     "downlevelIteration": true,
-    "lib": ["es2015", "dom"],
+    "lib": ["es2015", "dom", "es6"],
     "strict": false,
     "declaration": false,
     "outDir": "./dist/",
