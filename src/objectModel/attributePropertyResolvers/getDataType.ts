@@ -55,20 +55,14 @@ class DataTypeResolver {
         return name in [] ? [][name] : false;/*__GITHUB_DUMP__ ? __GITHUB_DUMP__[name] : false*/
     }
 
-    public static rules(): {[key: string]: ((string) => string)} {
+    public static rules(): { [key: string]: ((string) => string) } {
         return {
             // One to Many explicit
-            "_id$": function (name) {
-                return "unsignedBigInteger"
-            },
-            // Time columns
-            "(time|date|_at)$": function (name) {
-                return "timestamp";
-            },
+            "_id$": () => "unsignedBigInteger",
             // Boolean
-            "^(has_|is_|got_)": function (name) {
-                return "boolean";
-            },
+            "^(has|is|got)[A-Z_]": () => "boolean",
+            // Time columns
+            "(time|date|_at)$": () => "timestamp",
         };
     }
 }

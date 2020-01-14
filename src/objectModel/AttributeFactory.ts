@@ -3,20 +3,23 @@ import Preference from '../utilities/Preference'
 import {Formatter} from '../utilities/Formatter'
 import getDataType from './attributePropertyResolvers/getDataType'
 import {Segment} from "./Segment";
+import {RowArguments} from "../../typings";
+import {ObjectModelEntity} from "./ObjectModelEntity";
 
 export class AttributeFactory {
 
     public name: string;
-    public parent: any;
+    public parent: ObjectModelEntity;
     public allSegments: Array<Segment>
+    public args: RowArguments
 
-    constructor(name: string, parent: any, allSegments: Array<Segment> = []) {
+    constructor(name: string, parent: ObjectModelEntity, allSegments: Segment[] = []) {
         this.name = name
         this.parent = parent
         this.allSegments = allSegments
     }
 
-    static make(name: string, parent: any, allSegments: Array<Segment> = []): Attribute {
+    static make(name: string, parent: ObjectModelEntity, allSegments: Segment[] = []): Attribute {
         let factory = new this(name, parent, allSegments)
 
         return new Attribute(
@@ -36,13 +39,13 @@ export class AttributeFactory {
     }
 
     /* If there is a preference available use that, else refer to dedicated get method */
-    property(key: string): {[x:string]: SettingsArray} {
+    property(key: string): { [x: string]: SettingsArray } {
         return {
             [key]: this.hasPreference(key) ? this.getPreference(key) : this.bestGuessFor(key)
         }
     }
 
-    bestGuessFor(key): string {
+    bestGuessFor(key: string): string {
         return this[Formatter.camelCase(`get_${key}`)]()
     }
 
@@ -121,4 +124,4 @@ export class AttributeFactory {
     }
 }
 
-type SettingsArray = [string,string,string,string] | string
+type SettingsArray = [string, string, string, string] | string

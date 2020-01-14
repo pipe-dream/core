@@ -3,23 +3,26 @@ import {Attribute} from './Attribute';
 import {AttributeFactory} from './AttributeFactory';
 import Preference from '../utilities/Preference'
 import {Segment} from "./Segment";
+import {IRelationship, ISegment, RowArgument, RowArguments} from "../../typings";
 
 export class ObjectModelEntity {
-    public relationships: { [key: string]: Array<ObjectModelEntity> } = {}
+    public relationships: IRelationship = {}
     public name: string;
     public type: string;
     public allSegments: Array<Segment>
     public attributes: Array<Attribute>
     public softdeletes: Boolean
+    public args: RowArguments
 
     constructor() {
         this.type = this.constructor.name
         this.relationships = {}
     }
 
-    public static fromSegment(segment: { name: string, attributes: Array<string>, softdeletes: Boolean }, allSegments): ObjectModelEntity {
+    public static fromSegment(segment: ISegment, allSegments): ObjectModelEntity {
         let entity = new this()
         entity.name = segment.name
+        entity.args = segment.args
         entity.allSegments = allSegments
         // Sort and only keep unique attributes
         let attributeRows = [
@@ -34,9 +37,10 @@ export class ObjectModelEntity {
         return entity
     }
 
-    static deserialize(data: { name: string, attributes: Array<string>, relationships: {}, softdeletes: Boolean }): ObjectModelEntity {
+    static deserialize(data: { name: string, attributes: Array<string>, relationships: {}, softdeletes: Boolean, args: RowArguments }): ObjectModelEntity {
         let entity = new this()
         entity.name = data.name
+        entity.args = data.args
         entity.attributes = Object.keys(data.attributes).map(key => {
             return new Attribute({
                 ...data.attributes[key],
@@ -92,7 +96,8 @@ export class ObjectModelEntity {
         const serialize_results = {
             name: this.name,
             type: this.constructor.name,
-            //attributes: this.attributes.map(attribute => attribute.serialize()),
+            args: this.args || null,
+            softdeletes: this.softdeletes,
             attributes: this.attributes.reduce((carry, attribute) => {
                 carry[attribute.name] = attribute.serialize()
                 return carry
@@ -103,7 +108,6 @@ export class ObjectModelEntity {
                 belongsTo: this.relationships.belongsTo.map(target => target.name),
                 belongsToMany: this.relationships.belongsToMany.map(target => target.name)
             },
-            softdeletes: this.softdeletes
         }
 
         return serialize_results;

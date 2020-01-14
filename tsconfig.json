@@ -10,7 +10,8 @@
     "outDir": "./dist/",
     "allowJs": true,
     "moduleResolution": "node",
-    "importHelpers": true
+    "importHelpers": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*.ts", "src/**/*.js"],
   "exclude": ["node_modules", "**/*.test.ts"],
