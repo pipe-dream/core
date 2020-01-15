@@ -27,7 +27,9 @@
     "build": "webpack --mode development",
     "watch": "yarn build --watch",
     "test": "cross-env NODE_ENV=test jest",
-    "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
+    "coverage": "jest --collectCoverage=true --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
+    "coverage-dev": "jest --collectCoverage=true",
+    "cover": "yarn coverage-dev"
   },
   "jest": {
     "moduleFileExtensions": [

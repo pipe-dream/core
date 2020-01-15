@@ -1,4 +1,4 @@
-export function decycle(obj, stack = []) {
+export function decycle(obj: {}|[], stack = []) {
     if (!obj || typeof obj !== 'object')
         return obj;
 

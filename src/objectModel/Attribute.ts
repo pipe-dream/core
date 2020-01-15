@@ -4,13 +4,13 @@ export class Attribute {
 
     public properties: PropertyObject = {}
 
-    constructor(properties: PropertyObject) {
+    constructor(properties: PropertyObject = {}) {
         Object.keys(properties).map((key: string) => {
             this.setProperty(key, properties[key])
         })
     }
 
-    private setProperty(key: string, value: Primitive): void {
+    public setProperty(key: string, value: Primitive): void {
         this.properties[key] = value
     }
 

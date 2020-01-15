@@ -2,13 +2,12 @@
 import {ISketchButton} from "./ISketchButton";
 
 export class SketchButton implements ISketchButton{
-    click(): () => void {
-        return function () {
-        };
+    click(): void {
+
     }
 
     name(): string {
-        return "";
+        return this.constructor.name;
     }
 
 }
