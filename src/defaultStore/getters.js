@@ -6,13 +6,13 @@ export default function(options) {
         strippedPreferences: state => state.schema.reduce((carry, entity) => {
             carry[entity.name] = entity
             return carry
-        }, {}),        
+        }, {}),
         sketch: state => state.sketch,
         masterFileFactory: state => state.masterFileFactory,
         settings: state => state.settings,
-        
+
         deployedFileFactories: state => {
-            return state.fileFactories.filter(fileFactory => state.enabledFileFactories.includes(fileFactory.name) )
+            return state.fileFactories.filter(fileFactory => state.enabledFileFactories().includes(fileFactory.name) )
         },
 
         deployedPipes: (state, getters) => {
@@ -25,7 +25,7 @@ export default function(options) {
                     ...all,
                     ...pipes
                 ]
-            }, [])          
+            }, [])
         },
     }
 }
