@@ -1,6 +1,6 @@
 import {Formatter} from '../../../src/utilities/Formatter';
 
-describe("Formatter", () => {
+describe("src/utilities/Formatter.ts", () => {
 
     const TEST_WORD = 'anne have three apple';
 

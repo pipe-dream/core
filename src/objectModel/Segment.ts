@@ -17,7 +17,7 @@ export class Segment{
         this.name = segmentRows[0].name
         this.args = segmentRows[0].args
         this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
-        this.softdeletes = this.attributes.includes("softdeletes");
+        this.softdeletes = this.attributes.includes("softdeletes") || (this.args && this.args.some(arg => arg.key.match(/^softdeletes?$/) && arg.value));
         this.attributes = this.attributes.filter((attribute) => {
             return attribute != "softdeletes"
         })
