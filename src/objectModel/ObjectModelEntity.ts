@@ -13,6 +13,7 @@ export class ObjectModelEntity {
     public attributes: Array<Attribute>
     public softdeletes: Boolean
     public args: RowArguments
+    public showInSchema: boolean = false
 
     constructor() {
         this.type = this.constructor.name
@@ -23,6 +24,7 @@ export class ObjectModelEntity {
         let entity = new this()
         entity.name = segment.name
         entity.args = segment.args
+        entity.showInSchema = segment.showInSchema
         entity.allSegments = allSegments
         // Sort and only keep unique attributes
         let attributeRows = [

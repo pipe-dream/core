@@ -40,6 +40,7 @@ interface ISegment {
     attributes: string[]
     softdeletes?: Boolean
     args?: RowArguments
+    showInSchema?: boolean
 
     hasModel(): boolean
 

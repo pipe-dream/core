@@ -5,6 +5,7 @@ const ___DOUBLE_LINE_BREAK___ = "\n\n"
 export class SketchParser {
 
     public text: string;
+    public hasOffsiteSegments: boolean = false
 
     constructor(text: string) {
         this.text = text
@@ -37,7 +38,6 @@ export class SketchParser {
         return this;
     }
 
-    /* returns an array with items of type Segment */
     segment(): Array<Segment> {
         return !this.text ? [] : this.text.split(/\n\s*\n/).map((chunk) => Segment.fromText(chunk))
     }
