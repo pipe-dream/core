@@ -143,9 +143,5 @@ export class ObjectModelCollection {
 
     serializeSchema(): object {
         return this.entities.filter(entity => entity.showInSchema).map(entity => entity.serialize())
-        return this.entities.reduce((carry, entity) => {
-            carry[entity.name] = entity.serialize()
-            return carry
-        })
     }
 }
