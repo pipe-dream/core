@@ -39,6 +39,14 @@ export class SketchParser {
     }
 
     segment(): Array<Segment> {
-        return !this.text ? [] : this.text.split(/\n\s*\n/).map((chunk) => Segment.fromText(chunk))
+        let segments = !this.text ? [] : this.text.split(/\n\s*\n/).map((chunk) => Segment.fromText(chunk))
+        let offsiteAddresses = []
+        segments.forEach(segment => {
+            offsiteAddresses.push(...segment.offsiteAddresses)
+        })
+
+        // @ts-ignore
+        window.store.commit('setOffsiteSegments', offsiteAddresses);
+        return segments
     }
 }

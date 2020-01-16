@@ -18,6 +18,8 @@ function defaultKeyValuePairs(options) {
 
         schema: [],
 
+        offsiteSegments: [],
+
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
                 ...all,

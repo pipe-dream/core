@@ -2,6 +2,7 @@ import {SegmentRow} from './SegmentRow'
 import {Attribute} from "./Attribute";
 import {ISegment, ISegmentStatics, RowArgument, RowArguments} from "../../typings";
 import {staticImplements} from "../utilities/Helpers";
+import {defaultStore} from "../index";
 
 export class Segment {
 
@@ -21,7 +22,7 @@ export class Segment {
         if (this.name.toLowerCase() === 'pastebin') {
             this.args.forEach((arg) => {
                 let matches = arg.value.toString().match(/^(\/\/pastebin\.com\/raw\/)?([a-zA-Z0-9]{8})\/?$/)
-                let url = "https://pastebin.com/raw/"
+                let url = "pastebin.com/raw/"
                 if (arg.key.match(/^https?$/i) && matches) {
                     this.showInSchema = false
                     this.offsiteAddresses.push(url + matches[2])
@@ -41,7 +42,6 @@ export class Segment {
                 }
             })
         }
-        console.log(this.offsiteAddresses)
         this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
         this.softdeletes = this.attributes.includes("softdeletes") || (this.args && this.args.some(arg => arg.key.match(/^softdeletes?$/) && arg.value));
         this.attributes = this.attributes.filter((attribute) => {
