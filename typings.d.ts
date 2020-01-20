@@ -52,3 +52,12 @@ interface ISegmentStatics {
 
     fromText(chunk: string): Segment
 }
+
+declare global {
+    interface Window {
+        store: {
+            commit: (name: string, payload: any) => void,
+            dispatch: (action: string, payload: any) => void
+        },
+    }
+}

@@ -96,7 +96,11 @@ export default function(options) {
         },
 
         setOffsiteSegments(state, segments){
-            state.offsiteSegments = segments
+            state.offsiteSegments = new Set(segments)
+        },
+
+        setOffsiteSegmentCache(state, {segments}){
+
         }
     }
 }

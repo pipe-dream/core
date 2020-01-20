@@ -2,7 +2,7 @@ import {SegmentRow} from './SegmentRow'
 import {Attribute} from "./Attribute";
 import {ISegment, ISegmentStatics, RowArgument, RowArguments} from "../../typings";
 import {staticImplements} from "../utilities/Helpers";
-import {defaultStore} from "../index";
+import {defaultStore, Globals} from "../index";
 
 export class Segment {
 
@@ -12,6 +12,8 @@ export class Segment {
     public args: RowArgument[] | null
     public showInSchema: boolean = true
     public offsiteAddresses: string[] = []
+    public hasErrors: boolean = false
+    public errors: string[] = []
 
     constructor(chunk: string) {
         if (chunk === "") throw TypeError()
@@ -19,13 +21,25 @@ export class Segment {
         this.name = segmentRows[0].name
         this.args = segmentRows[0].args
 
+        if (['pastebin', 'load'].includes(this.name.toLowerCase()))
+            this.handleOffsiteSegments(this)
+
+        this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
+        this.softdeletes = this.attributes.includes("softdeletes") || (this.args && this.args.some(arg => arg.key.match(/^softdeletes?$/) && arg.value));
+        this.attributes = this.attributes.filter((attribute) => {
+            return attribute != "softdeletes"
+        })
+    }
+
+    private handleOffsiteSegments(segment: Segment) {
+        if(!segment.args) return
         if (this.name.toLowerCase() === 'pastebin') {
             this.args.forEach((arg) => {
-                let matches = arg.value.toString().match(/^(\/\/pastebin\.com\/raw\/)?([a-zA-Z0-9]{8})\/?$/)
+                let matches = arg.value.toString().match(/^(\/\/pastebin\.com\/(raw\/)?)?([a-zA-Z0-9]{8})\/?$/)
                 let url = "pastebin.com/raw/"
                 if (arg.key.match(/^https?$/i) && matches) {
                     this.showInSchema = false
-                    this.offsiteAddresses.push(url + matches[2])
+                    this.offsiteAddresses.push(url + matches[3])
                 }
                 if (arg.key.match(/^([a-zA-Z0-9]{8})$/)) {
                     this.showInSchema = false
@@ -42,11 +56,6 @@ export class Segment {
                 }
             })
         }
-        this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
-        this.softdeletes = this.attributes.includes("softdeletes") || (this.args && this.args.some(arg => arg.key.match(/^softdeletes?$/) && arg.value));
-        this.attributes = this.attributes.filter((attribute) => {
-            return attribute != "softdeletes"
-        })
     }
 
     static fromText(chunk: string): Segment {
@@ -60,5 +69,27 @@ export class Segment {
 
     hasUserModel(): boolean {
         return this.name === "User"
+    }
+
+    static toText(segment: Segment): string {
+        let text = segment.name
+        let args = []
+        if (segment.args)
+            segment.args.forEach(arg => {
+                let argument = (args.length === 0 ? " > " : "") + arg.key
+                if (Array.isArray(arg.value))
+                    argument += ":" + arg.value.join(":")
+                else if (arg.value !== true)
+                    argument += ":" + arg.value
+                args.push(argument)
+            })
+        text += args.join(", ") + Globals.___SINGLE_LINE_BREAK___
+        text += segment.attributes.join(Globals.___SINGLE_LINE_BREAK___)
+
+        return text
+    }
+
+    get isOffsiteSegment(){
+        return this.offsiteAddresses.length > 0
     }
 }

@@ -13,7 +13,7 @@ export class SegmentRow {
     constructor(raw: string) {
         let parts: Array<string> = raw.split(ARGS_START_MARKER)
 
-        this.name = parts[0]
+        this.name = parts[0].trim()
         this.args = this.extractArgs(raw)
     }
 
@@ -47,8 +47,7 @@ export class SegmentRow {
                     v.push(Helpers.convertToTypeBasedOnString(option))
                 })
                 value = v
-            }
-            else if (splitted.length === 1)
+            } else if (splitted.length === 1)
                 value = Helpers.convertToTypeBasedOnString(splitted[0])
             else
                 value = true

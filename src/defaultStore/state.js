@@ -18,7 +18,8 @@ function defaultKeyValuePairs(options) {
 
         schema: [],
 
-        offsiteSegments: [],
+        offsiteSegments: new Set(),
+        offsiteSegmentCache: {},
 
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
