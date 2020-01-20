@@ -1,4 +1,6 @@
 /* local helper class assisting getDataType() function */
+import {__GITHUB_DUMP__} from "../../dataTypeGithubDump";
+
 class DataTypeResolver {
 
     public name: string;
@@ -52,7 +54,7 @@ class DataTypeResolver {
     }
 
     public static github(name: string): string | false {
-        return name in [] ? [][name] : false;/*__GITHUB_DUMP__ ? __GITHUB_DUMP__[name] : false*/
+        return /*name in [] ? [][name] : false;*/__GITHUB_DUMP__ ? __GITHUB_DUMP__[name] : false
     }
 
     public static rules(): { [key: string]: ((string) => string) } {
@@ -60,9 +62,11 @@ class DataTypeResolver {
             // One to Many explicit
             "_id$": () => "unsignedBigInteger",
             // Boolean
-            "^(has|is|got)[A-Z_]": () => "boolean",
+            "^(has|is|got|allow)[A-Z_]": () => "boolean",
             // Time columns
             "(time|date|_at)$": () => "timestamp",
+            // Fields with "description" are text by default.
+            "description":() => "text"
         };
     }
 }
