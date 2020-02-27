@@ -1,9 +1,9 @@
 import collect from 'collect.js'
 import {SketchButton} from "../utilities/SketchButton";
-import {file} from "@babel/types";
 import {ObjectModelCollection} from "../objectModel/ObjectModelCollection";
+import {Primitive, Settings, TemplateType} from "../../typings";
 
-export class BaseFileFactory {
+export class BaseFileFactory{
     public omc: any;
     public pipes: Array<any>;
 
@@ -11,16 +11,24 @@ export class BaseFileFactory {
         this.omc = objectModelCollection
     }
 
+    static get title(){
+        return this.constructor.name
+    }
+
     // TODO: Template type
-    static templates(): { [key: string]: any } {
+    static templates(): TemplateType {
         return {}
+    }
+
+    get templates(){
+        return BaseFileFactory.templates
     }
 
     static buttons(): Array<SketchButton> {
         return []
     }
 
-    static settings(): Array<any> {
+    static settings(): Settings[] {
         return []
     }
 
@@ -30,7 +38,7 @@ export class BaseFileFactory {
     }
 
     // TODO: Preference interface?
-    static defaultPreferences(): { [key: string]: any } {
+    get defaultPreferences(): { [key: string]: any } {
         return {};
     }
 

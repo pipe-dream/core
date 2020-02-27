@@ -1,0 +1,5 @@
+dist/*
+coverage/*
+.circleci/*
+node_modules/*
+test/*

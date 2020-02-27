@@ -1,10 +1,11 @@
 import './css/app.css';
 import "./index";
-
-export const PipeDream = require("./index").PipeDream;
-export const defaultStore = require("./index").defaultStore;
-export const Template = require("./index").Template;
-export const SketchButton = require("./index").SketchButton;
-export const BaseFileFactory = require("./index").BaseFileFactory;
-export const ModelEntity = require("./index").ModelEntity;
-export const PipeDreamVueTools = require("./index").PipeDreamVueTools;
+const index = require("./index")
+export const PipeDream = index.PipeDream;
+export const defaultStore = index.defaultStore;
+export const Template = index.Template;
+export const SketchButton = index.SketchButton;
+export const BaseFileFactory = index.BaseFileFactory;
+export const ModelEntity = index.ModelEntity;
+export const PipeDreamVueTools = index.PipeDreamVueTools;
+export const Schema = index.Schema

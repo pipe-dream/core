@@ -4,5 +4,5 @@ import actions from './actions'
 import getters from './getters'
 
 export const DefaultStore = {
-    state, mutations, actions, getters
+	state, mutations, actions, getters
 }

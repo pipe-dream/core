@@ -1,4 +1,4 @@
-function JSONDiff(a, b){
+/*function JSONDiff(a, b){
     var diff = (isArray(a) ? [] : {});
     recursiveDiff(a, b, diff);
     return diff;
@@ -41,3 +41,4 @@ function isArray(obj){
 }
 
 export default JSONDiff
+*/

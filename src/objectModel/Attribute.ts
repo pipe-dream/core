@@ -1,4 +1,5 @@
 import {Primitive, PropertyObject} from "../../typings";
+import {Formatter} from "../utilities/Formatter";
 
 export class Attribute {
 
@@ -6,7 +7,10 @@ export class Attribute {
 
     constructor(properties: PropertyObject = {}) {
         Object.keys(properties).map((key: string) => {
-            this.setProperty(key, properties[key])
+            if (key === "name")
+                this.setProperty(key, Formatter.laravelSnakeCase(<string>properties[key]))
+            else
+                this.setProperty(key, properties[key])
         })
     }
 
@@ -18,11 +22,11 @@ export class Attribute {
         return this.properties[key]
     }
 
-    public get name(): string | undefined{
+    public get name(): string | undefined {
         return this.getProperty("name").toString()
     }
 
-    public getProperties(): PropertyObject{
+    public getProperties(): PropertyObject {
         return this.properties
     }
 

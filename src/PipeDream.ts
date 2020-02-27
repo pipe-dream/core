@@ -26,9 +26,9 @@ export class PipeDream {
     public get defaultStore() {
         return {
             state: DefaultStore.state(this.options),
-            mutations: DefaultStore.mutations(this.options),
+            mutations: DefaultStore.mutations(),
             actions: DefaultStore.actions(this.options),
-            getters: DefaultStore.getters(this.options),
+            getters: DefaultStore.getters(),
         }
     }
 }

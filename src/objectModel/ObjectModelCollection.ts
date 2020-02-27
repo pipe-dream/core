@@ -5,6 +5,7 @@ import * as _ from 'lodash'
 import {ObjectModelEntity} from "./ObjectModelEntity";
 import {ModelEntity} from "./entities/ModelEntity";
 import {TableEntity} from "./entities/TableEntity";
+import {Schema} from "../index";
 
 
 export class ObjectModelCollection {
@@ -15,7 +16,7 @@ export class ObjectModelCollection {
     constructor(entities: Array<ObjectModelEntity> = []) {
         this.entities = entities;
         this.regexes = {
-            manyToMany: () => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$")
+            manyToMany: () => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$", "i")
         }
     }
 
@@ -35,7 +36,9 @@ export class ObjectModelCollection {
 
 
     isManyToMany(candidate: ObjectModelEntity): boolean {
-        return candidate.type === "PivotTableEntity"
+        //return candidate.type === "PivotTableEntity"
+        //console.log(candidate)
+        return candidate.isPivotTable()
         return this.regexes.manyToMany().test(candidate.name);
     }
 
@@ -61,14 +64,17 @@ export class ObjectModelCollection {
     }
 
     userModels(): Array<ModelEntity> {
+        return Schema.refresh().userModels || []
         return this.entities.filter(entity => entity.isUserEntity())
     }
 
     models(): Array<ModelEntity> {
+        return Schema.models
         return this.entities.filter(entity => entity.isModelEntity())
     }
 
     tablesOnly(): Array<TableEntity> {
+        return Schema.tables
         return this.entities.filter(entity => entity.name === entity.name.toLowerCase())
     }
 
@@ -77,10 +83,13 @@ export class ObjectModelCollection {
     }
 
     modelsIncludingUser(): Array<ModelEntity> {
-        return this.models().concat(this.userModels())
+        //console.log(Schema.refresh().models, this.models())
+        return Schema.models
+        return [...this.models(), ...this.userModels()]
     }
 
     modelsExceptUser(): Array<ModelEntity> {
+        return Schema.models.filter(model => !model.isUserEntity())
         return this.models().filter(model => !model.isUserEntity())
     }
 
@@ -100,6 +109,10 @@ export class ObjectModelCollection {
         return this.entities
     }
 
+    findByName(name: string){
+        return this.find(ent => ent.name === name)
+    }
+
     static hasRelationships(entity: ObjectModelEntity): boolean {
         return !!entity.relationships.belongsTo.length || !!entity.relationships.belongsToMany.length || !!entity.relationships.hasOne.length || !!entity.relationships.hasMany.length
     }
@@ -111,8 +124,8 @@ export class ObjectModelCollection {
         return _.every(relationships, relationship => _.some(migratedList, ml => ml.name === relationship.name))
     }
 
-    inOptimalMigrationOrder(): Array<ObjectModelEntity> {
-        let entitiesLeft = collect(this.entities).toArray()
+    inOptimalMigrationOrder(): Array<TableEntity> {
+        let entitiesLeft: ObjectModelEntity[] = collect(this.entities).toArray()
 
         // remove all with basic relationships
         let sortedEntities = _.reject(entitiesLeft, entity => ObjectModelCollection.hasRelationships(entity) || this.isManyToMany(entity))

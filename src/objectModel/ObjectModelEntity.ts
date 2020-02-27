@@ -4,6 +4,7 @@ import {AttributeFactory} from './AttributeFactory';
 import Preference from '../utilities/Preference'
 import {Segment} from "./Segment";
 import {IRelationship, ISegment, RowArgument, RowArguments} from "../../typings";
+import {Schema} from "../index";
 
 export class ObjectModelEntity {
     public relationships: IRelationship = {}
@@ -15,28 +16,49 @@ export class ObjectModelEntity {
     public args: RowArguments
     public showInSchema: boolean = false
 
-    constructor() {
+    constructor(segment?: ISegment, allSegments?: Segment[]) {
         this.type = this.constructor.name
-        this.relationships = {}
+        this.relationships = {belongsTo: [], belongsToMany: [], hasMany: [], hasOne: []}
+        if (segment)
+            this.make(segment, allSegments || [])
     }
 
-    public static fromSegment(segment: ISegment, allSegments): ObjectModelEntity {
-        let entity = new this()
-        entity.name = segment.name
-        entity.args = segment.args
-        entity.showInSchema = segment.showInSchema
-        entity.allSegments = allSegments
+    public get tableName(): string {
+        if (this.isModelEntity()) {
+            let n = this.name
+            let lastPart = n.match(/[A-Z][a-z]*$/)
+            if (lastPart)
+                n = n.replace(lastPart[0], Formatter.pluralize(lastPart[0]))
+            return Formatter.laravelSnakeCase(n)
+        }
+        return this.normalizedName
+    }
+
+    public get normalizedName(): string {
+        if (this.isPivotTable())
+            return Formatter.laravelSnakeCase(this.name.split('_').sort().join('_'))
+        return Formatter.laravelSnakeCase(this.name)
+    }
+
+    private make(segment: ISegment, allSegments: Segment[]): void {
+        this.name = segment.name
+        this.args = segment.args || []
+        this.showInSchema = segment.showInSchema || false
+        this.allSegments = allSegments
         // Sort and only keep unique attributes
         let attributeRows = [
             ...new Set<string>([
-                ...entity.optionalColumns(['id']),
+                ...this.optionalColumns(['id']),
                 ...segment.attributes,
-                ...entity.optionalColumns(['created_at', 'updated_at']),
+                ...this.optionalColumns(['created_at', 'updated_at']),
             ])
         ]
-        entity.attributes = attributeRows.map(name => AttributeFactory.make(name, entity, allSegments))
-        entity.softdeletes = segment.softdeletes
-        return entity
+        this.attributes = attributeRows.map(name => AttributeFactory.make(name, this, allSegments))
+        this.softdeletes = segment.softdeletes || false
+    }
+
+    public static fromSegment(segment: ISegment, allSegments: Segment[]): ObjectModelEntity {
+        return new this(segment, allSegments)
     }
 
     static deserialize(data: { name: string, attributes: Array<string>, relationships: {}, softdeletes: Boolean, args: RowArguments }): ObjectModelEntity {
@@ -58,7 +80,7 @@ export class ObjectModelEntity {
         return this.attributes.map(attribute => attribute.name)
     }
 
-    optionalColumns(columns): Array<string>{
+    optionalColumns(columns): Array<string> {
         return columns.filter(column => {
             let path = ['objectModel', this.name, column]
             // Check if it is excluded in preferences
@@ -83,21 +105,30 @@ export class ObjectModelEntity {
     }
 
     isModelEntity(): boolean {
-        return this.constructor.name == "ModelEntity"
+        return this.constructor.name === "ModelEntity" || this.isUserEntity()
+    }
+
+    isPivotTableEntity(): boolean {
+        return this.constructor.name === "PivotTableEntity"
+    }
+
+    isPivotTable(): boolean {
+        return this.constructor.name === "PivotTableEntity"
     }
 
     isTableEntity(): boolean {
-        return this.constructor.name == "TableEntity"
+        return this.constructor.name == "TableEntity" || this.isPivotTable()
     }
 
     asForeignKey(): string {
-        return Formatter.snakeCase(this.name) + "_id";
+        return Formatter.laravelSnakeCase(this.name) + "_id";
     }
 
     serialize(): object {
         const serialize_results = {
             name: this.name,
             type: this.constructor.name,
+            tableName: this.tableName,
             args: this.args || null,
             softdeletes: this.softdeletes,
             attributes: this.attributes.reduce((carry, attribute) => {
@@ -105,7 +136,7 @@ export class ObjectModelEntity {
                 return carry
             }, {}),
             relationships: {
-                hasOne: [].map(target => target.name),
+                hasOne: this.relationships.hasOne.map(target => target.name),
                 hasMany: this.relationships.hasMany.map(target => target.name),
                 belongsTo: this.relationships.belongsTo.map(target => target.name),
                 belongsToMany: this.relationships.belongsToMany.map(target => target.name)

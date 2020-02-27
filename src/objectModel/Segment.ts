@@ -1,7 +1,6 @@
 import {SegmentRow} from './SegmentRow'
 import {Attribute} from "./Attribute";
 import {ISegment, ISegmentStatics, RowArgument, RowArguments} from "../../typings";
-import {staticImplements} from "../utilities/Helpers";
 import {defaultStore, Globals} from "../index";
 
 export class Segment {
@@ -31,8 +30,8 @@ export class Segment {
         })
     }
 
-    private handleOffsiteSegments(segment: Segment) {
-        if(!segment.args) return
+    private handleOffsiteSegments(segment: Segment): this {
+        if (!segment.args) return
         if (this.name.toLowerCase() === 'pastebin') {
             this.args.forEach((arg) => {
                 let matches = arg.value.toString().match(/^(\/\/pastebin\.com\/(raw\/)?)?([a-zA-Z0-9]{8})\/?$/)
@@ -56,6 +55,8 @@ export class Segment {
                 }
             })
         }
+
+        return this
     }
 
     static fromText(chunk: string): Segment {
@@ -63,8 +64,8 @@ export class Segment {
     }
 
     hasModel(): boolean {
-        // a Model is indicated by capital first letter
-        return this.name[0] == this.name[0].toUpperCase()
+        // a Model is indicated by capital first letter AND no underscores
+        return this.name[0] == this.name[0].toUpperCase() && !this.name.includes('_')
     }
 
     hasUserModel(): boolean {
@@ -72,7 +73,7 @@ export class Segment {
     }
 
     static toText(segment: Segment): string {
-        let text = segment.name
+        let text = segment.name.trim()
         let args = []
         if (segment.args)
             segment.args.forEach(arg => {
@@ -83,13 +84,17 @@ export class Segment {
                     argument += ":" + arg.value
                 args.push(argument)
             })
-        text += args.join(", ") + Globals.___SINGLE_LINE_BREAK___
-        text += segment.attributes.join(Globals.___SINGLE_LINE_BREAK___)
+        text += args.join(", ") + Globals.SINGLE_LINE_BREAK
+        text += segment.attributes.map(att => att.trim()).join(Globals.SINGLE_LINE_BREAK)
 
-        return text
+        return text.trim()
     }
 
-    get isOffsiteSegment(){
+    serialize(): string {
+        return Segment.toText(this)
+    }
+
+    get isOffsiteSegment(): boolean {
         return this.offsiteAddresses.length > 0
     }
 }

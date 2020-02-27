@@ -11,8 +11,8 @@
             </select>
             <p class="text-gray-800 text-xs px-2 mt-2">
             The primary file factory determines the behavior of the Pipe Dream workbench. Typically use a back end framework as primary file factory.
-            </p>            
-        </div>           
+            </p>
+        </div>
 
 
         <p class="font-semibold text-gray-800 text-base mt-8 mb-2">Secondary tech</p>
@@ -21,14 +21,14 @@
                 <input type="checkbox" :name="secondary.title" :value="true" @change="toggleSecondaryFileFactory"
                     :checked="enabledFileFactories.includes(secondary.title)"
                 >
-                <p class="ml-2 font-semibold text-sm">{{secondary.title}}</p>    
+                <p class="ml-2 font-semibold text-sm">{{secondary.title}}</p>
             </div>
             <p class="text-gray-800 text-xs px-2 mt-2">
             Add additional file factories, for instance front end frameworks.
-            </p>                                              
+            </p>
         </div>
 
-    </div>  
+    </div>
 </template>
 
 <script>
@@ -44,7 +44,7 @@
         computed: {
             secondary() {
                 return this.fileFactories.filter(fileFactory => {
-                    return fileFactory.title != this.masterFileFactory.title
+                    return fileFactory.title !== this.masterFileFactory.title
                 })
             },
             masterFileFactory: {

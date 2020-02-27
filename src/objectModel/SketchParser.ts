@@ -1,7 +1,6 @@
 import {Segment} from './Segment'
 import {RowArgument} from "../../typings";
-
-const ___DOUBLE_LINE_BREAK___ = "\n\n"
+import {Globals} from "../index";
 
 export class SketchParser {
 
@@ -20,6 +19,12 @@ export class SketchParser {
         return this.makeWithText(text).clean()
     }
 
+    static toSegments(sketch: SketchParser | string): Segment[] {
+        if(typeof sketch === "string")
+            sketch = this.parse(sketch)
+        return sketch.segment()
+    }
+
     clean(): this {
         this.text = this.text
             // force UNIX-style line ending (LF)
@@ -35,7 +40,7 @@ export class SketchParser {
             // trim trailing newlines
             .replace(/\n+$/, "")
             // remove exessive newlines
-            .replace(/\n\s+\n/, ___DOUBLE_LINE_BREAK___)
+            .replace(/\n\s+\n/, Globals.DOUBLE_LINE_BREAK)
         return this;
     }
 

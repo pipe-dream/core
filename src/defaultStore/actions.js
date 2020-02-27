@@ -1,33 +1,36 @@
 import {SketchParser} from '../objectModel/SketchParser'
 import {ObjectModelCollection} from '../objectModel/ObjectModelCollection'
 import {ObjectModelEntityFactory} from '../objectModel/ObjectModelEntityFactory'
-import {decycle} from "../utilities/decycle";
-import JSONDiff from '../utilities/JSONDiff'
-
-const mergeJSON = require('deepmerge')
+import {decycle} from '../utilities/decycle'
+import * as mergeJSON from 'deepmerge'
+import {Schema} from "../index";
 
 export default function (options) {
     return {
+        addDependency(context, {dependency, version = '*', factory}) {
+            context.commit('addDependency', {dependency, version, factory})
+        },
+        removeDependency(context, {dependency, factory}){
+            context.commit('removeDependency', {dependency, factory})
+        },
         navigate(context, payload) {
             context.commit('navigate', payload)
-        },
+        }, //DONE
 
         setMasterFileFactory(context, masterFileFactory) {
             context.commit('setMasterFileFactory', masterFileFactory)
             context.dispatch('compileFiles', context.state.schema)
         },
-
         setSketch(context, sketch) {
             context.commit('setSketch', sketch)
             context.dispatch('compileSchema', sketch)
         },
-
         setSchema(context, schema) {
             context.commit('setSchema', schema)
             context.dispatch('compileFiles', schema)
             context.dispatch('setPreferences', schema)
         },
-
+        // disable-eslint
         setPreferences(context, schema) {
             context.commit('setPreferences',
                 mergeJSON(
@@ -36,7 +39,7 @@ export default function (options) {
                         carry[entity.name] = entity
                         return carry
                     }, {}),
-                    {arrayMerge: (destinationArray, sourceArray, options) => sourceArray}
+                    {arrayMerge: (destinationArray, sourceArray) => sourceArray}
                 )
             )
         },
@@ -47,7 +50,7 @@ export default function (options) {
         },
 
         compileSchema(context, sketch) {
-            let segments = SketchParser.parse(sketch).segment()
+            let segments = Schema.refresh().segments//SketchParser.parse(sketch).segment()
             let schema = []
             /**
              * If the sketch is empty we should not try to build entities
@@ -97,7 +100,9 @@ export default function (options) {
         compileFiles: function (context, schema) {
             // Make deep copy of schema to detach any previous bindings
             schema = JSON.parse(JSON.stringify(decycle(schema)))
+
             let allFiles = context.getters.deployedFileFactories.reduce((allFiles, fileFactory) => {
+
                 return [
                     ...allFiles,
                     ...fileFactory.from(
@@ -110,7 +115,7 @@ export default function (options) {
                         .calculateFiles()
                 ]
             }, [])
-
+            //console.log(allFiles)
             context.commit('setReviewFiles', allFiles)
         },
 
@@ -124,22 +129,30 @@ export default function (options) {
                 },
                 body: JSON.stringify({
                     reviewFiles: context.state.reviewFiles.filter(file => {
-                        return context.state.selectedFiles[file.path];
+                        return context.state.selectedFiles[file.path]
                     }),
                     isSandboxed: context.state.isSandboxed,
                     reverseHistory: context.state.reverseHistory,
                 })
-            });
+            })
 
-            return await rawResponse.json();
+            return await rawResponse.json()
         },
 
         save(context) {
-            localStorage.setItem("pipedream_data",
+            localStorage.setItem('pipedream_data',
                 JSON.stringify({
                     workbench_data: {
-                        // Default send everything as is in store
-                        ...context.state,
+                        // Only save data the user can actually change
+                        ...{
+                            selectedFiles: context.state.selectedFiles,
+                            sketch: context.state.sketch,
+                            schema: context.state.schema,
+                            selectedPipes: context.state.selectedPipes,
+                            //settings: context.state.settings,
+                            enabledFileFactories: context.state.enabledFileFactories,
+                            templates: context.state.templates,
+                        },
                         ...{
                             // Dont send preference history to server, strip it first
                             preferences: context.getters.strippedPreferences,
@@ -150,11 +163,12 @@ export default function (options) {
                         }
                     }
                 })
-            );
+            )
 
-            return ["Saved data in localstorage"];
+            return ['Saved data in localstorage']
         },
 
+        /*
         saveWithAPI: async function (context) {
 
             const rawResponse = await fetch(options.api.save.replace('{id}', __ENV__.project_id), {
@@ -178,9 +192,10 @@ export default function (options) {
                         }
                     }
                 })
-            });
+            })
 
-            return await rawResponse.json();
+            return await rawResponse.json()
         },
+        */
     }
 }
