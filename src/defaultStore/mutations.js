@@ -14,11 +14,11 @@ export default function(options) {
 
         setSchema(state, content) {
             state.schema = content
-        },        
+        },
 
         setReviewFiles(state, files) {
             state.reviewFiles = files
-            
+
             // set newly created files to selected
             files.filter(file => state.selectedFiles[file.path] === undefined )
                 .forEach(file => {
@@ -33,18 +33,18 @@ export default function(options) {
                 }
             })
 
-            state.selectedFiles = cleaned            
+            state.selectedFiles = cleaned
         },
 
         setReviewFile(state, file) {
             state.reviewFiles = state.reviewFiles.map(original => {
                 return original.path == file.path ? file : original
             })
-        },        
+        },
 
         setTemplate(state, file) {
             state.templates[file.name] = file.content
-        },        
+        },
 
         setPreferences(state, preferences) {
             state.preferences = preferences
@@ -57,7 +57,7 @@ export default function(options) {
         setSetting(state, data) {
             state.settings[data.fileFactoryTitle][data.settingName]["value"] = data.value
         },
-        
+
         toggleSelectedPipe(state, name) {
             if(state.selectedPipes.includes(name)) {
                 state.selectedPipes = state.selectedPipes.filter(pipe => pipe != name)
@@ -79,7 +79,7 @@ export default function(options) {
             state.enabledFileFactories = [
                 ...state.enabledFileFactories,
                 name
-            ]            
+            ]
         },
 
         setEnabledFileFactory(state, name) {
@@ -89,10 +89,18 @@ export default function(options) {
                 ...state.enabledFileFactories,
                 name
             ]
-        },        
+        },
 
         toggleSelectedFile(state, path) {
             state.selectedFiles[path] = !state.selectedFiles[path]
+        },
+
+        setOffsiteSegments(state, segments){
+            state.offsiteSegments = new Set(segments)
+        },
+
+        setOffsiteSegmentCache(state, {segments}){
+
         }
     }
 }

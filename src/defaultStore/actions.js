@@ -6,7 +6,7 @@ import JSONDiff from '../utilities/JSONDiff'
 
 const mergeJSON = require('deepmerge')
 
-export default function(options) {
+export default function (options) {
     return {
         navigate(context, payload) {
             context.commit('navigate', payload)
@@ -26,8 +26,8 @@ export default function(options) {
             context.commit('setSchema', schema)
             context.dispatch('compileFiles', schema)
             context.dispatch('setPreferences', schema)
-        },  
-        
+        },
+
         setPreferences(context, schema) {
             context.commit('setPreferences',
                 mergeJSON(
@@ -36,25 +36,30 @@ export default function(options) {
                         carry[entity.name] = entity
                         return carry
                     }, {}),
-                    { arrayMerge: (destinationArray, sourceArray, options) => sourceArray }
+                    {arrayMerge: (destinationArray, sourceArray, options) => sourceArray}
                 )
-            )            
+            )
         },
-        
+
         setSetting(context, data) {
             context.commit('setSetting', data)
             context.dispatch('compileFiles', context.state.schema)
         },
-        
-        compileSchema(context, sketch) {
-            let schema = ObjectModelCollection.fromEntities(
-                ObjectModelEntityFactory.fromSegments(
-                    SketchParser.parse(sketch).segment()
-                )
-            ).serializeSchema()
 
+        compileSchema(context, sketch) {
+            let segments = SketchParser.parse(sketch).segment()
+            let schema = []
+            /**
+             * If the sketch is empty we should not try to build entities
+             */
+            if (segments.length)
+                schema = ObjectModelCollection.fromEntities(
+                    ObjectModelEntityFactory.fromSegments(
+                        SketchParser.mergeDiffs(segments)
+                    )
+                ).serializeSchema()
             context.dispatch('setSchema', schema)
-        },        
+        },
 
         setTemplate(context, file) {
             context.commit('setTemplate', file)
@@ -65,11 +70,11 @@ export default function(options) {
             context.commit('setReviewFile', file)
             // set flag for modification
         },
-        
+
         setBuiltFiles(context, files) {
             context.commit('setBuiltFiles', files)
         },
-        
+
         toggleSelectedPipe(context, name) {
             context.commit('toggleSelectedPipe', name)
             context.dispatch('compileFiles', context.state.schema)
@@ -79,33 +84,33 @@ export default function(options) {
             context.commit('toggleEnabledFileFactory', name)
             context.dispatch('compileFiles', context.state.schema)
         },
-        
+
         setEnabledFileFactory(context, name) {
             context.commit('setEnabledFileFactory', name)
-            context.dispatch('compileFiles', context.state.schema)            
+            context.dispatch('compileFiles', context.state.schema)
         },
 
         toggleSelectedFile(context, path) {
             context.commit('toggleSelectedFile', path)
         },
-        
-        compileFiles: function(context, schema) {
+
+        compileFiles: function (context, schema) {
             // Make deep copy of schema to detach any previous bindings
             schema = JSON.parse(JSON.stringify(decycle(schema)))
             let allFiles = context.getters.deployedFileFactories.reduce((allFiles, fileFactory) => {
                 return [
                     ...allFiles,
                     ...fileFactory.from(
-                        ObjectModelCollection.fromSchema(schema)                   
+                        ObjectModelCollection.fromSchema(schema)
                     ).withPipes(
                         context.getters.deployedPipes.filter(pipe => {
                             return fileFactory.pipes().map(candidate => candidate.title).includes(pipe.title)
                         })
                     )
-                    .calculateFiles()
+                        .calculateFiles()
                 ]
             }, [])
-            
+
             context.commit('setReviewFiles', allFiles)
         },
 
@@ -144,7 +149,7 @@ export default function(options) {
                             workbench_data: null,
                         }
                     }
-                })            
+                })
             );
 
             return ["Saved data in localstorage"];

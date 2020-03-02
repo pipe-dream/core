@@ -1,31 +1,33 @@
+import {Primitive, PropertyObject} from "../../typings";
+
 export class Attribute {
 
-    public properties: { [key: string]: Primitive } = {}
+    public properties: PropertyObject = {}
 
-    constructor(properties: {[key: string]: Primitive}) {
-        Object.keys(properties).map((key) => {
+    constructor(properties: PropertyObject = {}) {
+        Object.keys(properties).map((key: string) => {
             this.setProperty(key, properties[key])
         })
     }
 
-    private setProperty(key: string, value: Primitive): void {
+    public setProperty(key: string, value: Primitive): void {
         this.properties[key] = value
     }
 
-    public getProperty(key: string): Primitive {
+    public getProperty(key: string): Primitive | undefined {
         return this.properties[key]
     }
 
-    public get name(): string{
-        return <string>this.getProperty("name")
+    public get name(): string | undefined{
+        return this.getProperty("name").toString()
     }
 
-    public getProperties(): {[key: string]: Primitive}{
+    public getProperties(): PropertyObject{
         return this.properties
     }
 
-    serialize(): object {
-        return Object.keys(this.getProperties()).filter(key => key != "parent").reduce((result, key) => {
+    serialize(): PropertyObject {
+        return Object.keys(this.getProperties()).filter(key => key != "parent").reduce((result: Object, key: string) => {
             return {
                 ...result,
                 [key]: this.getProperty(key)

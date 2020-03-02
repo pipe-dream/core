@@ -9,7 +9,6 @@ import {TableEntity} from "./entities/TableEntity";
 
 export class ObjectModelCollection {
 
-    // TODO: Implement Entity base type
     public entities: Array<ObjectModelEntity>
     public regexes: { [key: string]: (() => RegExp) }
 
@@ -143,10 +142,6 @@ export class ObjectModelCollection {
     }
 
     serializeSchema(): object {
-        return this.entities.map(entity => entity.serialize())
-        return this.entities.reduce((carry, entity) => {
-            carry[entity.name] = entity.serialize()
-            return carry
-        })
+        return this.entities.filter(entity => entity.showInSchema).map(entity => entity.serialize())
     }
 }

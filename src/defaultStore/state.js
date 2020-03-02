@@ -14,9 +14,12 @@ function defaultKeyValuePairs(options) {
 
         reviewFiles: [],
 
-        builtFiles: [],        
+        builtFiles: [],
 
         schema: [],
+
+        offsiteSegments: new Set(),
+        offsiteSegmentCache: {},
 
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
@@ -31,7 +34,7 @@ function defaultKeyValuePairs(options) {
                 ...fileFactory.pipes().map(pipe => pipe.name)
             ]
         }, []),
-        
+
         settings: options.fileFactories.reduce((allFileFactories, fileFactory) => {
             return {
                 ...allFileFactories,
@@ -41,19 +44,23 @@ function defaultKeyValuePairs(options) {
                             ...allSettings,
                             [setting.name]: setting
                         }
-                    }, {}), 
+                    }, {}),
                 }
             }
-        }, {}),          
+        }, {}),
 
 
         fileFactories: options.fileFactories,
-        enabledFileFactories: [options.fileFactories[0].title],
+        enabledFileFactories: () => {
+            if (options.fileFactories[0])
+                return [options.fileFactories[0].title]
+            return null
+        },
         masterFileFactory: options.fileFactories[0],
         // TODO: namepace and group the templates per factory
         templates: options.fileFactories.reduce((all, fileFactory) => {
             return {
-                ...all,                
+                ...all,
                 ...fileFactory.templates()
             }
         }, {}),
@@ -69,7 +76,7 @@ function defaultKeyValuePairs(options) {
     }
 }
 
-function keyValuePairsFromSavedWorkbenchDataLocalStorage(options) {    
+function keyValuePairsFromSavedWorkbenchDataLocalStorage(options) {
     let pipedreamData = localStorage.getItem("pipedream_data")
     pipedreamData = JSON.parse(pipedreamData)
     if (pipedreamData == null) return {};
@@ -88,10 +95,10 @@ function keyValuePairsFromSavedWorkbenchDataLocalStorage(options) {
             "masterFileFactory",
         ].includes(key)
     }).reduce((toBeMerged, key) => {
-        return { [key]: pipedreamData.workbench_data[key], ...toBeMerged }
+        return {[key]: pipedreamData.workbench_data[key], ...toBeMerged}
     }, {})
     console.log('local-storage', result)
-    return result    
+    return result
 }
 
 function keyValuePairsFromSavedWorkbenchData(options) {
@@ -111,13 +118,13 @@ function keyValuePairsFromSavedWorkbenchData(options) {
             "masterFileFactory",
         ].includes(key)
     }).reduce((toBeMerged, key) => {
-        return { [key]: options.workbench_data[key], ...toBeMerged }
+        return {[key]: options.workbench_data[key], ...toBeMerged}
     }, {})
     console.log('regular', result)
     return result
 }
 
-export default function(options) {
+export default function (options) {
     return {
         ...defaultKeyValuePairs(options),
         ...keyValuePairsFromSavedWorkbenchData(options),
