@@ -1,4 +1,5 @@
 import {Primitive} from "../../typings";
+import * as lodash from 'lodash'
 
 export class Helpers {
     public static convertToTypeBasedOnString(param: string): Primitive {
@@ -22,8 +23,26 @@ export class Helpers {
     }
 }
 
-export function staticImplements<T>() {
-    return <U extends T>(constructor: U) => {
-        constructor
+/**
+ * Parse in a function and a time in ms
+ * This stops the parsed function from being
+ * run more than once every {timeout}
+ *
+ * @param fn
+ * @param timeout
+ */
+export function throttle(fn: Function, timeout: number): Function {
+    let isCalled = false;
+
+    return function (...args) {
+        if (!isCalled) {
+            fn(...args);
+            isCalled = true;
+            setTimeout(function () {
+                isCalled = false;
+            }, timeout)
+        }
     };
 }
+
+export const _ = lodash;

@@ -5,6 +5,7 @@ import getDataType from './attributePropertyResolvers/getDataType'
 import {Segment} from "./Segment";
 import {RowArguments} from "../../typings";
 import {ObjectModelEntity} from "./ObjectModelEntity";
+import {Schema} from "../index";
 
 export class AttributeFactory {
 
@@ -53,12 +54,10 @@ export class AttributeFactory {
 
     getForeign(): string | null {
         let matches = (new RegExp("^(.*)_id$")).exec(this.name)
-        let allOtherModelNames = this.allSegments.map(segment => segment.name)
-            .filter(name => {
-                return name != Formatter.pascalCase(this.parent.name)
-            })
-
-        return matches && allOtherModelNames.includes(Formatter.pascalCase(matches[1])) ? Formatter.snakeCase(Formatter.pluralize(matches[1])) : null
+        if (!matches) return
+        let allOtherModelNames = Schema.models.map(model => model.normalizedName)
+            .filter((name: string) => name !== this.parent.name)
+        return matches && allOtherModelNames.includes(matches[1]) ? Formatter.laravelSnakeCase(Formatter.pluralize(matches[1])) : null
     }
 
     getCast(): string | null {

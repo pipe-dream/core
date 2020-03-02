@@ -2,24 +2,29 @@ function defaultKeyValuePairs(options) {
     return {
         //Keep track of active tabs in each section
         navigation: {
-            workspace: "Design",
-            design: "object model",
-            template: "",
-            review: "",
-        },
+            workspace: 'Design',
+            design: 'object model',
+            template: '',
+            review: '',
+        }, // DONE
 
-        selectedFiles: {},
+        selectedFiles: {},// DONE
 
-        sketch: "",
+        sketch: '',
 
-        reviewFiles: [],
+        reviewFiles: [],// DONE
 
-        builtFiles: [],
+        builtFiles: [],// DONE
 
         schema: [],
 
         offsiteSegments: new Set(),
         offsiteSegmentCache: {},
+
+        dependencies: {
+            npm: {},
+            composer: {}
+        },
 
         availablePipes: options.fileFactories.reduce((all, fileFactory) => {
             return [
@@ -50,12 +55,12 @@ function defaultKeyValuePairs(options) {
         }, {}),
 
 
-        fileFactories: options.fileFactories,
-        enabledFileFactories: () => {
+        fileFactories: options.fileFactories,// DONE
+        enabledFileFactories: (() => {
             if (options.fileFactories[0])
                 return [options.fileFactories[0].title]
-            return null
-        },
+            return []
+        })(), //DONE
         masterFileFactory: options.fileFactories[0],
         // TODO: namepace and group the templates per factory
         templates: options.fileFactories.reduce((all, fileFactory) => {
@@ -63,7 +68,14 @@ function defaultKeyValuePairs(options) {
                 ...all,
                 ...fileFactory.templates()
             }
-        }, {}),
+        }, {}), //DONE
+
+        originalTemplates: options.fileFactories.reduce((all, fileFactory) => {
+            return {
+                ...all,
+                ...fileFactory.templates()
+            }
+        }, {}), //DONE
         reverseHistory: true,
         preferences: options.fileFactories.reduce((all, fileFactory) => {
             return {
@@ -71,15 +83,14 @@ function defaultKeyValuePairs(options) {
                 ...fileFactory.defaultPreferences()
             }
         }, {}),
-
         ...options
     }
 }
 
-function keyValuePairsFromSavedWorkbenchDataLocalStorage(options) {
-    let pipedreamData = localStorage.getItem("pipedream_data")
+function keyValuePairsFromSavedWorkbenchDataLocalStorage() {
+    let pipedreamData = localStorage.getItem('pipedream_data')
     pipedreamData = JSON.parse(pipedreamData)
-    if (pipedreamData == null) return {};
+    if (pipedreamData == null) return {}
     let result = Object.keys(pipedreamData.workbench_data).filter((key) => {
         return (
             typeof pipedreamData.workbench_data !== 'undefined' &&
@@ -89,20 +100,20 @@ function keyValuePairsFromSavedWorkbenchDataLocalStorage(options) {
     }).filter(key => {
         // exclude complex things for now
         return ![
-            "availablePipes",
-            "fileFactories",
-            "preferences",
-            "masterFileFactory",
+            'availablePipes',
+            'fileFactories',
+            'preferences',
+            'masterFileFactory',
         ].includes(key)
     }).reduce((toBeMerged, key) => {
         return {[key]: pipedreamData.workbench_data[key], ...toBeMerged}
     }, {})
-    console.log('local-storage', result)
+    //console.log('local-storage', result)
     return result
 }
 
 function keyValuePairsFromSavedWorkbenchData(options) {
-    if (options.workbench_data == null) return {};
+    if (options.workbench_data == null) return {}
     let result = Object.keys(options.workbench_data).filter((key) => {
         return (
             typeof options.workbench_data !== 'undefined' &&
@@ -112,15 +123,15 @@ function keyValuePairsFromSavedWorkbenchData(options) {
     }).filter(key => {
         // exclude complex things for now
         return ![
-            "availablePipes",
-            "fileFactories",
-            "preferences",
-            "masterFileFactory",
+            'availablePipes',
+            'fileFactories',
+            'preferences',
+            'masterFileFactory',
         ].includes(key)
     }).reduce((toBeMerged, key) => {
         return {[key]: options.workbench_data[key], ...toBeMerged}
     }, {})
-    console.log('regular', result)
+    //console.log('regular', result)
     return result
 }
 

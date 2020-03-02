@@ -13,7 +13,14 @@ type IRelationship = { [key: string]: ObjectModelEntity[] }
 type PivotPairs = [string, string] | boolean
 type PropertyObject = { [key: string]: Primitive }
 type Primitive = string | number | null | undefined | object | boolean
-
+type TemplateType = { [key: string]: string }
+type Settings = {
+    name: string
+    help: string
+    value: Primitive,
+    dataType: string,
+    onChange: (val: Primitive) => void
+}
 interface RowArgument {
     key: string,
     value: Primitive | Primitive[]
@@ -54,10 +61,29 @@ interface ISegmentStatics {
 }
 
 declare global {
+    /**
+     * Window extensions
+     */
     interface Window {
         store: {
             commit: (name: string, payload: any) => void,
-            dispatch: (action: string, payload: any) => void
+            dispatch: (action: string, payload: any) => void,
+            getters: { [key: string]: any },
+            mutations: Object,
+            actions: Object,
+            state: Object
         },
+    }
+
+    /**
+     * Array extensions
+     */
+    interface Array<T> {
+        /**
+         * Shorthand for array.forEach()
+         * @param func
+         * @param thisArg
+         */
+        each(func: (element: T, index?: number, array?: T[]) => void, thisArg?: any)
     }
 }

@@ -54,7 +54,7 @@ class DataTypeResolver {
     }
 
     public static github(name: string): string | false {
-        return /*name in [] ? [][name] : false;*/__GITHUB_DUMP__ ? __GITHUB_DUMP__[name] : false
+        return name in [] ? [][name] : false;/*__GITHUB_DUMP__ ? __GITHUB_DUMP__[name] : false*/
     }
 
     public static rules(): { [key: string]: ((string) => string) } {

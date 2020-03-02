@@ -6,19 +6,21 @@ import {Formatter} from '../utilities/Formatter'
 import {ObjectModelEntity} from "./ObjectModelEntity";
 import {ISegment, PivotPairs} from "../../typings";
 import {ObjectModelCollection} from "./ObjectModelCollection";
+import {Schema} from "../index";
 
 const EntityTypes = {UserEntity, ModelEntity, TableEntity, PivotTableEntity};
-
 
 export class ObjectModelEntityFactory {
 
     public segments: Array<any /*Segment*/>
     public entities: Array<ObjectModelEntity>
+    public relationships: { hasOne: string[], hasMany: string[], belongsTo: string[], belongsToMany: string[] }
 
     static fromSegments(segments: ISegment[]): ObjectModelEntity[] {
         let factory = new this()
         factory.segments = segments
         factory.entities = factory.buildEntities()
+        factory.relationships = {belongsTo: [], belongsToMany: [], hasMany: [], hasOne: []}
         factory.attachRelationships()
         return factory.entities
     }
@@ -63,27 +65,27 @@ export class ObjectModelEntityFactory {
         return !!this.pivotTablenamesPair(segment)
     }
 
-    pivotTablenamesPair(segment: ObjectModelEntity): PivotPairs {
+    pivotTablenamesPair(segment: ObjectModelEntity): string[] | boolean {
         let tableNameParts = this.segments.filter(segment => segment.hasModel())
             .map((segment: ISegment) => {
-                return Formatter.snakeCase(segment.name).toLowerCase();
+                return segment.name;
             }).join("|");
-        let manyToManyRegExp = new RegExp("^(" + tableNameParts + ")_(" + tableNameParts + ")$");
-        let matches = manyToManyRegExp.exec(segment.name);
 
-        return matches ? [
-            matches[1],
-            matches[2]
-        ] : false;
+        let manyToManyRegExp = new RegExp("^(" + tableNameParts + ")_(" + tableNameParts + ")$", "i");
+        let matches = manyToManyRegExp.exec(segment.name);
+        if (matches) {
+            return [matches[1], matches[2]].sort()
+        }
+        return false;
     }
 
     attachRelationships(): void {
-        // Prepare this in order to prevent geometric growth
         let manyToManys_ = this.entities.filter(entity => this.isPivotTableEntity(entity))
         let manyToManyAssociatedModels_ = {}
         manyToManys_.forEach(entity => {
             manyToManyAssociatedModels_[entity.name] = this.pivotTablenamesPair(entity)
         })
+
         //TODO: Fix this
         //@ts-ignore
         this.entities.mapWithRemaining((model: ObjectModelEntity, remaining: ObjectModelEntity[]) => {
@@ -102,11 +104,11 @@ export class ObjectModelEntityFactory {
             // BelongsToMany
             model.relationships.belongsToMany = remaining.filter((candidate: ObjectModelEntity) => {
                 return manyToManys_.filter((manyToManyEntity: ObjectModelEntity) => {
-                    let parts = manyToManyAssociatedModels_[manyToManyEntity.name]
+                    let parts = manyToManyAssociatedModels_[manyToManyEntity.normalizedName]
                     return parts.includes(
-                        Formatter.snakeCase(model.name)
+                        model.normalizedName
                     ) && parts.includes(
-                        Formatter.snakeCase(candidate.name)
+                        candidate.normalizedName
                     )
                 }).length > 0
             })
@@ -117,5 +119,6 @@ export class ObjectModelEntityFactory {
                 (<Array<string>>this.pivotTablenamesPair(manyToManyEntity)).map((name: string) => (name + "_id"))
             )
         })
+
     }
 }
