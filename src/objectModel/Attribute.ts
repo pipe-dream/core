@@ -1,5 +1,5 @@
 import {Primitive, PropertyObject} from "../../typings";
-import {Formatter} from "../utilities/Formatter";
+import {Formatter} from "..";
 
 export class Attribute {
 
