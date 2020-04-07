@@ -24,7 +24,7 @@ function handleCache() {
 }
 
 @handleCache()
-class SchemaSingleton {
+export class SchemaSingleton {
 
     private static instance: SchemaSingleton;
     private _models: ModelEntity[] = [];

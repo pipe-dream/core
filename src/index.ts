@@ -32,3 +32,4 @@ export const BaseFileFactory = require("./fileFactories/BaseFileFactory").BaseFi
 export const ModelEntity = require("./objectModel/ObjectModelEntity").ObjectModelEntity
 export const Formatter = require("./utilities/Formatter").Formatter;
 export const Schema = require("./objectModel/Schema").Schema
+export const Pipe = require("./pipes/Pipe").Pipe;
