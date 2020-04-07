@@ -101,7 +101,7 @@ export class SketchParser {
 
     public static filter(segments: string | Segment[], filter: (segment: Segment) => boolean): Segment[] {
         if (typeof segments === "string")
-            segments = SketchParser.makeWithText(segments).segment()
+            segments = SketchParser.parse(segments).segment()
         return segments.filter(filter)
     }
 
