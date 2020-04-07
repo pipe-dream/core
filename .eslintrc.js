@@ -3,19 +3,8 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    "overrides": [
-        {
-            "files": ["*.ts", "*.tsx"],
-            "rules": {
-                "@typescript-eslint/tslint/config": ["error", {
-                    "lintFile": "./tslint.json"
-                }]
-            }
-        }
-    ],
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
+        "plugin:@typescript-eslint/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -31,21 +20,6 @@ module.exports = {
         "disable"
     ],
     "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "never"
-        ]
+        //
     }
 };
