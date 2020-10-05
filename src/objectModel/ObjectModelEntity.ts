@@ -1,10 +1,9 @@
-import {Formatter} from "../utilities/Formatter";
+import {Formatter} from "..";
 import {Attribute} from './Attribute';
 import {AttributeFactory} from './AttributeFactory';
 import Preference from '../utilities/Preference'
 import {Segment} from "./Segment";
-import {IRelationship, ISegment, RowArgument, RowArguments} from "../../typings";
-import {Schema} from "../index";
+import {IRelationship, ISegment, RowArguments} from "../../typings";
 
 export class ObjectModelEntity {
     public relationships: IRelationship = {}
@@ -12,7 +11,7 @@ export class ObjectModelEntity {
     public type: string;
     public allSegments: Array<Segment>
     public attributes: Array<Attribute>
-    public softdeletes: Boolean
+    public softdeletes: boolean
     public args: RowArguments
     public showInSchema: boolean = false
 
@@ -26,7 +25,7 @@ export class ObjectModelEntity {
     public get tableName(): string {
         if (this.isModelEntity()) {
             let n = this.name
-            let lastPart = n.match(/[A-Z][a-z]*$/)
+            const lastPart = n.match(/[A-Z][a-z]*$/)
             if (lastPart)
                 n = n.replace(lastPart[0], Formatter.pluralize(lastPart[0]))
             return Formatter.laravelSnakeCase(n)
@@ -46,7 +45,7 @@ export class ObjectModelEntity {
         this.showInSchema = segment.showInSchema || false
         this.allSegments = allSegments
         // Sort and only keep unique attributes
-        let attributeRows = [
+        const attributeRows = [
             ...new Set<string>([
                 ...this.optionalColumns(['id']),
                 ...segment.attributes,
@@ -61,8 +60,8 @@ export class ObjectModelEntity {
         return new this(segment, allSegments)
     }
 
-    static deserialize(data: { name: string, attributes: Array<string>, relationships: {}, softdeletes: Boolean, args: RowArguments }): ObjectModelEntity {
-        let entity = new this()
+    static deserialize(data: { name: string, attributes: Array<string>, relationships: {}, softdeletes: boolean, args: RowArguments }): ObjectModelEntity {
+        const entity = new this()
         entity.name = data.name
         entity.args = data.args
         entity.attributes = Object.keys(data.attributes).map(key => {
@@ -82,7 +81,7 @@ export class ObjectModelEntity {
 
     optionalColumns(columns): Array<string> {
         return columns.filter(column => {
-            let path = ['objectModel', this.name, column]
+            const path = ['objectModel', this.name, column]
             // Check if it is excluded in preferences
             return !(Preference.has(path) && (Preference.get(path) === false))
         })
@@ -125,7 +124,7 @@ export class ObjectModelEntity {
     }
 
     serialize(): object {
-        const serialize_results = {
+        const serialized = {
             name: this.name,
             type: this.constructor.name,
             tableName: this.tableName,
@@ -143,6 +142,6 @@ export class ObjectModelEntity {
             },
         }
 
-        return serialize_results;
+        return serialized;
     }
 }

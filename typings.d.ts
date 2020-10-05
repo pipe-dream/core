@@ -45,7 +45,7 @@ interface IRelationshipSerialize {
 interface ISegment {
     name: string
     attributes: string[]
-    softdeletes?: Boolean
+    softdeletes?: boolean
     args?: RowArguments
     showInSchema?: boolean
 

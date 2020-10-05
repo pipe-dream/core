@@ -8,7 +8,7 @@ export class Attribute {
     constructor(properties: PropertyObject = {}) {
         Object.keys(properties).map((key: string) => {
             if (key === "name")
-                this.setProperty(key, Formatter.laravelSnakeCase(<string>properties[key]))
+                this.setProperty(key, Formatter.laravelSnakeCase(properties[key] as string))
             else
                 this.setProperty(key, properties[key])
         })
@@ -23,7 +23,7 @@ export class Attribute {
     }
 
     public get name(): string | undefined {
-        return this.getProperty("name").toString()
+        return this.getProperty("name")?.toString()
     }
 
     public getProperties(): PropertyObject {
@@ -31,7 +31,7 @@ export class Attribute {
     }
 
     serialize(): PropertyObject {
-        return Object.keys(this.getProperties()).filter(key => key != "parent").reduce((result: Object, key: string) => {
+        return Object.keys(this.getProperties()).filter(key => key != "parent").reduce((result: Record<string, any>, key: string) => {
             return {
                 ...result,
                 [key]: this.getProperty(key)

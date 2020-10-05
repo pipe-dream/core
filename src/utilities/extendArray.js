@@ -1,7 +1,7 @@
 // eslint-disable
-/*Array.prototype.mapWithRemaining = function(callback) {
-	let items = this.map((item, key) => {
-		let remaining = [...this]
+Array.prototype.mapWithRemaining = function(callback) {
+	const items = this.map((item, key) => {
+		const remaining = [...this]
 		remaining.splice(
 			remaining.indexOf(item), 1
 		)
@@ -10,20 +10,20 @@
 	})
 
 	return items
-}*/
+}
 
 Array.prototype.first = function() {
 	return this.length ? this[0] : null
 }
 
 Array.prototype.sortByPath = function() {
-	let pathSorter = (first,second) => {
-		let firstParts = first.split('/')
-		let secondParts = second.split('/')
+	const pathSorter = (first,second) => {
+		const firstParts = first.split('/')
+		const secondParts = second.split('/')
 
 		for(let i=0; i<Math.min(firstParts.length, secondParts.length); i++) {
-			let FIRST_PART_IS_FOLDER = firstParts.length > i + 1
-			let SECOND_PART_IS_FOLDER = secondParts.length > i + 1
+			const FIRST_PART_IS_FOLDER = firstParts.length > i + 1
+			const SECOND_PART_IS_FOLDER = secondParts.length > i + 1
 
 			// Folders always has precedence
 			if(FIRST_PART_IS_FOLDER && !SECOND_PART_IS_FOLDER) return -1

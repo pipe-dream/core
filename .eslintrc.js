@@ -20,6 +20,6 @@ module.exports = {
         "disable"
     ],
     "rules": {
-        //
+        "no-explicit-any": 0
     }
 };

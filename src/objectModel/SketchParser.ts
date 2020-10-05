@@ -5,7 +5,7 @@ import {Globals} from "../index";
 export class SketchParser {
 
     public text: string;
-    public hasOffsiteSegments: boolean = false
+    public hasOffsiteSegments = false
 
     constructor(text: string) {
         this.text = text
@@ -45,29 +45,29 @@ export class SketchParser {
     }
 
     segment(): Array<Segment> {
-        let segments = !this.text ? [] : this.text.split(/\n\s*\n/).map((chunk) => Segment.fromText(chunk))
-        let offsiteAddresses = []
+        const segments = !this.text ? [] : this.text.split(/\n\s*\n/).map((chunk) => Segment.fromText(chunk))
+        const offsiteAddresses = []
         segments.forEach(segment => {
             offsiteAddresses.push(...segment.offsiteAddresses)
         })
 
-        window.store.commit('setOffsiteSegments', offsiteAddresses);
+        //window?.store?.commit('setOffsiteSegments', offsiteAddresses);
         return segments
     }
 
     public static mergeDiffs(segments: Segment[]) {
         if (segments.length === 0)
             return
-        let segs = [...segments]
-        let groupedObjects: { [name: string]: Segment[] } = {}
-        let diffedObjects: Segment[] = []
+        const segs = [...segments]
+        const groupedObjects: { [name: string]: Segment[] } = {}
+        const diffedObjects: Segment[] = []
         segments.forEach((segment, index) => {
             if (!groupedObjects[segment.name])
                 groupedObjects[segment.name] = []
             groupedObjects[segment.name].push(segment)
         })
 
-        for (let name in groupedObjects)
+        for (const name in groupedObjects)
             diffedObjects.push(this.mergeObjectsWithSameName(groupedObjects[name]))
 
         return diffedObjects
@@ -78,14 +78,14 @@ export class SketchParser {
             return segments[0]
 
         let attributes = []
-        let args: RowArgument[] = []
+        const args: RowArgument[] = []
         segments.forEach(segment => {
             attributes.push(...segment.attributes)
             if (segment.args)
                 args.push(...segment.args)
         })
         attributes = Array.from(new Set(attributes))
-        let seg = new Segment(Segment.toText(segments[0]))
+        const seg = new Segment(Segment.toText(segments[0]))
         seg.attributes = attributes
         seg.args = args
         return seg

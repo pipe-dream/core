@@ -7,42 +7,58 @@ import {UserEntity} from "./entities/UserEntity";
 import {ObjectModelEntity} from "./ObjectModelEntity";
 import {Globals} from "../index";
 import {ObjectModelEntityFactory} from "./ObjectModelEntityFactory";
+import {Throttle} from "../utilities/Throttle";
 
-function handleCache() {
-    return function <TFunction extends Function>(target: TFunction) {
-        for (let prop of Object.getOwnPropertyNames(target.prototype)) {
-            if (prop === "refresh") continue
-            let oldFunc: Function = target.prototype[prop];
-            if (oldFunc instanceof Function) {
-                target.prototype[prop] = function () {
-                    this["refresh"]();
-                    return oldFunc.apply(this, arguments)
-                }
-            }
-        }
-    }
-}
-
-@handleCache()
 export class SchemaSingleton {
 
     private static instance: SchemaSingleton;
+
+    /**
+     * All the models that exists in the sketch
+     *
+     * @note: Due to inheritance, all UserModels are also
+     * considered Models!
+     */
     private _models: ModelEntity[] = [];
+
+    /**
+     * All UserModels in the sketch
+     *
+     * @note: Due to inheritance, all UserModels are also
+     * considered Models!
+     */
     private _userModels: UserEntity[] = [];
+
+    /**
+     * All table entities in the sketch
+     *
+     * @note: Due to inheritance, all PivotTables are also
+     * considered Tables!
+     */
     private _tables: TableEntity[] = [];
+
+    /**
+     * All the PivotTables in the sketch
+     * These are used for Many-To-Many relationships
+     */
     private _pivotTables: PivotTableEntity[] = [];
+
+    /**
+     * All the deserialized Segments in the sketch
+     * A segment is followed by a double new line.
+     * Each segment is either a Model or a Table
+     */
     private _segments: Segment[] = [];
     private _entities: ObjectModelEntity[] = [];
-    private _lastCalled: number;
+
+    /**
+     * Used for caching. Compiling the Schema is a heavy task
+     * so we want to reduce the amount of unnecessary calls for refresh()
+     */
+    private recentlyCompiled: boolean;
 
     private constructor() {
-        this._models = []
-        this._userModels = []
-        this._tables = []
-        this._pivotTables = []
-        this._segments = []
-        this._entities = []
-        this._lastCalled = new Date().getTime()
+        this.parse()
     }
 
     static getInstance(): SchemaSingleton {
@@ -52,13 +68,19 @@ export class SchemaSingleton {
         return SchemaSingleton.instance
     }
 
-    // TODO: Find an elegant way to throttle calls for this method
-    public refresh(force?: boolean): this {
-        if (!force && new Date().getTime() - this._lastCalled < 500) return this
-        this._lastCalled = new Date().getTime()
+    public refresh(): this {
+        if (this.recentlyCompiled)
+            return this
+        return this.parse();
+    }
+
+    protected parse(): this {
         this._segments = SketchParser.toSegments(this.sketch)
         this._entities = ObjectModelEntityFactory.fromSegments(this.segments)
         this.categorizeEntities()
+        this.recentlyCompiled = true
+        console.log("recompiling...")
+        setTimeout(() => this.recentlyCompiled = false, 500)
         return this
     }
 
@@ -73,7 +95,7 @@ export class SchemaSingleton {
     }
 
     public serialize(): string {
-        let segmentsInSchema = this.segments.filter(segment => segment.showInSchema)
+        const segmentsInSchema = this.segments.filter(segment => segment.showInSchema)
         return segmentsInSchema.map(entity => entity.serialize()).join(Globals.DOUBLE_LINE_BREAK)
     }
 

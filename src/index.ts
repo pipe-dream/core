@@ -5,7 +5,7 @@ import {VueConstructor} from 'vue'
 import VTooltip from 'v-tooltip'
 
 export const PipeDreamVueTools = {
-    install: function (Vue: VueConstructor, options: Record<string, any> = {}): void {
+    install: function (Vue: VueConstructor, options?: any): void {
         /* Register all vue components */
 
         const files = require.context('./', true, /\.vue$/i)

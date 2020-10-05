@@ -2,22 +2,19 @@ import {UserEntity} from './entities/UserEntity'
 import {ModelEntity} from './entities/ModelEntity'
 import {TableEntity} from './entities/TableEntity'
 import {PivotTableEntity} from './entities/PivotTableEntity'
-import {Formatter} from '../utilities/Formatter'
 import {ObjectModelEntity} from "./ObjectModelEntity";
-import {ISegment, PivotPairs} from "../../typings";
-import {ObjectModelCollection} from "./ObjectModelCollection";
-import {Schema} from "../index";
-
+import {ISegment} from "../../typings";
+require('../utilities/extendArray');
 const EntityTypes = {UserEntity, ModelEntity, TableEntity, PivotTableEntity};
 
 export class ObjectModelEntityFactory {
 
     public segments: Array<any /*Segment*/>
     public entities: Array<ObjectModelEntity>
-    public relationships: { hasOne: string[], hasMany: string[], belongsTo: string[], belongsToMany: string[] }
+    public relationships: { hasOne: string[]; hasMany: string[]; belongsTo: string[]; belongsToMany: string[] }
 
     static fromSegments(segments: ISegment[]): ObjectModelEntity[] {
-        let factory = new this()
+        const factory = new this()
         factory.segments = segments
         factory.entities = factory.buildEntities()
         factory.relationships = {belongsTo: [], belongsToMany: [], hasMany: [], hasOne: []}
@@ -26,10 +23,10 @@ export class ObjectModelEntityFactory {
     }
 
     static fromSchema(schema: any /*schema*/): ObjectModelEntity[] {
-        let factory = new this()
+        const factory = new this()
 
         factory.entities = Object.keys(schema).map(key => {
-            let schemaEntity = schema[key]
+            const schemaEntity = schema[key]
             return EntityTypes[schemaEntity.type].deserialize(schemaEntity)
         })
 
@@ -66,13 +63,13 @@ export class ObjectModelEntityFactory {
     }
 
     pivotTablenamesPair(segment: ObjectModelEntity): string[] | boolean {
-        let tableNameParts = this.segments.filter(segment => segment.hasModel())
+        const tableNameParts = this.segments.filter(segment => segment.hasModel())
             .map((segment: ISegment) => {
                 return segment.name;
             }).join("|");
 
-        let manyToManyRegExp = new RegExp("^(" + tableNameParts + ")_(" + tableNameParts + ")$", "i");
-        let matches = manyToManyRegExp.exec(segment.name);
+        const manyToManyRegExp = new RegExp("^(" + tableNameParts + ")_(" + tableNameParts + ")$", "i");
+        const matches = manyToManyRegExp.exec(segment.name);
         if (matches) {
             return [matches[1], matches[2]].sort()
         }
@@ -80,8 +77,8 @@ export class ObjectModelEntityFactory {
     }
 
     attachRelationships(): void {
-        let manyToManys_ = this.entities.filter(entity => this.isPivotTableEntity(entity))
-        let manyToManyAssociatedModels_ = {}
+        const manyToManys_ = this.entities.filter(entity => this.isPivotTableEntity(entity))
+        const manyToManyAssociatedModels_ = {}
         manyToManys_.forEach(entity => {
             manyToManyAssociatedModels_[entity.name] = this.pivotTablenamesPair(entity)
         })
@@ -104,7 +101,7 @@ export class ObjectModelEntityFactory {
             // BelongsToMany
             model.relationships.belongsToMany = remaining.filter((candidate: ObjectModelEntity) => {
                 return manyToManys_.filter((manyToManyEntity: ObjectModelEntity) => {
-                    let parts = manyToManyAssociatedModels_[manyToManyEntity.normalizedName]
+                    const parts = manyToManyAssociatedModels_[manyToManyEntity.normalizedName]
                     return parts.includes(
                         model.normalizedName
                     ) && parts.includes(

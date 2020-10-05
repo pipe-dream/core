@@ -1,4 +1,4 @@
-import {Formatter} from '../utilities/Formatter'
+import {Formatter} from '..'
 import {ObjectModelEntityFactory} from './ObjectModelEntityFactory'
 import collect from 'collect.js'
 import * as _ from 'lodash'
@@ -16,7 +16,7 @@ export class ObjectModelCollection {
     constructor(entities: Array<ObjectModelEntity> = []) {
         this.entities = entities;
         this.regexes = {
-            manyToMany: () => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$", "i")
+            manyToMany: (): RegExp => new RegExp("^(" + this.modelsIncludingUser() + ")_(" + this.modelsIncludingUser() + ")$", "i")
         }
     }
 
@@ -39,14 +39,13 @@ export class ObjectModelCollection {
         //return candidate.type === "PivotTableEntity"
         //console.log(candidate)
         return candidate.isPivotTable()
-        return this.regexes.manyToMany().test(candidate.name);
     }
 
     getManyToMany(candidate: ObjectModelEntity): [string, string] | [] {
         if (!this.isManyToMany(candidate))
             return []
 
-        let models = this.regexes.manyToMany().exec(candidate.name);
+        const models = this.regexes.manyToMany().exec(candidate.name);
         return [models[1], models[2]]
     }
 
@@ -59,23 +58,19 @@ export class ObjectModelCollection {
     }
 
     userModel(): ModelEntity {
-        //@ts-ignore
-        return this.userModels().first()
+        return this.userModels()?.[0]
     }
 
     userModels(): Array<ModelEntity> {
-        return Schema.refresh().userModels || []
-        return this.entities.filter(entity => entity.isUserEntity())
+        return Schema.userModels || []
     }
 
     models(): Array<ModelEntity> {
         return Schema.models
-        return this.entities.filter(entity => entity.isModelEntity())
     }
 
     tablesOnly(): Array<TableEntity> {
         return Schema.tables
-        return this.entities.filter(entity => entity.name === entity.name.toLowerCase())
     }
 
     manyToManys(): Array<TableEntity> {
@@ -85,12 +80,10 @@ export class ObjectModelCollection {
     modelsIncludingUser(): Array<ModelEntity> {
         //console.log(Schema.refresh().models, this.models())
         return Schema.models
-        return [...this.models(), ...this.userModels()]
     }
 
     modelsExceptUser(): Array<ModelEntity> {
         return Schema.models.filter(model => !model.isUserEntity())
-        return this.models().filter(model => !model.isUserEntity())
     }
 
     map(callback): any {
@@ -109,7 +102,7 @@ export class ObjectModelCollection {
         return this.entities
     }
 
-    findByName(name: string){
+    findByName(name: string) {
         return this.find(ent => ent.name === name)
     }
 
@@ -120,7 +113,7 @@ export class ObjectModelCollection {
     static hasRelationshipBeenMigrated(entity: ObjectModelEntity, migratedList: Array<ObjectModelEntity>): boolean {
         if (!entity)
             return
-        let relationships = entity.relationships.belongsTo
+        const relationships = entity.relationships.belongsTo
         return _.every(relationships, relationship => _.some(migratedList, ml => ml.name === relationship.name))
     }
 
@@ -128,10 +121,10 @@ export class ObjectModelCollection {
         let entitiesLeft: ObjectModelEntity[] = collect(this.entities).toArray()
 
         // remove all with basic relationships
-        let sortedEntities = _.reject(entitiesLeft, entity => ObjectModelCollection.hasRelationships(entity) || this.isManyToMany(entity))
+        const sortedEntities = _.reject(entitiesLeft, entity => ObjectModelCollection.hasRelationships(entity) || this.isManyToMany(entity))
 
         // Put ManyToMany into a separate array, we'll take care of them later
-        let manyToMany = _.filter(entitiesLeft, entity => this.isManyToMany(entity))
+        const manyToMany = _.filter(entitiesLeft, entity => this.isManyToMany(entity))
 
         entitiesLeft = _.difference(entitiesLeft, sortedEntities)
 

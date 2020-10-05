@@ -1,6 +1,6 @@
 <template>
     <div class="h-full mt-8 mx-auto">
-        <workspace-tab-navigation 
+        <workspace-tab-navigation
             :availableTabs="availableTabs"
             :namespace="'design'"
         ></workspace-tab-navigation>
@@ -22,9 +22,9 @@
             },
 
             activeTabComponent() {
-                return this.activeTab.toLowerCase().replace(/\s/g,"-") + "-tab"
+                return this.activeTab.toLowerCase().replace(/\s/g, "-") + "-tab"
             },
-        }            
+        }
     }
 </script>
 

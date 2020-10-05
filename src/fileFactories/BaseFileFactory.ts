@@ -1,27 +1,26 @@
 import collect from 'collect.js'
-import {SketchButton} from "../utilities/SketchButton";
-import {ObjectModelCollection} from "../objectModel/ObjectModelCollection";
-import {Primitive, Settings, TemplateType} from "../../typings";
+import {Pipe, Schema, SketchButton} from ".."
+import {Primitive, Settings, TemplateType} from "../../typings"
+import {SchemaSingleton} from "../objectModel/Schema";
 
-export class BaseFileFactory{
-    public omc: any;
-    public pipes: Array<any>;
+export class BaseFileFactory {
+    public omc: SchemaSingleton;
+    public pipes: Array<Pipe>;
 
-    constructor(objectModelCollection: any) {
-        this.omc = objectModelCollection
+    constructor() {
+        this.omc = Schema
     }
 
-    static get title(){
+    static get title(): string {
         return this.constructor.name
     }
 
-    // TODO: Template type
     static templates(): TemplateType {
         return {}
     }
 
-    get templates(){
-        return BaseFileFactory.templates
+    get templates(): TemplateType {
+        return BaseFileFactory.templates()
     }
 
     static buttons(): Array<SketchButton> {
@@ -32,31 +31,31 @@ export class BaseFileFactory{
         return []
     }
 
-    // TODO: Pipe type
-    static pipes(): Array<any> {
+    static pipes(): Array<Pipe> {
         return []
     }
 
     // TODO: Preference interface?
-    get defaultPreferences(): { [key: string]: any } {
+    get defaultPreferences(): { [key: string]: Primitive } {
         return {};
     }
 
-    static from(objectModelCollection: ObjectModelCollection): BaseFileFactory {
-        return new this(objectModelCollection)
+    // TODO: Remove this
+    static from(): BaseFileFactory {
+        return new this()
     }
 
-    withPipes(pipes: Array<any>): BaseFileFactory {
+    withPipes(pipes: Array<Pipe>): BaseFileFactory {
         this.pipes = pipes
         return this
     }
 
     // TODO: Make this prettier
-    calculateFiles(): Array<string> {
+    calculateFiles(): string[] {
         return collect(this.pipes.map(pipe => {
-            let files = pipe.with(this.omc).calculateFiles(this.omc)
+            const files = pipe.get().calculateFiles()
             files.forEach(file => {
-                file.pipe = pipe.name
+                file.pipe = pipe.title
                 file.factory = this.constructor.name
             })
             return files

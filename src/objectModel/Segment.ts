@@ -1,13 +1,14 @@
 import {SegmentRow} from './SegmentRow'
 import {Attribute} from "./Attribute";
 import {ISegment, ISegmentStatics, RowArgument, RowArguments} from "../../typings";
-import {defaultStore, Globals} from "../index";
+import {DefaultStore, Globals} from "../index";
 
 export class Segment {
 
     public name: string;
     public attributes: Array<string>
-    public softdeletes: Boolean
+    public otherAttributes: Array<Attribute> = []
+    public softdeletes: boolean
     public args: RowArgument[] | null
     public showInSchema: boolean = true
     public offsiteAddresses: string[] = []
@@ -16,14 +17,19 @@ export class Segment {
 
     constructor(chunk: string) {
         if (chunk === "") throw TypeError()
-        let segmentRows: Array<SegmentRow> = chunk.split('\n').map(row => new SegmentRow(row))
+        const segmentRows: Array<SegmentRow> = chunk.split('\n').map(row => new SegmentRow(row))
         this.name = segmentRows[0].name
         this.args = segmentRows[0].args
-
+        //console.log(segmentRows.slice(1))
         if (['pastebin', 'load'].includes(this.name.toLowerCase()))
             this.handleOffsiteSegments(this)
 
         this.attributes = segmentRows.slice(1).map(segmentRow => segmentRow.name)
+
+        //this.attributes.forEach(attr => this.otherAttributes.push(new Attribute({name: attr})))
+
+        //console.log(this.otherAttributes)
+
         this.softdeletes = this.attributes.includes("softdeletes") || (this.args && this.args.some(arg => arg.key.match(/^softdeletes?$/) && arg.value));
         this.attributes = this.attributes.filter((attribute) => {
             return attribute != "softdeletes"
@@ -34,8 +40,8 @@ export class Segment {
         if (!segment.args) return
         if (this.name.toLowerCase() === 'pastebin') {
             this.args.forEach((arg) => {
-                let matches = arg.value.toString().match(/^(\/\/pastebin\.com\/(raw\/)?)?([a-zA-Z0-9]{8})\/?$/)
-                let url = "pastebin.com/raw/"
+                const matches = arg.value.toString().match(/^(\/\/pastebin\.com\/(raw\/)?)?([a-zA-Z0-9]{8})\/?$/)
+                const url = "pastebin.com/raw/"
                 if (arg.key.match(/^https?$/i) && matches) {
                     this.showInSchema = false
                     this.offsiteAddresses.push(url + matches[3])
@@ -74,7 +80,7 @@ export class Segment {
 
     static toText(segment: Segment): string {
         let text = segment.name.trim()
-        let args = []
+        const args = []
         if (segment.args)
             segment.args.forEach(arg => {
                 let argument = (args.length === 0 ? " > " : "") + arg.key

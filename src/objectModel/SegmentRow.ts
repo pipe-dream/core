@@ -11,7 +11,7 @@ export class SegmentRow {
     public args: RowArguments;
 
     constructor(raw: string) {
-        let parts: Array<string> = raw.split(ARGS_START_MARKER)
+        const parts: Array<string> = raw.split(ARGS_START_MARKER)
 
         this.name = parts[0].trim()
         this.args = this.extractArgs(raw)
@@ -42,7 +42,7 @@ export class SegmentRow {
             const key = splitted.shift();
             let value: Primitive
             if (splitted.length > 1) { // options should return an array
-                let v = []
+                const v = []
                 splitted.forEach((option: string) => {
                     v.push(Helpers.convertToTypeBasedOnString(option))
                 })

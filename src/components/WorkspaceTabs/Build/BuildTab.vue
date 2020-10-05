@@ -1,23 +1,25 @@
 <template>
-    <div class="flex flex-col max-w-lg mx-auto px-8 bg-white pt-4 h-full">        
+    <div class="flex flex-col max-w-lg mx-auto px-8 bg-white pt-4 h-full">
         <div class="flex flex-col mt-8 text-center" v-if="this.results.length">
-            <div v-if="!isLoading" class="mx-auto my-4 font-semibold p-4 bg-white text-blue-600 text-xs border rounded border-blue-600 shadow">
+            <div v-if="!isLoading"
+                 class="mx-auto my-4 font-semibold p-4 bg-white text-blue-600 text-xs border rounded border-blue-600 shadow">
                 Success! The following files were injected
-            </div>            
+            </div>
             <div v-if="!isLoading">
                 <notification-card v-for="result in results" v-bind:key="result"
-                    :type="'info'"
-                    :message="result"
-                ></notification-card>       
+                                   :type="'info'"
+                                   :message="result"
+                ></notification-card>
             </div>
         </div>
 
         <button v-if="hasSomethingToBuild() && !isLoading" class="mt-4" @click="build()"
-            :class="buttonStyle()"
-        >{{buildLabel()}}</button>
+                :class="buttonStyle()"
+        >{{buildLabel()}}
+        </button>
         <hint-box v-else-if="isLoading" message="Building ..."></hint-box>
-        <hint-box v-else message="No files to build yet."></hint-box>        
-    </div>  
+        <hint-box v-else message="No files to build yet."></hint-box>
+    </div>
 </template>
 
 <script>
@@ -54,7 +56,7 @@
                     }).map(file => file.path)
                 })();
             },
-            
+
             buildLabel() {
                 return this.results.length ? "Clean & Rebuild!" : "Build!"
             },
@@ -71,7 +73,7 @@
                 },
 
                 set(value) {
-                    this.$store.dispatch('setBuiltFiles', 
+                    this.$store.dispatch('setBuiltFiles',
                         JSON.parse(JSON.stringify(value))
                     )
                 }

@@ -17,7 +17,7 @@ class DataTypeResolver {
         }
 
         // Load previous override rules
-        let overrided: Object = {};
+        const overrided: Record<string, any> = {};
         if (overrided.hasOwnProperty(name)) {
             return overrided[name];
         }
@@ -26,7 +26,7 @@ class DataTypeResolver {
     }
 
     public static reserved(name): string | boolean {
-        let reservedNames: { [key: string]: string } = {
+        const reservedNames: { [key: string]: string } = {
             "id": "bigIncrements",
             "timestamps": "timestamps",
             "rememberToken": "rememberToken",
@@ -41,7 +41,7 @@ class DataTypeResolver {
     }
 
     public static ruled(name: string): string | false {
-        let matchedRuleKey: string | undefined = Object.keys(this.rules()).find((rule) => (new RegExp(rule)).test(name));
+        const matchedRuleKey: string | undefined = Object.keys(this.rules()).find((rule) => (new RegExp(rule)).test(name));
         if (typeof matchedRuleKey !== "undefined") {
             return DataTypeResolver.rules()[matchedRuleKey](name);
         }
@@ -60,22 +60,22 @@ class DataTypeResolver {
     public static rules(): { [key: string]: ((string) => string) } {
         return {
             // One to Many explicit
-            "_id$": () => "unsignedBigInteger",
+            "_id$": (): string => "unsignedBigInteger",
             // Boolean
-            "^(has|is|got|allow)[A-Z_]": () => "boolean",
+            "^(has|is|got|allow)[A-Z_]": (): string => "boolean",
             // Time columns
-            "(time|date|_at)$": () => "timestamp",
+            "(time|date|_at)$": (): string => "timestamp",
             // Fields with "description" are text by default.
-            "description":() => "text"
+            "description":(): string => "text"
         };
     }
 }
 
 /* exporting getDataType() */
 export default function (name): string | boolean {
-    let resolver = DataTypeResolver
+    const resolver = DataTypeResolver
     return [
-        //resolver.overridden(name), // not implemented
+        //resolver.overridden(conste), // not implemented
         resolver.reserved(name),
         resolver.ruled(name),
         resolver.github(name),
